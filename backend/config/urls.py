@@ -21,6 +21,7 @@ urlpatterns = [
     path("api/v1/me", auth.me), path("api/v1/me/export", learning.export_account),
     path("api/v1/me/password", auth.change_password),
     path("api/v1/progress", learning.progress_view), path("api/v1/labs", learning.labs),
+    path("api/v1/dashboard", learning.dashboard),
     path("api/v1/artworks", learning.artworks),
     path("api/v1/artworks/<uuid:art_id>", learning.artwork),
     path("api/v1/artworks/<uuid:art_id>/image", learning.artwork_image),

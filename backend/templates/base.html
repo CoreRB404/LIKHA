@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}LIKHA Creative Studio{% endblock %}</title>
-<link rel="icon" href="/static/favicon.ico"><link rel="stylesheet" href="/static/hosted.css">
+<link rel="icon" href="/static/favicon.ico"><link rel="stylesheet" href="/static/original-fonts.css"><link rel="stylesheet" href="/static/hosted.css">
 <script src="/static/api.js" defer></script><script src="/static/hosted.js" type="module"></script></head>
-<body data-page="{% block page %}home{% endblock %}">
+<body class="host-page" data-page="{% block page %}home{% endblock %}">
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="host-header"><a class="host-logo" href="/">🎨 LIKHA <small>Creative Studio</small></a>
 <nav aria-label="Main navigation">{% if request.user.is_authenticated %}<a href="/dashboard.html">Dashboard</a><a href="/dashboard.html#choose-lab">Creative Labs</a><a href="/gallery.html">My Gallery</a><a href="/avatar.html">My Avatar</a><a href="/pet.html">My Pet</a><a href="/quiz.html">Quizzes</a><a href="/settings.html">Account</a><button type="button" data-logout>Sign out</button>{% else %}<a href="/accounts/login/">Sign in</a><a href="/accounts/signup/">Create account</a>{% endif %}</nav></header>

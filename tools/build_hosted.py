@@ -15,7 +15,9 @@ for file in ROOT.glob("*.css"):
     shutil.copy2(file, PUBLIC / file.name)
 for folder in ("assets", "images", "craftlab", "festival_lab"):
     for source in (ROOT / folder).rglob("*"):
-        if not source.is_file() or source.suffix.lower() not in {".webp", ".png", ".jpg", ".jpeg", ".ico", ".mp4", ".mov", ".mp3", ".wav", ".ogg"}:
+        if not source.is_file() or source.suffix.lower() not in {".webp", ".png", ".jpg", ".jpeg", ".ico", ".mp4", ".mov", ".mp3", ".wav", ".ogg", ".woff2", ".txt"}:
+            continue
+        if source.suffix.lower() == ".txt" and not (source.parent == ROOT / "assets/fonts" and source.name.endswith("-OFL.txt")):
             continue
         if folder == "images" and source.name.endswith("-growth-v1.png"):
             continue
@@ -37,9 +39,14 @@ drawing = (ROOT / "studio.js").read_text(encoding="utf-8").split("// LIKHA STUDI
 # Extract only the drawing IIFE, not the browser-local save/reward implementation.
 drawing = drawing[:drawing.index("})();") + len("})();")]
 drawing = drawing.replace('localStorage.getItem("selectedLab")', 'null')
+# Reset the existing Undo stack after loading an owned saved image. No drawing
+# implementation or portable source file is changed.
+drawing = drawing[:-len("})();")] + 'canvas.addEventListener("likha-artwork-loaded", () => { history = []; saveHistory(); });\n})();'
+
 (PUBLIC / "studio-drawing.js").write_text(asset_paths(drawing), encoding="utf-8")
 
 scripts = {
+    "index": [], "dashboard": [],
     "studio": ["mask-reference.js", "studio-drawing.js"],
     "avatar": [], "gallery": [], "pet": ["pet-art.js"], "quiz": [],
 }
@@ -50,10 +57,20 @@ for page, extra in scripts.items():
     html = re.sub(r'\s+on\w+="[^"]*"', "", html)
     html = re.sub(r'(href|src)="([^"]+\.(?:css|ico))"', lambda m: f'{m[1]}="/static/{m[2]}"', html)
     html = asset_paths(html)
-    html = html.replace("</head>", '<link rel="stylesheet" href="/static/hosted.css"><script src="/static/api.js" defer></script>\n</head>')
+    html = html.replace('</head>', '<link rel="stylesheet" href="/static/original-fonts.css"><link rel="stylesheet" href="/static/hosted.css"><link rel="stylesheet" href="/static/original-integration.css"><script src="/static/api.js" defer></script>\n</head>')
     html = html.replace('href="studio.html"', 'href="/dashboard.html#choose-lab"')
     html = html.replace("Student Name", "Display name").replace("e.g. Maria Santos", "e.g. Creative Explorer")
-    html = html.replace("<body", f'<body data-page="{page}"', 1)
+    html = html.replace("<body", f'<body data-page="{page}" class="original-page"', 1)
+    if page == "index":
+        html = html.replace('href="dashboard.html"', 'href="/accounts/login/"')
+    if page == "dashboard":
+        html = html.replace('<aside class="sidebar">', '<aside class="sidebar" id="dashboardSidebar"><button type="button" class="nav-item" id="dashboardMenuClose" hidden>Close menu</button>', 1)
+        html = html.replace('<div class="mobile-brand">', '<div class="mobile-brand"><button type="button" class="secondary-btn" id="dashboardMenuToggle" aria-expanded="false" aria-controls="dashboardSidebar">Menu</button>', 1)
+        # Preserve the original sidebar. Account actions use the same nav-item style.
+        html = html.replace('<div class="sidebar-bottom">', '<nav class="nav-list" aria-label="Account"><a class="nav-item" href="/settings.html">Account settings</a><button type="button" class="nav-item" data-logout>Sign out</button></nav><div class="sidebar-bottom">', 1)
+        # The old metadata-only creation view had no drawable image. Its navigation
+        # goes to the original Creative Labs; never submit browser reward records.
+        html = re.sub(r'<section class="view" id="view-create">.*?</section>', '', html, flags=re.S)
     main = re.search(r"<main\b([^>]*)>", html)
     if main:
         identity = re.search(r'id="([^"]+)"', main[1])

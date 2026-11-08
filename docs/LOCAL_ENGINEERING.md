@@ -1,3 +1,5 @@
+Current design contract: root project HTML/CSS remain the visual source of truth. Django uses generated original templates, scoped integration CSS, local original fonts and server-backed controllers. See e2e/original-design.spec.mjs for original-layout, sidebar, profile/pet, quiz and progress regressions.
+
 # Local engineering checks and maintenance
 
 These improvements apply to the username/password hosted application and preserve the separate no-install demo. They do not add email, verification links, public sharing, or operator notices to the student screens.

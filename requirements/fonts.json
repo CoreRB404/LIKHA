@@ -1,0 +1,14 @@
+[
+  {
+    "family": "Baloo 2",
+    "source": "https://fonts.gstatic.com/s/baloo2/v23/wXKrE3kTposypRyd51jcAA.woff2",
+    "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/baloo2/OFL.txt",
+    "sha256": "26fb4610d4bc976d2584ca15e66c11465dbc1f267a10dca668fcb3080dfe59c1"
+  },
+  {
+    "family": "Nunito",
+    "source": "https://fonts.gstatic.com/s/nunito/v32/XRXV3I6Li01BKofINeaB.woff2",
+    "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/nunito/OFL.txt",
+    "sha256": "ba344451eab25b217a165363b1982048a5e5830a0daf36577973955a04cac793"
+  }
+]

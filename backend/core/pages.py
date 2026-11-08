@@ -12,7 +12,7 @@ from learning.catalog import CHALLENGES, LABS
 def home(request):
     if request.user.is_authenticated:
         return redirect("/dashboard.html")
-    return render(request, "home.html")
+    return render(request, "legacy/index.html")
 
 
 @ensure_csrf_cookie
@@ -21,7 +21,7 @@ def page(request, name):
     if name not in {"dashboard", "studio", "gallery", "avatar", "pet", "quiz", "settings"}:
         raise Http404
     context = {"page": name, "profile": profile_data(request.user), "labs": LABS, "challenges": CHALLENGES}
-    return render(request, f"legacy/{name}.html" if name in {"studio", "gallery", "avatar", "pet", "quiz"} else f"{name}.html", context)
+    return render(request, f"legacy/{name}.html" if name != "settings" else "settings.html", context)
 
 
 def health(request, ready=False):

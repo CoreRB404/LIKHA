@@ -137,6 +137,30 @@ class BackendTests(MediaMixin, TestCase):
         response = self.send("/api/v1/auth/login", {"username": self.a.username, "password": replacement})
         self.assertEqual(response.status_code, 200)
 
+    def test_original_dashboard_template_and_owner_scoped_summary(self):
+        from learning.services import start_attempt, submit_attempt
+        call_command("seed_content", verbosity=0)
+        mine = self.save_art(self.a)
+        self.save_art(self.b, color="blue")
+        current = start_attempt(self.a, {"assessment":"week1", "client_id":str(uuid.uuid4())})
+        submit_attempt(current, {"answers":{q["id"]:q["option_ids"][q["answer"]] for q in current.questions}})
+        self.assertEqual(self.client.get('/api/v1/dashboard').status_code, 401)
+        self.sign_in()
+        value = self.client.get('/api/v1/dashboard').json()['data']
+        self.assertEqual(value['progress']['artwork_count'], 1)
+        self.assertEqual([art['id'] for art in value['artworks']], [str(mine.pk)])
+        self.assertEqual(value['quiz']['count'], 1)
+        self.assertEqual(value['quiz']['highest'], 100)
+        self.assertTrue(value['quiz']['identity_champion'])
+        self.assertNotIn('questions', value['quiz'])
+        self.assertNotIn('answers', value['quiz'])
+        response = self.client.get('/dashboard.html')
+        self.assertContains(response, 'class="sidebar"')
+        self.assertContains(response, 'welcome-banner')
+        self.assertContains(response, '/static/dashboard.css')
+        self.assertNotContains(response, 'class="host-hero"')
+        self.assertContains(response, '/static/original-fonts.css')
+
     def test_eight_character_password_signup_login_and_change(self):
         password = "V7!q2R#x"
         value = {"username":"length-boundary", "display_name":"Boundary Artist", "password":password[:-1], "confirmation":password[:-1]}

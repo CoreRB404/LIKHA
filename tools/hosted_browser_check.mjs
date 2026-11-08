@@ -78,12 +78,12 @@ try {
   assert.equal(await evaluate("!!document.querySelector('input[type=email]')"),false);
   await form('accountForm',{username,password,confirmation:password,display_name:'Browser Artist'});
   await until("document.getElementById('accountMessage').textContent.includes('Account created')",'signup without email');
-  await visit('/accounts/login/');await form('accountForm',{username,password});await until("location.pathname==='/dashboard.html' && document.getElementById('dashboardStars')?.textContent==='0'",'immediate username login/dashboard');
+  await visit('/accounts/login/');await form('accountForm',{username,password});await until("location.pathname==='/dashboard.html' && document.getElementById('starBalance')?.textContent==='0'",'immediate username login/dashboard');
   console.log('PASS username-only signup -> immediate login/dashboard; no email or verification step.');
   assert.deepEqual(errors,[]);
   // Account data is never accepted from legacy browser stores.
   await evaluate(`localStorage.setItem('likhaDashboardPrototype_v1',JSON.stringify({stars:999999,pet:{growthPoints:999999}}))`);
-  await visit('/studio.html?lab=fashion');await until("!!document.querySelector('[data-pattern]') && !!document.querySelector('[data-logout]')",'studio');
+  await visit('/studio.html?lab=fashion');await until("!!document.querySelector('[data-pattern]') && !!document.getElementById('canvasToolStatus')",'studio');
   await evaluate("document.getElementById('artCanvas').scrollIntoView({block:'center'})");
   const rect=await evaluate(`(() => {const r=document.getElementById('artCanvas').getBoundingClientRect();return {left:r.left,top:r.top,width:r.width,height:r.height};})()`);
   const mouse=async(type,x,y,buttons=0)=>send('Input.dispatchMouseEvent',{type,x:rect.left+x*rect.width/1000,y:rect.top+y*rect.height/700,button:type==='mouseMoved'?'none':'left',buttons,clickCount:type==='mouseMoved'?0:1});
@@ -99,25 +99,28 @@ try {
   console.log('PASS actual canvas draw/pattern -> private server save/gallery; forged localStorage totals ignored.');
   await visit('/avatar.html');await until("document.getElementById('avatarNameInput').value==='Browser Artist'",'avatar');await evaluate("document.querySelector('[data-avatar=\"avatar-filipino-artist-6\"]').click();document.getElementById('saveAvatarBtn').click()");await until("document.getElementById('saveMessage').textContent.includes('saved')",'save avatar');
   await visit('/pet.html');await until("document.getElementById('petStage').textContent==='baby'",'pet');await evaluate("document.querySelector('[data-pet=\"tiger\"]').click();document.getElementById('petNameInput').value='Tala';document.getElementById('savePetBtn').click()");await until("document.getElementById('hostStatus')?.textContent.includes('saved')",'save pet');
-  await visit('/quiz.html?assessment=week1');await until("document.getElementById('weeklyQuizTitle').textContent.includes('Week 1')",'quiz');await evaluate("document.getElementById('startQuizBtn').click()");await until("document.querySelector('#quizGameSection form input[type=radio]')",'quiz questions');
-  await evaluate(`document.querySelectorAll('#quizGameSection fieldset').forEach(group=>group.querySelector('input').checked=true);document.querySelector('#quizGameSection form').requestSubmit()`);await until("document.getElementById('quizGameSection').textContent.includes('You scored')",'quiz grade');
+  await visit('/quiz.html?assessment=week1');await until("document.getElementById('weeklyQuizTitle').textContent.includes('Week 1')",'quiz');await evaluate("document.getElementById('startQuizBtn').click()");await until("document.querySelector('#answerOptions .answer-option')",'quiz questions');
+  for(let index=0;index<5;index++) {
+    await evaluate("document.querySelector('#answerOptions .answer-option').click();document.getElementById('nextQuestionBtn').click()");
+  }
+  await until("!document.getElementById('quizResultsSection').hidden && document.getElementById('resultHeading').textContent.includes('You scored')",'quiz grade');
   console.log('PASS avatar/pet saves and server-graded quiz through real screens.');
-  await visit('/dashboard.html');await until("Number(document.getElementById('dashboardStars').textContent)>=20",'dashboard reload');assert.ok(await evaluate("Number(document.getElementById('dashboardStars').textContent)>=20"));
+  await visit('/dashboard.html');await until("Number(document.getElementById('starBalance').textContent)>=20",'dashboard reload');assert.ok(await evaluate("Number(document.getElementById('starBalance').textContent)>=20"));
   await evaluate("document.querySelector('[data-logout]').click()");await until("location.pathname==='/accounts/login/'",'logout');
   assert.equal(await evaluate(`fetch('/api/v1/artworks/${artId}/image').then(r=>r.status)`),401);
   await delay(100);const denied=errors.indexOf('401 '+base+'/api/v1/artworks/'+artId+'/image');if(denied>=0)errors.splice(denied,1);
-  await form('accountForm',{username,password});await until("location.pathname==='/dashboard.html' && document.getElementById('dashboardArtworks')?.textContent==='1'",'account persisted');
+  await form('accountForm',{username,password});await until("location.pathname==='/dashboard.html' && document.getElementById('artworksSavedCount')?.textContent==='1'",'account persisted');
   const savedProfile=await evaluate("LikhaAPI.request('/api/v1/me')");assert.equal(savedProfile.profile.avatar,6);
   const saved=await evaluate("LikhaAPI.request('/api/v1/progress')");assert.equal(saved.progress.pet.species,'tiger');assert.equal(saved.progress.pet.name,'Tala');
   // Switch users in the same browser and verify the previous account cannot leak.
   await evaluate("document.querySelector('[data-logout]').click()");await until("location.pathname==='/accounts/login/'",'A logout');
   const usernameB=`browser-b-${suffix}`;
   await visit('/accounts/signup/');await form('accountForm',{username:usernameB,password,confirmation:password,display_name:'Second Artist'});await until("document.getElementById('accountMessage').textContent.includes('Account created')",'B signup');
-  await visit('/accounts/login/');await form('accountForm',{username:usernameB,password});await until("location.pathname==='/dashboard.html' && document.getElementById('dashboardStars')?.textContent==='0'",'B login');
+  await visit('/accounts/login/');await form('accountForm',{username:usernameB,password});await until("location.pathname==='/dashboard.html' && document.getElementById('starBalance')?.textContent==='0'",'B login');
   await visit('/gallery.html');await until("document.getElementById('galleryResultCount').textContent.includes('0 of 0')",'B empty gallery');
   assert.equal(await evaluate(`fetch('/api/v1/artworks/${artId}/image').then(r=>r.status)`),404);await delay(100);const blocked=errors.indexOf('404 '+base+'/api/v1/artworks/'+artId+'/image');if(blocked>=0)errors.splice(blocked,1);
   await evaluate(`LikhaAPI.request('/api/v1/me',{method:'DELETE',body:{password:${JSON.stringify(password)},confirmation:'DELETE'}})`);
-  await visit('/accounts/login/');await form('accountForm',{username,password});await until("location.pathname==='/dashboard.html' && document.getElementById('dashboardArtworks')?.textContent==='1'",'A restored after B');
+  await visit('/accounts/login/');await form('accountForm',{username,password});await until("location.pathname==='/dashboard.html' && document.getElementById('artworksSavedCount')?.textContent==='1'",'A restored after B');
   console.log('PASS two-account browser handoff: B sees no A gallery or private image; A retains its artwork.');
   // Verify tutorials and small-canvas controls still work in hosted pages.
   for(const [lab,template]of [['craft','basket'],['craft','banig'],['craft','fan'],['craft','pot'],['festival','parol']]){

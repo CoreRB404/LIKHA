@@ -1,0 +1,49 @@
+/* Integration/accessibility only. Original page files own layout and palette. */
+.original-page .host-tools{align-items:center;justify-content:flex-end;font-size:14px;gap:12px}
+.original-page .host-tools a{color:inherit}
+.original-page .host-tools button{font:inherit;color:inherit}
+body[data-page="dashboard"] .avatar-mini img,
+body[data-page="dashboard"] .avatar-art img,
+body[data-page="dashboard"] .avatar-custom-preview img{width:100%;height:100%;object-fit:contain}
+body[data-page="dashboard"] .modal.is-open{display:flex}
+body[data-page="dashboard"] .modal-box img{max-width:100%;max-height:45vh;object-fit:contain}
+body[data-page="dashboard"] .sidebar a.nav-item{text-decoration:none}
+.original-page .skip-link:focus{color:#243d70;background:white}
+body[data-page="gallery"] .art-info details{margin-top:12px}
+body[data-page="gallery"] .art-info form label{display:grid;gap:6px;margin:10px 0}
+body[data-page="gallery"] .art-info input,
+body[data-page="gallery"] .art-info textarea{width:100%;max-width:100%;padding:10px;font:inherit;border:1px solid #cbd3e0;border-radius:10px}
+body[data-page="dashboard"] .main{min-width:0}
+body[data-page="dashboard"] .sidebar nav{flex-shrink:0}
+/* Retain original hues while making small text readable. */
+body[data-page="dashboard"] .nav-label{color:#756b5a}
+body[data-page="dashboard"] .achievement-card.locked{opacity:1}
+
+body[data-page="index"] .hero h1{color:#a77b1b}
+body[data-page="dashboard"] .brand-name{color:#9a6d13}
+body[data-page="dashboard"] :is(p,small,.stat-label,.tag,.achievements-label,.progress-caption){color:#695d4c}
+body[data-page="dashboard"] .small-btn{color:#2f2311}
+body[data-page="dashboard"] :is(.panel-action,.button){background:#34714e;color:white}
+body[data-page="dashboard"] .assessment-button{background:#2c66ac;color:white}
+body[data-page="dashboard"] .challenge-start{background:#1c7167;color:white}
+body[data-page="dashboard"] .festival-lab .lab-open{color:#2f2311}
+body[data-page="dashboard"] .craft-lab .lab-open{background:#2c66ac}
+body[data-page="dashboard"] .art-lab .lab-open{background:#34714e}
+body[data-page="avatar"] .eyebrow{color:#754418}
+
+body[data-page="dashboard"] .section-tag{color:#5f3c11;opacity:1}
+body[data-page="dashboard"] .pet-stage-card.is-locked{opacity:1}
+body[data-page="dashboard"] .pet-stage-status{color:#51475a}
+
+body[data-page="dashboard"] .is-current .pet-stage-status{background:#28674e;color:white}
+body[data-page="dashboard"] .progress-badge-card{opacity:1}
+body[data-page="dashboard"] :is(.progress-stat-card>span:last-child,.progress-quiz-stats span,.progress-creative-stats span,.progress-pet-details span){color:#695d4c}
+body[data-page="dashboard"] .progress-badge-state{color:#5c5142}
+
+/* Reveal the original sidebar on phones; no replacement navigation design. */
+@media(max-width:850px){
+  body[data-page="dashboard"] .sidebar.is-open{display:flex}
+  body[data-page="dashboard"] .mobile-brand strong{color:#9a6d13}
+}
+
+body[data-page="dashboard"] .artwork-preview img{max-width:100%;max-height:110px;object-fit:contain}

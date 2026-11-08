@@ -31,6 +31,12 @@ def progress_view(request):
 
 
 @api()
+def dashboard(request):
+    from .dashboard import dashboard_data
+    return dashboard_data(request.user)
+
+
+@api()
 def labs(request):
     return {"labs": LABS, "challenges": CHALLENGES}
 

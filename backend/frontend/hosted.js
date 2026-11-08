@@ -3,20 +3,6 @@ import { $, api, node, announce, busy } from "./ui.js";
 (() => {
   "use strict";
   let account;
-  function accountTools() {
-    if (document.querySelector(".host-header")) return;
-    const bar = node("nav", undefined, "host-tools");
-    bar.setAttribute("aria-label", "Account navigation");
-    const accountLink = node("a", "Account settings");
-    accountLink.href = "/settings.html";
-    const dashboard = node("a", "Dashboard");
-    dashboard.href = "/dashboard.html";
-    const signOut = node("button", "Sign out");
-    signOut.type = "button";
-    signOut.dataset.logout = "";
-    bar.append(dashboard, accountLink, signOut);
-    document.querySelector("header")?.append(bar);
-  }
   function wireLogout() {
     document.querySelectorAll("[data-logout]").forEach((button) =>
       button.addEventListener("click", () =>
@@ -80,7 +66,6 @@ import { $, api, node, announce, busy } from "./ui.js";
     $("hostStatus").append(link);
   });
   async function start() {
-    accountTools();
     wireLogout();
     accountForm();
     const menu = $("menuToggle"),

@@ -17,7 +17,7 @@ async function signIn(page, name) {
   await page.locator('input[name=username]').fill(name);
   await page.getByLabel('Password', { exact: true }).fill(password);
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-  await expect(page.locator('#dashboardStars')).toHaveText('0');
+  await expect(page.locator('#starBalance')).toHaveText('0');
 }
 async function accessible(page, label) {
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
@@ -93,11 +93,15 @@ test('accessible screens, keyboard dialog, private save and failure recovery', a
   await expect(page.locator('[data-artwork-id]')).toHaveCount(1);
   await expect(page.locator('[data-artwork-id] h3')).toHaveText('A safe <script>title</script>');
   await accessible(page, 'Gallery');
-  await page.getByRole('button', { name: 'View', exact: true }).click();
+  await page.getByRole('button', { name: 'Preview', exact: true }).click();
   await expect(page.locator('#closeArtworkPreview')).toBeFocused();
   await accessible(page, 'Preview dialog');
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('button', { name: 'View', exact: true })).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Preview', exact: true })).toBeFocused();
+  const savedId=await page.locator('[data-artwork-id]').getAttribute('data-artwork-id');
+  await page.getByRole('link',{name:'Open in Studio',exact:true}).click();
+  await expect(page.locator('#artCanvas')).toHaveAttribute('data-loaded-artwork',savedId);
+  expect(await page.locator('#artCanvas').evaluate(c=>c.toDataURL())).toBe(drawing);
   expect(errors).toEqual([]);
   await page.evaluate(password => LikhaAPI.request('/api/v1/me', { method:'DELETE', body:{password,confirmation:'DELETE'} }), password);
 });

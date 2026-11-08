@@ -1,5 +1,7 @@
 # Implementation and readiness register
 
+Original-design restoration: root HTML/CSS are the visual source of truth for all seven original pages. Django now builds the original landing page and original sidebar dashboard instead of replacement templates. Shared account CSS is scoped; original Baloo 2/Nunito fonts are self-hosted with licenses. Original dashboard sidebar views, lab cards, achievement/progress components and sequential quiz/results UI use authenticated APIs. Gallery uses original card styles and can reopen owned artwork in the original canvas with Undo history reset. Small same-palette contrast corrections and phone access to the existing sidebar are integration-only additions. No schema or user-data changes were required. Owner-scoped dashboard summary tests and 56 isolated PostgreSQL tests pass. Nine restoration/accessibility scenarios passed across desktop Chromium, phone Chromium and phone WebKit, including original sidebar navigation and reopening saved images. Screenshots and browser evidence are under ignored var/. Render needs a manual deployment of the updated source.
+
 Render build correction: the first real cloud build exposed a mismatch between Render's generated 256-bit Base64 secret (44 characters) and the application's 50-character minimum. Canonical Render-generated values now derive a stable, domain-separated Django signing key; arbitrary short values remain rejected. Exact provider-format production checks and isolated key/host configuration tests pass. The first cloud build failed before storage/database startup, so Supabase connectivity and live deployment are still unverified.
 
 Render setup update: derive exact allowed hosts and HTTPS/CSRF origin from the provider's RENDER_EXTERNAL_HOSTNAME. Blueprint creation no longer requires manually entering an address before Render assigns it. Explicit custom-domain overrides remain available; wildcard/provider-host validation stays strict.
@@ -18,9 +20,9 @@ Updated 2026-11-08 (Asia/Manila). The account application is implemented and ver
 
 | Capability | Local evidence |
 | --- | --- |
-| Django 5.2.19 LTS + SQLite schema | Custom UUID/username user before initial auth migration; committed migrations; file-backed SQLite with foreign keys, WAL and IMMEDIATE transactions |
+| Django 5.2.19 LTS + PostgreSQL schema | Private schema, UUID/username accounts, committed migrations and per-account row locks; SQLite retained for legacy migration/testing only |
 | Account lifecycle | Username-only signup with immediate login, duplicate username conflicts, login/logout, current-password change and session rotation/expiry/revocation |
-| Password/session security | Argon2, 15?128-character passphrase validators, HttpOnly/SameSite cookies, production Secure host-only cookie, real CSRF enforcement and origin checks |
+| Password/session security | Argon2, 8-128-character password validators, HttpOnly/SameSite cookies, production Secure host-only cookie, real CSRF enforcement and origin checks |
 | Abuse protection | Database-backed login/signup/recovery/resend limits; account/IP buckets use HMAC identifiers; proxy address accepted only in the configured topology |
 | Private artwork | Owner-scoped metadata/image/download/update/delete; validated re-encoded PNG/WebP; private generated filenames; quota; optimistic versions; idempotent saves and crash recovery |
 | Authoritative learning | Private 50-question bank, seven versioned assessments, randomized opaque option IDs, server grading, weekly reward claims and immutable reward ledger |

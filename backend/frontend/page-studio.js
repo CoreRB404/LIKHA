@@ -63,6 +63,53 @@ export async function init(context) {
       location.href = "/gallery.html";
     });
   });
+  const savedId = new URLSearchParams(location.search).get("artwork");
+  if (savedId) {
+    $("saveArtworkBtn").disabled = true;
+    canvas.inert = true;
+    canvas.setAttribute("aria-busy", "true");
+    try {
+      const { artwork } = await api(
+        "/api/v1/artworks/" + encodeURIComponent(savedId),
+      );
+      const query = new URLSearchParams(location.search);
+      if (artwork.lab !== query.get("lab")) {
+        location.replace(
+          `/studio.html?lab=${artwork.lab}&artwork=${artwork.id}`,
+        );
+        return;
+      }
+      const response = await fetch(artwork.image_url, {
+        credentials: "same-origin",
+        cache: "no-store",
+        headers: { "X-Likha-Account": account.id },
+      });
+      if (!response.ok)
+        throw new Error("Your saved artwork could not be opened.");
+      const url = URL.createObjectURL(await response.blob());
+      try {
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        canvas.dispatchEvent(new Event("likha-artwork-loaded"));
+        canvas.dataset.loadedArtwork = artwork.id;
+        $("artworkTitle").value = artwork.title;
+        for (const [key, value] of Object.entries(artwork.concepts)) {
+          const field = $("artwork" + key[0].toUpperCase() + key.slice(1));
+          if (field) field.value = value;
+        }
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    } finally {
+      $("saveArtworkBtn").disabled = false;
+      canvas.inert = false;
+      canvas.removeAttribute("aria-busy");
+    }
+  }
   modal.setAttribute("aria-modal", "true");
   modal.setAttribute("role", "dialog");
 }

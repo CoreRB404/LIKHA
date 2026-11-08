@@ -74,3 +74,7 @@ At the user's request, remove the public privacy page/route, footer link and req
 ## ADR-015 - password wording and eight-character minimum
 
 At the user's request, account forms and validation messages use Password and require 8-128 characters. Remove developer/operator reset and email-configuration explanations from user screens. Existing hashes, account ownership, CSRF/session handling and compromised-password checks remain. Operator instructions stay in documentation.
+
+## ADR-016 - original design is the Django visual source of truth
+
+The user explicitly rejected the replacement landing/dashboard design. Generate Django-safe templates from original root HTML/CSS for index, dashboard, studio, gallery, avatar, pet and quiz. Remove inline browser-account/reward scripts and wire original components to authenticated APIs. Self-host original fonts; scope account CSS to avoid overriding page palettes/layout. Restore sidebar views, original gallery cards, sequential quiz/results and owned-artwork reopening. Keep account actions and narrowly scoped contrast/mobile-access corrections as integration details. No database migration or account data reset. Future backend work must preserve these visual sources instead of designing replacement pages.

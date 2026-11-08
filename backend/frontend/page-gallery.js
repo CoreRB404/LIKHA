@@ -10,7 +10,6 @@ export async function init(context) {
     cursor = page.next_cursor;
   } while (cursor !== null);
   const grid = $("galleryGrid");
-  grid.classList.add("host-grid");
   const modal = $("artworkPreviewModal");
   const previewDialog = dialog(modal, {
     initialFocus: $("closeArtworkPreview"),
@@ -45,13 +44,13 @@ export async function init(context) {
     grid.hidden = !filtered.length;
     $("galleryControls").hidden = !records.length;
     for (const art of filtered) {
-      const card = node("article", undefined, "host-card");
+      const card = node("article", undefined, "art-card artwork-card");
       card.dataset.artworkId = art.id;
       const image = node("img");
       image.src = art.image_url;
       image.alt = art.title;
       image.loading = "lazy";
-      image.className = "host-art-image";
+      image.className = "";
       const title = node("h3", art.title),
         description = node("p", art.description || ""),
         meta = node(
@@ -59,8 +58,8 @@ export async function init(context) {
           `${art.lab} lab · ${new Date(art.created_at).toLocaleDateString()}${art.imported ? " · Imported, no historical rewards" : ""}`,
           "host-meta",
         );
-      const actions = node("div", undefined, "host-gallery-actions"),
-        view = node("button", "View"),
+      const actions = node("div", undefined, "card-actions"),
+        view = node("button", "Preview"),
         download = node("a", "Download"),
         remove = node("button", "Delete");
       download.href = art.image_url + "?download=1";
@@ -87,7 +86,11 @@ export async function init(context) {
           render();
         });
       });
-      actions.append(view, download, remove);
+      for (const action of [view, download, remove])
+        action.className = "button button-secondary";
+      const open = node("a", "Open in Studio", "button button-primary");
+      open.href = `/studio.html?lab=${art.lab}&artwork=${art.id}`;
+      actions.append(view, open, download, remove);
       const details = node("details"),
         summary = node("summary", "Edit artwork details"),
         edit = node("form"),
@@ -95,7 +98,7 @@ export async function init(context) {
         input = node("input"),
         descLabel = node("label", "Description"),
         textarea = node("textarea"),
-        save = node("button", "Save details", "host-button secondary");
+        save = node("button", "Save details", "button button-primary");
       input.value = art.title;
       input.required = true;
       input.maxLength = 120;
@@ -122,12 +125,19 @@ export async function init(context) {
           announce("Artwork details saved.");
         });
       });
-      card.append(image, title, meta, description, actions, details);
+      const preview = node("button", undefined, "art-preview");
+      preview.type = "button";
+      preview.setAttribute("aria-label", "Preview " + art.title);
+      preview.append(image);
+      preview.addEventListener("click", () => view.click());
+      const info = node("div", undefined, "art-info");
+      info.append(title, meta, description, actions, details);
+      card.append(preview, info);
       if (art.challenge) {
         const complete = node(
           "button",
           "Complete challenge",
-          "host-button secondary",
+          "button button-secondary",
         );
         complete.addEventListener("click", () =>
           busy(complete, async () => {
@@ -138,7 +148,7 @@ export async function init(context) {
             announce(result.message);
           }),
         );
-        card.append(complete);
+        info.append(complete);
       }
       grid.append(card);
     }

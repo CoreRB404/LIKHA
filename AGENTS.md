@@ -13,6 +13,10 @@ Account policy: username and password only, minimum 8 characters. Keep developer
 
 Local engineering verification: read `docs/LOCAL_ENGINEERING.md` for page-module boundaries, accessibility/keyboard contracts, offline password screening, malformed-input/storage failure tests and the browser/security matrix. Keep operator notices in documentation, not student screens.
 
+## Design source of truth
+
+The user explicitly requires the original project design in Django. Root index.html, dashboard.html, studio.html, gallery.html, avatar.html, pet.html and quiz.html plus their existing CSS/assets are the visual source of truth. tools/build_hosted.py generates safe Django shells from those pages. Do not substitute a new landing page/dashboard, generic cards or a new navigation layout. Keep frontend account data authoritative through the API; security adapters must not redesign the original interface. Self-host the original Baloo 2/Nunito fonts. Keep integration CSS limited to account controls, accessibility and safe embedding.
+
 ## Working rules
 
 - Inspect the current code and applicable instructions before editing. Keep the existing design, Filipino cultural content, and learning flows unless a change is requested.

@@ -4,11 +4,13 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 public = ROOT / "backend/public"
-allowed = {".css", ".js", ".ico", ".webp", ".png", ".jpg", ".jpeg", ".mp4", ".mov", ".mp3", ".wav", ".ogg"}
+allowed = {".css", ".js", ".ico", ".webp", ".png", ".jpg", ".jpeg", ".mp4", ".mov", ".mp3", ".wav", ".ogg", ".woff2", ".txt"}
 files = [p for p in public.rglob("*") if p.is_file()]
 assert files, "Build the hosted frontend first."
 for path in files:
     assert path.suffix.lower() in allowed and not path.is_symlink(), path
+    if path.suffix.lower() == ".txt":
+        assert path.parent == public / "assets/fonts" and path.name.endswith("-OFL.txt"), path
 for name in ["quiz.js", "dashboard.html", "pet-progress.js", "artwork-rewards.js", "serve.py", "questions.json"]:
     assert not (public / name).exists(), name
 for path in public.glob("*.js"):
