@@ -1,5 +1,7 @@
 # Implementation and readiness register
 
+Render setup update: derive exact allowed hosts and HTTPS/CSRF origin from the provider's RENDER_EXTERNAL_HOSTNAME. Blueprint creation no longer requires manually entering an address before Render assigns it. Explicit custom-domain overrides remain available; wildcard/provider-host validation stays strict.
+
 Account UI update: removed operator-reset/email setup notes from user screens, renamed Password labels/errors, and changed signup/password-change minimum to 8 characters (maximum 128). Existing password hashes are unchanged. Boundary regression verifies 7 characters rejected, 8 accepted for signup/change, and login with both resulting passwords.
 
 UI update: privacy policy page/route, footer link and signup acknowledgement checkbox were removed at the user's request. Signup no longer requires notice_version and new UI signups do not record a fabricated acknowledgement. Historical fields remain unchanged; account ownership, authentication, export/deletion and operator configuration remain in place.

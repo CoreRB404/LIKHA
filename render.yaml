@@ -35,10 +35,6 @@ services:
         sync: false
       - key: SUPABASE_STORAGE_BUCKET
         value: likha-private
-      - key: DJANGO_ALLOWED_HOSTS
-        sync: false
-      - key: LIKHA_ORIGIN
-        sync: false
       - key: LIKHA_PRIVACY_CONTACT
         sync: false
       - key: LIKHA_PRIVACY_APPROVED

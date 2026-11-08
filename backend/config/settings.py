@@ -28,8 +28,17 @@ if not SECRET_KEY:
         pass
     SECRET_KEY = secret_file.read_text(encoding="utf-8").strip()
 
-CANONICAL_ORIGIN = os.environ.get("LIKHA_ORIGIN", "http://127.0.0.1:8000").rstrip("/")
-ALLOWED_HOSTS = [x.strip() for x in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],testserver" if not PRODUCTION else "").split(",") if x.strip()]
+# Render supplies its assigned hostname at build time and runtime. Initial
+# Blueprint setup therefore does not require guessing an unavailable URL.
+render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME", "").strip()
+if render_host:
+    import re
+    if not re.fullmatch(r"[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.onrender\.com", render_host):
+        raise ImproperlyConfigured("Invalid Render-provided hostname.")
+default_origin = "https://" + render_host if render_host else "http://127.0.0.1:8000"
+CANONICAL_ORIGIN = (os.environ.get("LIKHA_ORIGIN") or default_origin).rstrip("/")
+default_hosts = render_host if render_host else ("localhost,127.0.0.1,[::1],testserver" if not PRODUCTION else "")
+ALLOWED_HOSTS = [x.strip() for x in (os.environ.get("DJANGO_ALLOWED_HOSTS") or default_hosts).split(",") if x.strip()]
 CSRF_TRUSTED_ORIGINS = [CANONICAL_ORIGIN]
 PRIVATE_MEDIA_ROOT = DATA_DIR / "artworks"
 PRIVATE_MEDIA_ROOT.mkdir(exist_ok=True)

@@ -23,12 +23,12 @@ Enter these environment settings in Render:
 | `SUPABASE_URL` | Supabase HTTPS project origin |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only legacy service_role JWT |
 | `SUPABASE_STORAGE_BUCKET` | `likha-private` |
-| `DJANGO_ALLOWED_HOSTS` | Exact Render hostname, e.g. `likha-example.onrender.com`; additional custom hosts comma-separated, without schemes |
-| `LIKHA_ORIGIN` | Canonical HTTPS origin, e.g. `https://likha-example.onrender.com`, without a path |
+| `DJANGO_ALLOWED_HOSTS` | Optional override for custom domains; default is Render's assigned hostname |
+| `LIKHA_ORIGIN` | Optional custom-domain override; defaults to HTTPS on Render's assigned hostname |
 | `LIKHA_PRIVACY_CONTACT` | Real operator/institutional help contact; need not be an email |
 | `LIKHA_PRIVACY_APPROVED` | `1` after the operator approves enrollment/consent and documented retention |
 
-Render generates stable `DJANGO_SECRET_KEY` and `LIKHA_HEALTH_TOKEN`. The blueprint sets production mode, cloud media, static output, proxy handling and a temporary working directory. `.env` files are not automatically loaded.
+Render automatically supplies its assigned hostname; the app derives explicit allowed hosts and its HTTPS/CSRF origin from it. The Blueprint does not ask for these two optional overrides. Render generates stable `DJANGO_SECRET_KEY` and `LIKHA_HEALTH_TOKEN`. The blueprint sets production mode, cloud media, static output, proxy handling and a temporary working directory. `.env` files are not automatically loaded.
 
 Build:
 
