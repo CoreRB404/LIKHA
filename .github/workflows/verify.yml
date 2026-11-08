@@ -1,0 +1,84 @@
+name: Verify LIKHA
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  postgres:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - shell: pwsh
+        run: |
+          python -m pip install --require-hashes -r requirements/production.txt
+          $postgresBin = (Get-ChildItem 'C:\Program Files\PostgreSQL' -Directory | Sort-Object Name -Descending | Select-Object -First 1).FullName + '\bin'
+          $env:PATH = $postgresBin + ';' + $env:PATH
+          python tools/build_hosted.py
+          python tools/check_postgres.py
+          python tools/check_local_migration.py
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python -m pip install --require-hashes -r requirements/production.txt
+      - run: python -m pip install -r requirements/development.txt
+      - run: npm ci --ignore-scripts
+      - run: python tools/build_hosted.py
+      - run: python backend/manage.py check && python backend/manage.py makemigrations --check --dry-run
+      - run: python backend/manage.py test tests --noinput
+      - run: python tools/check_production.py
+      - run: python tools/check_render.py
+      - run: python tools/audit_site.py && node tools/pet_progress_test.mjs && node tools/artwork_rewards_test.mjs
+      - run: node --check backend/frontend/hosted.js && node --check backend/frontend/api.js
+      - run: python tools/check_hosted_artifact.py
+      - run: python tools/check_secrets.py
+      - run: python -m bandit -r backend -x backend/tests,backend/accounts/migrations,backend/learning/migrations,backend/public -ll
+      - run: npm run check:frontend && npm audit --audit-level=high
+      - run: python tools/check_compose.py
+      - run: python tools/hosted_system_check.py
+      - run: pip-audit -r requirements/production.txt --no-deps --disable-pip
+      - run: docker build --file deploy/Dockerfile --tag likha:ci .
+      - run: python tools/check_container.py --image likha:ci --skip-build
+  accessibility-and-engines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python -m pip install --require-hashes -r requirements/production.txt
+      - run: npm ci --ignore-scripts
+      - run: node node_modules/playwright/cli.js install --with-deps chromium firefox webkit
+      - run: python tools/run_hosted_browser.py --engineering
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: synthetic-browser-failures
+          path: var/playwright-*
+  browser:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - shell: pwsh
+        run: |
+          python -m pip install --require-hashes -r requirements/production.txt
+          python tools/run_hosted_browser.py

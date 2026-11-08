@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>My LIKHA Pet</title>
+ <link rel="stylesheet" href="pet.css">
+ <link rel="stylesheet" href="grow-a-pet.css">
+    <script src="site.js" defer></script>
+    <script src="artwork-rewards.js"></script>
+    <script src="pet-progress.js"></script>
+    <script src="pet-art.js"></script>
+<link rel="stylesheet" href="pet-growth.css">
+</head>
+<body>
+<header class="topbar">
+    <a href="dashboard.html" class="brand">🎨 LIKHA</a>
+    <a href="dashboard.html" class="back-link">← Dashboard</a>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <p class="eyebrow">YOUR CREATIVE COMPANION</p>
+        <h1>Meet Your LIKHA Pet! 🐾</h1>
+        <p>Complete creative activities and answer quiz questions correctly to help your companion grow!</p>
+    </section>
+
+    <section class="pet-card">
+        <div class="pet-display">
+            <div class="pet-preview-image">
+                <img
+                    id="petPreview"
+                    class="pet-emoji stage-baby"
+                    src="images/pasted-image-2.webp"
+                    alt="Cat"
+                 decoding="async">
+            </div>
+            <h2 id="petNameDisplay">Mimi</h2>
+            <p id="petStage">Baby Pet 🌱</p>
+
+            <div class="progress-track">
+                <div id="petProgress" class="progress-fill"></div>
+            </div>
+
+            <p id="progressText">0 eligible activities · 2 needed for the next stage</p>
+            <p id="petMessage">Let's start creating masterpieces together!</p>
+        </div>
+
+        <div class="pet-settings">
+            <h2>Customize Your Pet</h2>
+
+            <label for="petNameInput">Give Your Pet a Name</label>
+            <input id="petNameInput" type="text" maxlength="20"
+                   placeholder="e.g. Mimi">
+
+            <p class="character-label" id="petChoiceLabel">Choose Your Pet</p>
+            <div class="character-options" role="group" aria-labelledby="petChoiceLabel">
+                <button class="pet-option" type="button" data-pet="rabbit" data-image="images/pasted-image-1.webp" aria-pressed="false">
+                    <img src="images/pasted-image-1.webp" alt="" decoding="async" loading="eager">
+                    <span>Rabbit</span>
+                </button>
+                <button class="pet-option" type="button" data-pet="cat" data-image="images/pasted-image-2.webp" aria-pressed="true">
+                    <img src="images/pasted-image-2.webp" alt="" decoding="async" loading="eager">
+                    <span>Cat</span>
+                </button>
+                <button class="pet-option" type="button" data-pet="dog" data-image="images/pasted-image-3.webp" aria-pressed="false">
+                    <img src="images/pasted-image-3.webp" alt="" decoding="async" loading="eager">
+                    <span>Dog</span>
+                </button>
+                <button class="pet-option" type="button" data-pet="lion" data-image="images/pasted-image-4.webp" aria-pressed="false">
+                    <img src="images/pasted-image-4.webp" alt="" decoding="async" loading="eager">
+                    <span>Lion</span>
+                </button>
+                <button class="pet-option" type="button" data-pet="panda" data-image="images/pasted-image-5.webp" aria-pressed="false">
+                    <img src="images/pasted-image-5.webp" alt="" decoding="async" loading="eager">
+                    <span>Panda</span>
+                </button>
+                <button class="pet-option" type="button" data-pet="tiger" data-image="images/pasted-image-6.webp" aria-pressed="false">
+                    <img src="images/pasted-image-6.webp" alt="" decoding="async" loading="eager">
+                    <span>Tiger</span>
+                </button>
+            </div>
+
+            <button id="savePetBtn" class="primary-btn" type="button">
+                💖 Save My Pet
+            </button>
+
+            <button id="createArtworkBtn" class="secondary-btn" type="button">
+                🎨 Create Artwork
+            </button>
+        </div>
+    </section>
+
+    <section class="reward-card">
+        <h2>🌟 Your Creative Journey</h2>
+        <p>Complete eligible activities and answer quiz questions correctly to help your pet grow.</p>
+        <div class="stats">
+            <div>
+                <span id="artworkCount">0</span>
+                <p>Artworks Saved</p>
+            </div>
+            <div>
+                <span id="growthPoints">0</span>
+                <p>Pet Growth Points</p>
+            </div>
+        </div>
+        <p class="note">
+            Growth progress is saved with your LIKHA dashboard. Correct quiz
+            answers add Pet Growth Points, and missed questions never take
+            progress away.
+        </p>
+    </section>
+
+    <section class="reward-card pet-journey-card">
+        <h2>🐾 Pet Growth Journey</h2>
+        <div class="pet-growth-journey" id="petGrowthJourney">
+            <article class="pet-stage-card" data-stage="baby">
+                <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, baby stage" decoding="async" loading="eager"></div>
+                <h3>Baby Pet</h3>
+                <p>0 activities · Your companion's adventure begins.</p>
+                <span class="pet-stage-status">Current</span>
+            </article>
+            <article class="pet-stage-card" data-stage="growing">
+                <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, growing stage" decoding="async" loading="eager"></div>
+                <h3>Growing Pet</h3>
+                <p>2 eligible activities</p>
+                <span class="pet-stage-status">Locked</span>
+            </article>
+            <article class="pet-stage-card" data-stage="young">
+                <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, young companion stage" decoding="async" loading="eager"></div>
+                <h3>Young Companion</h3>
+                <p>5 eligible activities</p>
+                <span class="pet-stage-status">Locked</span>
+            </article>
+            <article class="pet-stage-card" data-stage="grown">
+                <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, fully grown stage" decoding="async" loading="eager"></div>
+                <h3>Fully Grown Companion</h3>
+                <p>8 eligible activities</p>
+                <span class="pet-stage-status">Locked</span>
+            </article>
+        </div>
+    </section>
+</main>
+
+<script src="pet.js"></script>
+</body>
+</html>

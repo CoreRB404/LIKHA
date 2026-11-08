@@ -1,0 +1,102 @@
+/* Distinct artwork for each species and age; no stage-based CSS resizing. */
+.pet-preview-image,
+#dashboardPetEmoji,
+#petLargeEmoji {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    aspect-ratio: 1;
+    padding: 8px;
+    border-radius: 24px;
+    background: white;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.pet-preview-image {
+    width: min(240px, 100%);
+    height: auto;
+}
+
+#dashboardPetEmoji {
+    width: 120px;
+    height: 120px;
+}
+
+#petLargeEmoji {
+    width: clamp(160px, 42vw, 240px);
+    height: auto;
+}
+
+#petPreview.stage-baby,
+#petPreview.stage-growing,
+#petPreview.stage-young,
+#petPreview.stage-grown,
+#dashboardPetEmoji .pet-growth-image,
+#petLargeEmoji .pet-growth-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: none;
+    animation: none;
+    transform-origin: center bottom;
+    transition: opacity .2s ease;
+}
+
+#petPreview.is-growing,
+#dashboardPetEmoji.is-growing .pet-growth-image,
+#petLargeEmoji.is-growing .pet-growth-image {
+    animation: pet-visible-growth .8s ease-out;
+}
+
+@keyframes pet-visible-growth {
+    0% { transform: scale(.85); }
+    65% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+.pet-stage-preview {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 132px;
+    margin-bottom: 12px;
+}
+
+#petGrowthJourney .pet-stage-preview .pet-stage-image {
+    width: 128px;
+    height: 128px;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+    #view-pet .pet-content {
+        flex-direction: column;
+        align-items: center;
+    }
+    #view-pet .pet-info { width: 100%; }
+    #dashboardPetEmoji { width: 100px; height: 100px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #petPreview.stage-baby,
+    #petPreview.stage-growing,
+    #petPreview.stage-young,
+    #petPreview.stage-grown,
+    #petPreview.is-growing,
+    #dashboardPetEmoji .pet-growth-image,
+    #petLargeEmoji .pet-growth-image {
+        animation: none;
+        transition: none;
+    }
+}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My LIKHA Avatar</title>
+
+    <link rel="stylesheet" href="avatar.css">
+    <script src="site.js" defer></script>
+</head>
+
+<body>
+
+    <header class="avatar-header">
+        <a href="dashboard.html" class="back-button">← Dashboard</a>
+
+        <div class="brand">
+            <span class="brand-icon">🎨</span>
+            <div>
+                <h1>LIKHA</h1>
+                <p>Filipino Creative Studio</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="avatar-container">
+
+        <section class="avatar-intro">
+            <span class="eyebrow">✨ YOUR CREATIVE IDENTITY</span>
+
+            <h2>Meet Your <span>LIKHA Avatar!</span></h2>
+
+            <p>
+                Choose your favorite character to represent you
+                throughout your creative journey.
+            </p>
+        </section>
+
+        <section class="avatar-editor">
+
+            <!-- Selected Avatar Preview -->
+            <div class="avatar-preview-card">
+
+                <div class="preview-label">YOUR AVATAR</div>
+
+                <div class="avatar-image-container">
+                    <img
+                        id="avatarPreview"
+                        src="images/avatar-filipino-artist-1.webp"
+                        alt="Your selected LIKHA avatar"
+                     decoding="async">
+                </div>
+
+                <h3 id="avatarName">Creative Explorer</h3>
+
+                <p id="avatarDescription">
+                    Ready to create something wonderful!
+                </p>
+
+                <button id="saveAvatarBtn" class="save-button" type="button">
+                    💾 Save My Avatar
+                </button>
+
+                <p id="saveMessage" class="save-message" aria-live="polite"></p>
+
+            </div>
+
+            <!-- Avatar Choices -->
+            <div class="avatar-selection">
+
+                <h3>Choose Your Character</h3>
+
+                <p class="selection-description">
+                    Choose your character and enter your student name.
+                </p>
+
+                <div class="avatar-profile-fields">
+                    <label class="avatar-field" for="avatarCharacterInput">
+                        Character
+                        <select id="avatarCharacterInput">
+                            <option value="avatar-filipino-artist-1">Creative Explorer</option>
+                            <option value="avatar-filipino-artist-2">Art Adventurer</option>
+                            <option value="avatar-filipino-artist-3">Culture Creator</option>
+                            <option value="avatar-filipino-artist-4">Pattern Maker</option>
+                            <option value="avatar-filipino-artist-5">Imagination Star</option>
+                            <option value="avatar-filipino-artist-6">Creative Trailblazer</option>
+                        </select>
+                    </label>
+
+                    <label class="avatar-field" for="avatarNameInput">
+                        Student Name
+                        <input
+                            id="avatarNameInput"
+                            type="text"
+                            maxlength="24"
+                            placeholder="e.g. Maria Santos">
+                    </label>
+                </div>
+
+                <div class="avatar-grid">
+
+                    <button
+                        class="avatar-option selected"
+                        type="button"
+                        data-avatar="avatar-filipino-artist-1"
+                        data-name="Creative Explorer"
+                        data-description="Curious, creative, and ready to explore Filipino art!"
+                        aria-pressed="true"
+                    >
+                        <img src="images/avatar-filipino-artist-1.webp" alt="" decoding="async">
+                        <span>Creative Explorer</span>
+                    </button>
+
+                    <button
+                        class="avatar-option"
+                        type="button"
+                        data-avatar="avatar-filipino-artist-2"
+                        data-name="Art Adventurer"
+                        data-description="Bring color, joy, and imagination to every creation!"
+                        aria-pressed="false"
+                    >
+                        <img src="images/avatar-filipino-artist-2.webp" alt="" decoding="async">
+                        <span>Art Adventurer</span>
+                    </button>
+
+                    <button
+                        class="avatar-option"
+                        type="button"
+                        data-avatar="avatar-filipino-artist-3"
+                        data-name="Culture Creator"
+                        data-description="Celebrate Filipino culture through your artwork!"
+                        aria-pressed="false"
+                    >
+                        <img src="images/avatar-filipino-artist-3.webp" alt="" decoding="async">
+                        <span>Culture Creator</span>
+                    </button>
+
+                    <button
+                        class="avatar-option"
+                        type="button"
+                        data-avatar="avatar-filipino-artist-4"
+                        data-name="Pattern Maker"
+                        data-description="Create bold designs inspired by Filipino patterns!"
+                        aria-pressed="false"
+                    >
+                        <img src="images/avatar-filipino-artist-4.webp" alt="" decoding="async">
+                        <span>Pattern Maker</span>
+                    </button>
+
+                    <button
+                        class="avatar-option"
+                        type="button"
+                        data-avatar="avatar-filipino-artist-5"
+                        data-name="Imagination Star"
+                        data-description="Let your ideas shine through every masterpiece!"
+                        aria-pressed="false"
+                    >
+                        <img src="images/avatar-filipino-artist-5.webp" alt="" decoding="async">
+                        <span>Imagination Star</span>
+                    </button>
+
+                    <button
+                        class="avatar-option"
+                        type="button"
+                        data-avatar="avatar-filipino-artist-6"
+                        data-name="Creative Trailblazer"
+                        data-description="Ready to explore Filipino art and create something original."
+                        aria-pressed="false"
+                    >
+                        <img src="images/avatar-filipino-artist-6.webp" alt="" decoding="async">
+                        <span>Creative Trailblazer</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="avatar-tip">
+            🌼 <strong>Remember:</strong> Every artist is unique.
+            Choose the avatar you like best!
+        </section>
+
+    </main>
+
+    <script src="avatar.js"></script>
+
+</body>
+</html>

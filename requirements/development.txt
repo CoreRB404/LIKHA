@@ -1,0 +1,4 @@
+# Developer-only tools. Runtime remains hash locked in production.txt.
+# Install production.txt separately with --require-hashes, then this tools file.
+bandit==1.9.4
+pip-audit==2.10.1

@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8ee">
+  <title>Weekly Quiz | LIKHA Creative Studio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+  <link rel="stylesheet" href="quiz.css">
+  <script src="quiz.js" defer></script>
+    <script src="site.js" defer></script>
+    <script src="artwork-rewards.js"></script>
+    <script src="pet-progress.js"></script>
+</head>
+
+<body>
+  <!-- APP NAVIGATION -->
+  <header class="app-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-icon">🎨</span>
+        <span>LIKHA <small>Creative Studio</small></span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle"
+              type="button" aria-label="Toggle menu"
+              aria-expanded="false" aria-controls="navLinks">
+        ☰
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="avatar.html">👤 My Avatar</a>
+        <a href="studio.html">🎨 Creative Labs</a>
+        <a href="gallery.html">🖼️ My Gallery</a>
+        <a href="dashboard.html#dailyChallenge">🏆 Challenges</a>
+        <a href="quiz.html" class="active" aria-current="page">🧠 Weekly Quiz</a>
+        <a href="pet.html">🐾 My Pet</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="quiz-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">✨ YOUR WEEKLY CREATIVE CHALLENGE</span>
+        <h1>Ready, Set, <span>LIKHA!</span></h1>
+        <p>
+        Explore how Filipino history, culture, and national identity
+        are expressed through visual arts. Use your artistic thinking,
+        learn from each answer, and grow your creative companion!
+        </p>
+        <a href="#weeklyChallenge" class="btn btn-primary">
+          🚀 Explore This Week's Quiz
+        </a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <span>🎨</span><span>🧠</span><span>⭐</span>
+      </div>
+    </section>
+
+    <!-- LEARNER PROFILE -->
+    <section class="learner-bar" aria-label="Learner profile">
+      <div class="learner-identity">
+        <div class="learner-avatar" id="quizAvatar">👩‍🎨</div>
+        <div>
+          <p class="muted">Welcome back, creator!</p>
+          <h2 id="quizLearnerName">LIKHA Artist</h2>
+        </div>
+      </div>
+      <div class="learner-rewards">
+        <span>⭐ <strong id="quizTotalPoints">0</strong> Quiz Points</span>
+        <span>🏅 <strong id="quizBadgeCount">0</strong> Badges</span>
+      </div>
+    </section>
+
+    <!-- WEEKLY CHALLENGE -->
+    <section class="section" id="weeklyChallenge">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">📅 THIS WEEK'S ACTIVITY</span>
+          <h2>Weekly Creative Quest</h2>
+          <p>One creative challenge, new discoveries every week!</p>
+        </div>
+        <span class="week-label" id="currentWeekLabel">Current Week</span>
+      </div>
+
+      <article class="weekly-card" id="weeklyQuizCard">
+        <div class="weekly-card-art" aria-hidden="true">🧺</div>
+        <div class="weekly-card-content">
+          <span class="quiz-chip">🌟 FEATURED QUIZ</span>
+          <h3 id="weeklyQuizTitle">My Filipino Identity: Art Challenge!</h3>
+          <p id="weeklyQuizDescription">
+            Test your understanding of Filipino identity through visual arts.
+            Explore subjects, themes, forms, styles, symbolism, and mediums,
+            and discover how artworks express our history, culture, and
+            national pride.
+          </p>
+
+          <div class="quiz-meta">
+            <span>❓ <strong id="quizQuestionCount">5</strong> Questions</span>
+            <span>🎯 Multiple Choice</span>
+            <span>⭐ Earn Points</span>
+          </div>
+
+          <div class="weekly-actions">
+            <button id="startQuizBtn" class="btn btn-primary" type="button">
+              🚀 Start Quiz
+            </button>
+            <span class="quiz-status" id="weeklyQuizStatus" role="status">
+              Ready to play
+            </span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- QUIZ GAME -->
+    <section class="section quiz-play-area" id="quizGameSection" hidden>
+      <div class="game-topbar">
+        <div>
+          <span class="eyebrow">🧠 QUIZ TIME!</span>
+          <h2 id="gameQuizTitle">Weekly Creative Quest</h2>
+        </div>
+        <button id="exitQuizBtn" class="btn btn-outline" type="button">
+          ✕ Exit
+        </button>
+      </div>
+
+      <div class="quiz-game-card">
+        <div class="question-meta">
+          <span id="questionCounter">Question 1 of 5</span>
+          <span>⭐ Score: <strong id="liveScore">0</strong></span>
+        </div>
+
+        <div class="progress-track"
+             id="quizProgressBar"
+             role="progressbar"
+             aria-label="Quiz progress"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-valuenow="0">
+          <div class="progress-fill" id="quizProgressFill"></div>
+        </div>
+
+        <div class="question-content">
+          <span class="category-chip" id="questionCategory">Filipino Arts</span>
+
+          <div id="questionImageWrap" class="question-image-wrap" hidden>
+            <img id="questionImage" src="" alt="Question illustration" decoding="async" loading="lazy">
+          </div>
+
+          <h3 id="questionText">Your question will appear here.</h3>
+          <p class="question-helper">Choose the correct answer.</p>
+
+          <div class="answer-grid" id="answerOptions"
+               role="group" aria-label="Answer choices">
+            <!-- quiz.js inserts four answer buttons here -->
+          </div>
+        </div>
+
+        <div id="answerFeedback" class="answer-feedback"
+             role="status" aria-live="polite" hidden>
+          <strong id="feedbackTitle"></strong>
+          <p id="feedbackText"></p>
+        </div>
+
+        <div class="question-footer">
+          <span id="questionRewardText">✨ Keep learning and creating!</span>
+          <button id="nextQuestionBtn" class="btn btn-primary"
+                  type="button" disabled>
+            Next Question →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section results-section" id="quizResultsSection" hidden>
+      <div class="results-card">
+        <div class="results-confetti" aria-hidden="true">🎉 ⭐ 🎊</div>
+        <span class="eyebrow">CHALLENGE COMPLETED</span>
+        <h2 id="resultHeading">Amazing work, LIKHA Artist!</h2>
+        <p id="resultMessage">Every answer helps you become a more creative learner.</p>
+
+        <div class="result-score-circle">
+          <strong id="resultPercentage">0%</strong>
+          <span>Your Score</span>
+        </div>
+
+        <div class="result-stats">
+          <div><strong id="resultCorrect">0</strong><span>Correct Answers</span></div>
+          <div><strong id="resultTotal">5</strong><span>Total Questions</span></div>
+          <div><strong id="resultPoints">+0</strong><span>Points Earned</span></div>
+          <div><strong id="resultPetPoints">+0</strong><span>Pet Growth Points</span></div>
+        </div>
+
+        <div class="achievement-card">
+          <div class="achievement-icon" id="resultBadgeIcon">🏅</div>
+          <div>
+            <h3 id="resultBadgeTitle">Creative Explorer</h3>
+            <p id="resultBadgeDescription">A new achievement for your journey!</p>
+          </div>
+        </div>
+
+        <div class="answer-review">
+          <h3>📚 Let's Review Your Answers</h3>
+          <div id="answerReviewList"></div>
+        </div>
+
+        <div class="result-actions">
+          <button id="retryQuizBtn" class="btn btn-primary" type="button">
+            🔄 Try Another Quiz
+          </button>
+          <a href="studio.html" class="btn btn-outline">🎨 Creative Labs</a>
+          <a href="pet.html" class="btn btn-outline">🐾 Visit My Pet</a>
+          <a href="dashboard.html" class="btn btn-outline">🏠 Back to Dashboard</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARNING TOPICS -->
+    <section class="section topics-section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">🎨 CONNECT YOUR LEARNING</span>
+          <h2>Explore What You've Learned</h2>
+          <p>Visit each Creative Lab to practice your new knowledge.</p>
+        </div>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card fashion">
+          <div class="topic-art">👗</div>
+          <h3>Fashion Lab</h3>
+          <p>Explore the barong, malong, traditional dress, and Filipino textile patterns.</p>
+          <a href="studio.html?lab=fashion" data-open-lab="fashion">Explore Fashion Lab →</a>
+        </article>
+
+        <article class="topic-card festival">
+          <div class="topic-art">🎭</div>
+          <h3>Festival Lab</h3>
+          <p>Discover vibrant festivals, traditional decorations, and celebrations.</p>
+          <a href="studio.html?lab=festival" data-open-lab="festival">Explore Festival Lab →</a>
+        </article>
+
+        <article class="topic-card craft">
+          <div class="topic-art">🧺</div>
+          <h3>Craft Lab</h3>
+          <p>Learn paper weaving, basket-making, and creative handicrafts.</p>
+          <a href="studio.html?lab=craft" data-open-lab="craft">Explore Craft Lab →</a>
+        </article>
+
+        <article class="topic-card art">
+          <div class="topic-art">🖌️</div>
+          <h3>Art Lab</h3>
+          <p>Experiment with color, shape, patterns, and artistic expression.</p>
+          <a href="studio.html?lab=art" data-open-lab="art">Explore Art Lab →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- QUIZ HISTORY -->
+    <section class="section history-section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">🏆 YOUR ACHIEVEMENTS</span>
+          <h2>My Weekly Quiz Journey</h2>
+          <p>See your completed challenges and celebrate your progress.</p>
+        </div>
+      </div>
+
+      <div class="history-grid">
+        <article class="history-summary">
+          <span>🧠</span>
+          <strong id="completedQuizCount">0</strong>
+          <p>Weekly Quizzes Completed</p>
+        </article>
+        <article class="history-summary">
+          <span>🎯</span>
+          <strong id="bestQuizScore">0%</strong>
+          <p>Best Score</p>
+        </article>
+        <article class="history-summary">
+          <span>⭐</span>
+          <strong id="lifetimeQuizPoints">0</strong>
+          <p>Lifetime Quiz Points</p>
+        </article>
+      </div>
+
+      <div class="quiz-history-list" id="quizHistoryList">
+        <p class="empty-state">Your quiz achievements will appear here after your first challenge!</p>
+      </div>
+    </section>
+
+    <!-- PET REWARDS -->
+    <section class="section pet-reward-section">
+      <div class="pet-reward-card">
+        <div class="pet-reward-art" aria-hidden="true">🐣 🌱 ⭐</div>
+        <div>
+          <span class="eyebrow">🐾 LEARN AND GROW TOGETHER</span>
+          <h2>Your LIKHA Pet Is Cheering for You!</h2>
+          <p>
+            Complete your weekly challenges to earn rewards that
+            contribute to your LIKHA Pet's growth journey.
+          </p>
+          <a href="pet.html" class="btn btn-primary">Visit My LIKHA Pet →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div>
+        <strong>🎨 LIKHA Creative Studio</strong>
+        <p>Discover. Create. Celebrate Filipino Culture.</p>
+      </div>
+      <div class="footer-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="studio.html">Creative Labs</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="dashboard.html#dailyChallenge">Challenges</a>
+        <a href="quiz.html">Weekly Quiz</a>
+        <a href="pet.html">My Pet</a>
+      </div>
+      <p>© <span id="currentYear">2026</span> LIKHA Creative Studio</p>
+    </div>
+  </footer>
+</body>
+</html>

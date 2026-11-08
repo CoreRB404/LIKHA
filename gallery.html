@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>My LIKHA Gallery</title>
+ <link rel="stylesheet" href="gallery.css">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+    <script src="site.js" defer></script>
+</head>
+<body>
+<header class="topbar">
+    <a href="dashboard.html" class="brand">🎨 LIKHA <span>My Gallery</span></a>
+    <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+</header>
+
+<main class="page-wrap">
+
+    <section class="hero">
+        <p class="eyebrow">MY CREATIVE JOURNEY</p>
+        <h1>My LIKHA Gallery 🌺</h1>
+        <p>
+            Every artwork tells a story. Explore your creations and celebrate
+            your ideas, imagination, and Filipino identity.
+        </p>
+    </section>
+
+    <section class="gallery-toolbar">
+        <div>
+            <h2>My Artworks</h2>
+            <p class="art-count" id="artCount" aria-live="polite">0 artworks saved</p>
+        </div>
+
+        <a href="studio.html" class="button button-primary">
+            + Create New Artwork
+        </a>
+    </section>
+
+    <section class="gallery-controls" id="galleryControls" aria-label="Find and sort artworks" hidden>
+        <div class="gallery-search">
+            <span aria-hidden="true">🔍</span>
+            <input
+                type="search"
+                id="gallerySearch"
+                placeholder="Search your artwork by title..."
+                aria-label="Search artwork by title">
+        </div>
+
+        <div class="gallery-filters">
+            <select id="galleryLabFilter" aria-label="Filter by creative lab">
+                <option value="all">🎨 All Creative Labs</option>
+                <option value="fashion">👗 Fashion Lab</option>
+                <option value="festival">🎉 Festival Lab</option>
+                <option value="craft">✂️ Craft Lab</option>
+                <option value="art">🖼️ Art Lab</option>
+            </select>
+
+            <select id="gallerySort" aria-label="Sort artwork">
+                <option value="newest">🕒 Newest First</option>
+                <option value="oldest">📅 Oldest First</option>
+                <option value="title-az">🔤 Title A–Z</option>
+                <option value="title-za">🔤 Title Z–A</option>
+            </select>
+        </div>
+    </section>
+
+    <p id="galleryResultCount" class="gallery-result-count" aria-live="polite"></p>
+
+    <section id="emptyState" class="empty-state">
+        <div class="empty-icon">🖼️</div>
+        <h3>Your gallery is waiting for your creativity!</h3>
+        <p>
+            You haven't saved any artwork yet. Visit LIKHA Studio,
+            create something original, and save it here.
+        </p>
+        <a href="studio.html" class="button button-primary">
+            Start Creating
+        </a>
+    </section>
+
+    <section id="noResultsState" class="empty-state no-results-state" aria-live="polite" hidden>
+        <div class="empty-icon">🔎</div>
+        <h3>No matching artworks just yet!</h3>
+        <p>Try another title or choose a different creative lab.</p>
+    </section>
+
+    <section
+        id="galleryGrid"
+        class="gallery-grid"
+        aria-label="Saved artworks"
+        hidden>
+    </section>
+
+    <div
+        class="artwork-preview-modal preview-modal"
+        id="artworkPreviewModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="previewArtworkTitle"
+        aria-describedby="previewArtworkLab"
+        aria-hidden="true">
+        <div class="artwork-preview-content preview-dialog">
+            <button
+                type="button"
+                id="closeArtworkPreview"
+                class="preview-close-btn preview-close"
+                aria-label="Close artwork preview"
+            >&times;</button>
+
+            <h2 id="previewArtworkTitle">Artwork Preview</h2>
+            <p id="previewArtworkLab" class="preview-lab"></p>
+            <img id="previewArtworkImage" src="" alt="Selected artwork preview" decoding="async" loading="lazy">
+            <div id="previewArtworkConcepts" class="preview-concepts"></div>
+        </div>
+    </div>
+
+</main>
+
+<script src="gallery.js"></script>
+</body>
+</html>

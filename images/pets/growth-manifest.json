@@ -1,0 +1,176 @@
+{
+  "rabbit": {
+    "sheet": "images/pets/rabbit-growth-v1.png",
+    "stages": {
+      "baby": [
+        167,
+        130,
+        357,
+        438
+      ],
+      "young": [
+        177,
+        575,
+        395,
+        640
+      ],
+      "growing": [
+        715,
+        19,
+        395,
+        548
+      ],
+      "grown": [
+        744,
+        567,
+        438,
+        653
+      ]
+    }
+  },
+  "cat": {
+    "sheet": "images/pets/cat-growth-v1.png",
+    "stages": {
+      "baby": [
+        90,
+        130,
+        417,
+        450
+      ],
+      "young": [
+        48,
+        603,
+        519,
+        601
+      ],
+      "growing": [
+        653,
+        5,
+        538,
+        573
+      ],
+      "grown": [
+        633,
+        582,
+        608,
+        623
+      ]
+    }
+  },
+  "dog": {
+    "sheet": "images/pets/dog-growth-v1.png",
+    "stages": {
+      "baby": [
+        148,
+        120,
+        375,
+        443
+      ],
+      "young": [
+        74,
+        603,
+        524,
+        591
+      ],
+      "growing": [
+        693,
+        37,
+        458,
+        532
+      ],
+      "grown": [
+        653,
+        576,
+        579,
+        648
+      ]
+    }
+  },
+  "lion": {
+    "sheet": "images/pets/lion-growth-v1.png",
+    "stages": {
+      "baby": [
+        138,
+        85,
+        443,
+        456
+      ],
+      "young": [
+        117,
+        593,
+        490,
+        612
+      ],
+      "growing": [
+        667,
+        19,
+        544,
+        534
+      ],
+      "grown": [
+        627,
+        558,
+        624,
+        655
+      ]
+    }
+  },
+  "panda": {
+    "sheet": "images/pets/panda-growth-v1.png",
+    "stages": {
+      "baby": [
+        97,
+        214,
+        471,
+        324
+      ],
+      "young": [
+        46,
+        607,
+        535,
+        579
+      ],
+      "growing": [
+        724,
+        67,
+        473,
+        488
+      ],
+      "grown": [
+        646,
+        567,
+        598,
+        620
+      ]
+    }
+  },
+  "tiger": {
+    "sheet": "images/pets/tiger-growth-v1.png",
+    "stages": {
+      "baby": [
+        141,
+        144,
+        401,
+        468
+      ],
+      "young": [
+        59,
+        642,
+        568,
+        572
+      ],
+      "growing": [
+        714,
+        26,
+        490,
+        588
+      ],
+      "grown": [
+        654,
+        614,
+        596,
+        611
+      ]
+    }
+  }
+}

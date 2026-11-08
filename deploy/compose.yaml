@@ -1,0 +1,47 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    env_file: ${LIKHA_ENV_FILE:-../.env}
+    environment:
+      LIKHA_ENV: production
+      LIKHA_DATA_DIR: /data
+      LIKHA_STATIC_ROOT: /app/staticfiles
+      LIKHA_TRUST_PROXY: "1"
+      PYTHONPATH: /app/backend
+    volumes:
+      - private_data:/data
+      - public_static:/app/staticfiles
+    restart: unless-stopped
+    expose:
+      - "8000"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,urllib.request; r=urllib.request.Request('http://127.0.0.1:8000/health/ready',headers={'Host':os.environ['DJANGO_ALLOWED_HOSTS'].split(',')[0],'X-Forwarded-Proto':'https','X-Health-Token':os.environ['LIKHA_HEALTH_TOKEN']}); urllib.request.urlopen(r,timeout=5)"]
+      interval: 30s
+      timeout: 8s
+      retries: 3
+  proxy:
+    image: caddy:2-alpine@sha256:78bd35025c7ba85961dd149ae670315129954e77abe2383ac47c89106b35ade9
+    environment:
+      LIKHA_DOMAIN: ${LIKHA_DOMAIN:?Set LIKHA_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - public_static:/srv/static:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+volumes:
+  private_data:
+  public_static:
+  caddy_data:
+  caddy_config:

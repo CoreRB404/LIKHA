@@ -1,0 +1,45 @@
+# No Render database/disk: Supabase supplies PostgreSQL and private artwork storage.
+services:
+  - type: web
+    name: likha
+    runtime: python
+    plan: free
+    buildCommand: pip install --require-hashes -r requirements/production.txt && python deploy/render_build.py
+    startCommand: python deploy/render_start.py
+    healthCheckPath: /health/live
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: LIKHA_ENV
+        value: production
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: LIKHA_HEALTH_TOKEN
+        generateValue: true
+      - key: LIKHA_TRUST_PROXY
+        value: "1"
+      - key: LIKHA_PROXY_MODE
+        value: render
+      - key: LIKHA_DATA_DIR
+        value: /tmp/likha-runtime
+      - key: LIKHA_STATIC_ROOT
+        value: /opt/render/project/src/backend/staticfiles
+      - key: LIKHA_MEDIA_BACKEND
+        value: supabase
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_STORAGE_BUCKET
+        value: likha-private
+      - key: DJANGO_ALLOWED_HOSTS
+        sync: false
+      - key: LIKHA_ORIGIN
+        sync: false
+      - key: LIKHA_PRIVACY_CONTACT
+        sync: false
+      - key: LIKHA_PRIVACY_APPROVED
+        sync: false

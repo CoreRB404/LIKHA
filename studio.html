@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIKHA Creative Studio</title>
+    <link rel="stylesheet" href="studio.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+    <script src="site.js" defer></script>
+    <script src="artwork-rewards.js"></script>
+    <script src="pet-progress.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+    <a class="brand" href="dashboard.html">🎨 LIKHA <span>Creative Studio</span></a>
+    <a class="back-link" href="dashboard.html#choose-lab">← Choose Another Lab</a>
+</header>
+
+<main class="page-wrap">
+    <section class="welcome">
+        <p class="eyebrow">YOUR IDEAS, YOUR CULTURE, YOUR ART</p>
+        <h1 id="labTitle">Welcome to LIKHA Studio!</h1>
+        <p id="labDescription">Choose a lab and bring your original ideas to life.</p>
+    </section>
+
+    <section class="studio-layout">
+        <aside class="tool-panel">
+            <h2>Creative Tools</h2>
+
+            <div class="design-section">
+                <h3>🎨 Choose Your Design</h3>
+                <p class="design-description">
+                    Select a template and make it your own!
+                </p>
+
+                <div id="templateGallery" class="template-gallery" aria-label="Design templates"></div>
+
+                <label class="field-label" for="templateSelect">Starting Template</label>
+                <select id="templateSelect">
+                    <option value="blank">Blank Canvas</option>
+                </select>
+
+                <div id="maskReferenceOptions" hidden>
+                    <label class="field-label" for="maskReferenceSelect">Mask Design</label>
+                    <select id="maskReferenceSelect">
+                        <option value="blue-gold">Blue &amp; Gold</option>
+                        <option value="purple-gold">Purple &amp; Gold</option>
+                        <option value="turquoise-stars">Turquoise &amp; Stars</option>
+                        <option value="coral-gold">Coral &amp; Gold</option>
+                    </select>
+                </div>
+
+                <button id="applyTemplate" type="button" class="button button-secondary">
+                    Use Template
+                </button>
+            </div>
+
+            <div class="tool-divider"></div>
+
+            <div class="design-section">
+                <h3>🧵 Filipino-Inspired Patterns</h3>
+                <p id="patternInstructions" class="design-description">
+                    Choose a pattern, then apply it to your canvas.
+                </p>
+
+                <div id="patternGallery" class="pattern-gallery" role="group" aria-label="Pattern choices"></div>
+
+                <button id="applyPatternBtn" type="button" class="button button-secondary">
+                    ✨ Apply Selected Pattern
+                </button>
+            </div>
+
+            <div class="tool-divider"></div>
+
+            <label class="field-label" for="colorPicker">Choose a Color</label>
+            <input id="colorPicker" type="color" value="#e84d8a">
+
+            <div class="swatches">
+                <button class="swatch" data-color="#e84d8a" style="--swatch:#e84d8a" aria-label="Pink"></button>
+                <button class="swatch" data-color="#f4b942" style="--swatch:#f4b942" aria-label="Yellow"></button>
+                <button class="swatch" data-color="#339966" style="--swatch:#339966" aria-label="Green"></button>
+                <button class="swatch" data-color="#4169e1" style="--swatch:#4169e1" aria-label="Blue"></button>
+                <button class="swatch" data-color="#8b5cf6" style="--swatch:#8b5cf6" aria-label="Purple"></button>
+                <button class="swatch" data-color="#202b46" style="--swatch:#202b46" aria-label="Navy"></button>
+                <button class="swatch" data-color="#ffffff" style="--swatch:#ffffff" aria-label="White"></button>
+                <button class="swatch" data-color="#111111" style="--swatch:#111111" aria-label="Black"></button>
+            </div>
+
+            <label class="field-label" for="brushSize">
+                Brush Size <span><span id="brushSizeValue">8</span> px</span>
+            </label>
+            <input id="brushSize" type="range" min="2" max="36" value="8">
+
+            <div class="tool-divider"></div>
+
+            <h3>Add to Your Design</h3>
+
+            <div class="button-grid">
+                <button id="drawMode"
+                        class="button button-secondary active">
+                    🖌️ Draw
+                </button>
+
+                <button id="addCircle"
+                        class="button button-secondary">
+                    🔵 Circle
+                </button>
+
+                <button id="addStar"
+                        class="button button-secondary">
+                    ⭐ Star
+                </button>
+
+                <button id="addHeart"
+                        class="button button-secondary">
+                    💗 Heart
+                </button>
+
+                <button id="addFlower"
+                        class="button button-secondary">
+                    🌸 Flower
+                </button>
+
+                <button id="addDiamond"
+                        class="button button-secondary">
+                    💎 Diamond
+                </button>
+            </div>
+
+            <p class="hint">
+                Choose a template, apply Filipino-inspired patterns,
+                or use the drawing tools to create your own design.
+            </p>
+        </aside>
+
+        <section class="canvas-panel">
+            <div id="craftWorkspace">
+            <div class="canvas-heading">
+                <div>
+                    <h2>Your Artwork</h2>
+                    <p>Express your creativity using colors, shapes, and patterns.</p>
+                </div>
+                <div class="canvas-heading-actions">
+                    <button id="referenceToggle" class="button button-secondary" type="button" aria-controls="referencePanel" aria-expanded="true" hidden>Hide mask</button>
+                    <button id="referenceNext" class="button button-secondary tutorial-open" type="button" aria-controls="referenceTutorial" aria-expanded="false" hidden>Tutorial &rarr;</button>
+                <span id="canvasToolStatus" class="live-badge" role="status">Draw: drag on the canvas</span>
+                <span class="live-badge">● Creative Mode</span>
+                </div>
+            </div>
+
+            <div class="canvas-wrap">
+                <canvas id="artCanvas" width="1000" height="700"></canvas>
+                <div class="reference-panel" id="referencePanel" hidden>
+                    <div id="referenceControls" class="reference-controls" hidden>
+                        <button id="referenceHide" class="reference-close" type="button" aria-label="Hide mask reference">&times;</button>
+                    </div>
+                    <canvas id="referenceCanvas" width="1000" height="700" aria-label="Selected design reference"></canvas>
+                    <div id="maskReferenceChoices" class="mask-reference-choices" role="group" aria-label="Mask design choices" hidden></div>
+                    <p id="maskReferenceError" class="reference-video-error" hidden>Could not load the mask designs. <a href="festival_lab/mask.jpg" target="_blank" rel="noopener">Open image</a></p>
+                    <div id="referenceResizeControls" class="reference-resize-controls" hidden>
+                        <button id="referenceSmaller" type="button" aria-label="Make mask reference smaller">&minus;</button>
+                        <button id="referenceLarger" type="button" aria-label="Make mask reference larger">+</button>
+                        <button id="referenceReset" type="button" aria-label="Reset mask reference size and position">Reset</button>
+                        <button id="referenceResize" class="reference-resize" type="button" aria-label="Drag to resize mask reference">&#8600;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-actions">
+                <button id="undoButton" class="button button-secondary">↶ Undo</button>
+                <button id="clearButton" class="button button-danger">Clear Canvas</button>
+                <button id="downloadButton" class="button button-primary">⬇ Download Artwork</button>
+                <button id="saveArtworkBtn" type="button" class="save-artwork-btn">
+                    💾 Save Artwork
+                </button>
+            </div>
+
+            <p id="statusMessage" class="status-message" role="status">
+                Your creative space is ready!
+            </p>
+            </div>
+            <section id="referenceTutorial" class="craft-tutorial-view" aria-labelledby="craftTutorialTitle" hidden>
+                <div class="craft-tutorial-heading">
+                    <div>
+                        <h3 id="craftTutorialTitle">Craft tutorial</h3>
+                        <p>Watch the steps, then return to your canvas to try it yourself.</p>
+                    </div>
+                    <button id="tutorialBack" class="button button-secondary" type="button">&larr; Back to canvas</button>
+                </div>
+                <div class="craft-tutorial-layout">
+                    <div class="craft-tutorial-player">
+                        <video id="referenceVideo" controls playsinline preload="none" aria-label="Craft tutorial"></video>
+                        <p id="referenceVideoError" class="reference-video-error" hidden>
+                            The tutorial could not load. <a id="referenceVideoLink" target="_blank" rel="noopener">Open video</a> to try again.
+                        </p>
+                    </div>
+                    <aside class="craft-materials" aria-labelledby="craftMaterialsTitle">
+                        <h4 id="craftMaterialsTitle">Materials</h4>
+                        <p>Get these ready before you start.</p>
+                        <ul id="craftMaterialsList"></ul>
+                    </aside>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <section class="concept-note">
+        <span>🌺</span>
+        <div>
+            <strong>Make It Meaningful!</strong>
+            <p>
+                Use your own ideas to express Filipino identity, culture, community,
+                traditions, or personal experiences. Your design does not need to
+                look like anyone else's.
+            </p>
+        </div>
+    </section>
+</main>
+
+<section id="artworkDetailsModal" class="details-modal" hidden>
+    <form id="artworkDetailsForm" class="details-card">
+        <h2>🌺 Save Your Masterpiece!</h2>
+        <p>Tell us about your artwork.</p>
+
+        <label for="artworkTitle">Artwork Title *</label>
+        <input id="artworkTitle" type="text" maxlength="100"
+               placeholder="Give your artwork a title" required>
+
+        <label for="artworkSubject">Subject</label>
+        <input id="artworkSubject" type="text" placeholder="What is shown?">
+
+        <label for="artworkTheme">Theme</label>
+        <input id="artworkTheme" type="text" placeholder="What is your main idea?">
+
+        <label for="artworkForm">Form</label>
+        <input id="artworkForm" type="text" placeholder="What shapes or structure did you use?">
+
+        <label for="artworkStyle">Style</label>
+        <input id="artworkStyle" type="text" placeholder="Describe your artistic style">
+
+        <label for="artworkSymbolism">Symbolism</label>
+        <input id="artworkSymbolism" type="text" placeholder="What do your symbols mean?">
+
+        <label for="artworkMedium">Medium</label>
+        <input id="artworkMedium" type="text" placeholder="What tools or materials did you use?">
+
+        <div class="details-actions">
+            <button type="submit" id="confirmSaveBtn">Save to My Gallery</button>
+            <button id="cancelSaveBtn" type="button">Cancel</button>
+        </div>
+    </form>
+</section>
+
+<script src="mask-reference.js"></script>
+<script src="studio.js"></script>
+</body>
+</html>

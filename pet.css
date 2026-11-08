@@ -1,0 +1,256 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #fff8ef;
+    color: #243047;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 7%;
+    background: white;
+    box-shadow: 0 3px 15px rgba(36, 48, 71, 0.08);
+}
+
+.brand {
+    color: #243047;
+    font-size: 22px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.back-link {
+    color: #2a9d8f;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.container {
+    width: min(1050px, 92%);
+    margin: 35px auto;
+}
+
+.hero {
+    text-align: center;
+    padding: 25px 10px;
+}
+
+.eyebrow {
+    color: #e76f8a;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+.hero h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    margin: 10px 0;
+}
+
+.hero > p:last-child {
+    color: #687386;
+    line-height: 1.6;
+}
+
+.pet-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    padding: 28px;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(36, 48, 71, 0.08);
+}
+
+.pet-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffe4e8, #fff0d8);
+}
+
+.pet-display h2 {
+    margin: 10px 0 3px;
+}
+
+#petStage {
+    color: #e76f8a;
+    font-weight: 800;
+}
+
+.progress-track {
+    width: 100%;
+    max-width: 280px;
+    height: 14px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0;
+    height: 100%;
+    background: #2a9d8f;
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+#progressText,
+#petMessage {
+    color: #687386;
+    line-height: 1.5;
+}
+
+.pet-settings {
+    padding: 10px;
+}
+
+.pet-settings h2,
+.reward-card h2 {
+    margin-top: 5px;
+}
+
+.pet-settings label {
+    display: block;
+    margin: 18px 0 7px;
+    font-weight: 700;
+}
+
+.pet-settings input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d8dce5;
+    border-radius: 10px;
+    background: white;
+    font-size: 15px;
+}
+
+.character-label {
+    display: block;
+    margin: 18px 0 7px;
+    font-weight: 700;
+}
+
+.character-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.pet-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding: 10px 6px;
+    border: 2px solid #d8dce5;
+    background: white;
+    color: #243047;
+    font-size: 12px;
+    line-height: 1.25;
+}
+
+.pet-option.selected {
+    border-color: #e76f8a;
+    background: #fff2f5;
+    box-shadow: 0 0 0 2px rgba(231, 111, 138, 0.12);
+}
+
+.pet-option img {
+    width: 62px;
+    height: 62px;
+    object-fit: contain;
+}
+
+button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.primary-btn {
+    color: white;
+    background: #e76f8a;
+}
+
+.secondary-btn {
+    color: white;
+    background: #2a9d8f;
+}
+
+.reward-card {
+    margin-top: 25px;
+    padding: 25px;
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(36, 48, 71, 0.06);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stats > div {
+    padding: 20px;
+    text-align: center;
+    background: #f5f3ff;
+    border-radius: 16px;
+}
+
+.stats span {
+    font-size: 32px;
+    color: #e76f8a;
+    font-weight: 900;
+}
+
+.stats p {
+    margin-bottom: 0;
+    color: #687386;
+}
+
+.note {
+    font-size: 13px;
+    color: #687386;
+    line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+    .pet-card {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    .pet-emoji {
+        font-size: 90px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+}

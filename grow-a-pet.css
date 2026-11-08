@@ -1,0 +1,136 @@
+/* Pet selection layout */
+.pet-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: stretch;
+}
+
+/* Individual pet cards */
+.pet-option {
+    width: 110px;
+    min-height: 125px;
+    padding: 12px;
+    border: 2px solid #f0dfc8;
+    border-radius: 18px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.pet-option img {
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.pet-option span {
+    font-size: 15px;
+    font-weight: 700;
+    color: #30251f;
+}
+
+.pet-option:hover {
+    transform: translateY(-3px);
+    border-color: #cc3152;
+}
+
+.pet-option.selected {
+    border-color: #cc3152;
+    background: #fff0f3;
+    box-shadow: 0 3px 10px rgba(204, 49, 82, 0.12);
+}
+
+.pet-growth-journey {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.pet-stage-card {
+    min-width: 0;
+    padding: 14px;
+    border: 2px solid #f0dfc8;
+    border-radius: 18px;
+    background: #fff8ef;
+    text-align: center;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.pet-stage-image {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 8px;
+    object-fit: cover;
+    border-radius: 14px;
+    background: white;
+}
+
+.pet-stage-card h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.pet-stage-card p {
+    margin: 0;
+    color: #687386;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.pet-stage-status {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #eee8df;
+    color: #63584d;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.pet-stage-card.is-current {
+    border-color: #e76f8a;
+    background: #fff0f3;
+    box-shadow: 0 4px 14px rgba(231, 111, 138, 0.14);
+}
+
+.pet-stage-card.is-current .pet-stage-status {
+    background: #e76f8a;
+    color: white;
+}
+
+.pet-stage-card.is-completed {
+    border-color: #83b99a;
+    background: #eff8f1;
+}
+
+.pet-stage-card.is-completed .pet-stage-status {
+    background: #d7eddd;
+    color: #286440;
+}
+
+.pet-stage-card.is-locked {
+    opacity: 0.78;
+}
+
+@media (max-width: 700px) {
+    .pet-growth-journey {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #petPreview,
+    #petPreview.is-growing {
+        animation: none;
+        transition: none;
+    }
+}

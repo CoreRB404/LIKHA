@@ -1,0 +1,384 @@
+.choose-lab-section {
+    padding: 50px 6%;
+    background: #fff9ed;
+    font-family: 'Poppins', sans-serif;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-tag {
+    display: inline-block;
+    background: #ffdf8b;
+    color: #7b421e;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.section-heading h2 {
+    color: #244b8f;
+    font-size: clamp(28px, 4vw, 42px);
+    margin: 14px 0 10px;
+    font-weight: 800;
+}
+
+.section-heading p {
+    color: #6b6258;
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.lab-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.lab-card {
+    padding: 25px 20px;
+    border: 3px solid transparent;
+    border-radius: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 7px 0 rgba(40, 45, 70, 0.08);
+}
+
+.lab-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 13px 22px rgba(40, 45, 70, 0.12);
+}
+
+.fashion-lab {
+    background: #ffe5ee;
+    border-color: #f4a7c4;
+}
+
+.festival-lab {
+    background: #fff0c9;
+    border-color: #f3cd70;
+}
+
+.craft-lab {
+    background: #dff5e5;
+    border-color: #9bd4ad;
+}
+
+.art-lab {
+    background: #e3eaff;
+    border-color: #a8bdf5;
+}
+
+.lab-icon {
+    width: 115px;
+    height: 115px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.lab-icon img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+}
+
+.lab-card h3 {
+    font-size: 21px;
+    color: #263e65;
+    margin: 8px 0;
+}
+
+.lab-card p {
+    font-size: 13px;
+    color: #5f6270;
+    line-height: 1.7;
+    margin: 0 0 22px;
+    flex-grow: 1;
+}
+
+.lab-card button {
+    border: none;
+    border-radius: 30px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    width: 100%;
+    max-width: 190px;
+}
+
+.lab-card button:hover {
+    transform: scale(1.04);
+    filter: brightness(1.06);
+}
+
+.fashion-lab button {
+    background: #d94f88;
+}
+
+.festival-lab button {
+    background: #d99a19;
+}
+
+.craft-lab button {
+    background: #39935a;
+}
+
+.art-lab button {
+    background: #496bd1;
+}
+
+/* Tablet */
+@media (max-width: 1000px) {
+    .lab-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+    .choose-lab-section {
+        padding: 35px 5%;
+    }
+
+    .lab-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lab-card {
+        padding: 24px;
+    }
+}
+
+/* =================================
+   MY LIKHA ACHIEVEMENTS
+================================= */
+
+/* Smooth navigation to My LIKHA Achievements */
+#myAchievements {
+    scroll-margin-top: 20px;
+}
+
+.achievements-section {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 25px 0;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #f0e5d5;
+    border-radius: 22px;
+    box-shadow: 0 5px 18px rgba(80, 60, 40, 0.05);
+}
+
+.achievements-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.achievements-label {
+    color: #c58b19;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.achievements-heading h2 {
+    margin: 8px 0;
+    color: #3b3028;
+    font-size: 24px;
+}
+
+.achievements-heading p {
+    margin: 0;
+    color: #81786d;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Progress card */
+.achievement-progress-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    margin-bottom: 22px;
+    background: #fff6dc;
+    border-radius: 16px;
+}
+
+.progress-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 55px;
+    height: 55px;
+    background: #ffe7a1;
+    border-radius: 15px;
+    font-size: 28px;
+}
+
+.progress-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.progress-content h3 {
+    margin: 0 0 7px;
+    color: #3b3028;
+    font-size: 16px;
+}
+
+.progress-content p {
+    margin: 0 0 12px;
+    color: #81786d;
+    font-size: 12px;
+}
+
+.achievement-progress-track {
+    height: 10px;
+    overflow: hidden;
+    background: #eadfc8;
+    border-radius: 20px;
+}
+
+.achievement-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #e8b43e, #e96c91);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+/* Achievement cards */
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.achievement-card {
+    min-width: 0;
+    padding: 20px 12px;
+    text-align: center;
+    background: #fffaf2;
+    border: 1px solid #f0e5d5;
+    border-radius: 17px;
+}
+
+.achievement-card.unlocked {
+    background: #fff8e6;
+    border-color: #efd18a;
+}
+
+.achievement-card.locked {
+    background: #f7f5f0;
+    opacity: 0.7;
+}
+
+.achievement-icon {
+    display: grid;
+    place-items: center;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 12px;
+    background: #ffedc2;
+    border-radius: 50%;
+    font-size: 28px;
+}
+
+.achievement-card.locked .achievement-icon {
+    background: #e8e5de;
+    filter: grayscale(1);
+}
+
+.achievement-card h3 {
+    margin: 0 0 8px;
+    color: #3b3028;
+    font-size: 14px;
+}
+
+.achievement-card p {
+    margin: 0;
+    color: #81786d;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.achievement-status {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 10px;
+    color: #79551a;
+    background: #ffedc2;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.achievement-card.locked .achievement-status {
+    color: #69645b;
+    background: #e8e5de;
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+    .achievement-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .achievements-section {
+        padding: 17px;
+    }
+
+    .achievements-heading h2 {
+        font-size: 21px;
+    }
+
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .achievement-progress-card {
+        padding: 13px;
+    }
+}
+
+/* LIKHA welcome banner image */
+.likha-banner-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 240px;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 18px;
+}
+
+/* Keep the banner image responsive */
+@media (max-width: 768px) {
+    .likha-banner-image {
+        max-height: 180px;
+    }
+}

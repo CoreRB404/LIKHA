@@ -1,0 +1,205 @@
+[
+  {
+    "name": "Django",
+    "version": "5.2.19",
+    "license_expression": "BSD-3-Clause",
+    "license": null,
+    "project_urls": {
+      "Documentation": "https://docs.djangoproject.com/",
+      "Funding": "https://www.djangoproject.com/fundraising/",
+      "Homepage": "https://www.djangoproject.com/",
+      "Release notes": "https://docs.djangoproject.com/en/stable/releases/",
+      "Source": "https://github.com/django/django",
+      "Tracker": "https://code.djangoproject.com/"
+    }
+  },
+  {
+    "name": "Pillow",
+    "version": "13.0.0",
+    "license_expression": "MIT-CMU",
+    "license": null,
+    "project_urls": {
+      "Changelog": "https://github.com/python-pillow/Pillow/releases",
+      "Documentation": "https://pillow.readthedocs.io",
+      "Funding": "https://tidelift.com/lifter/search/pypi/pillow",
+      "Homepage": "https://python-pillow.org",
+      "Mastodon": "https://fosstodon.org/@pillow",
+      "Release notes": "https://pillow.readthedocs.io/en/stable/releasenotes/index.html",
+      "Security": "https://pillow.readthedocs.io/en/stable/handbook/security.html",
+      "Source": "https://github.com/python-pillow/Pillow"
+    }
+  },
+  {
+    "name": "argon2-cffi",
+    "version": "25.1.0",
+    "license_expression": "MIT",
+    "license": null,
+    "project_urls": {
+      "Changelog": "https://github.com/hynek/argon2-cffi/blob/main/CHANGELOG.md",
+      "Documentation": "https://argon2-cffi.readthedocs.io/",
+      "Funding": "https://github.com/sponsors/hynek",
+      "GitHub": "https://github.com/hynek/argon2-cffi",
+      "Tidelift": "https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek"
+    }
+  },
+  {
+    "name": "argon2-cffi-bindings",
+    "version": "26.1.0",
+    "license_expression": "MIT",
+    "license": null,
+    "project_urls": {
+      "Changelog": "https://github.com/hynek/argon2-cffi-bindings/blob/main/CHANGELOG.md",
+      "Funding": "https://github.com/sponsors/hynek",
+      "GitHub": "https://github.com/hynek/argon2-cffi-bindings",
+      "Tidelift": "https://tidelift.com/?utm_source=lifter&utm_medium=referral&utm_campaign=hynek"
+    }
+  },
+  {
+    "name": "asgiref",
+    "version": "3.13.0",
+    "license_expression": null,
+    "license": "BSD-3-Clause",
+    "project_urls": {
+      "Changelog": "https://github.com/django/asgiref/blob/master/CHANGELOG.txt",
+      "Documentation": "https://asgi.readthedocs.io/",
+      "Further Documentation": "https://docs.djangoproject.com/en/stable/topics/async/#async-adapter-functions",
+      "Homepage": "https://github.com/django/asgiref/"
+    }
+  },
+  {
+    "name": "cffi",
+    "version": "2.1.1",
+    "license_expression": "MIT-0",
+    "license": null,
+    "project_urls": {
+      "Changelog": "https://cffi.readthedocs.io/en/latest/whatsnew.html",
+      "Contact": "https://groups.google.com/forum/#!forum/python-cffi",
+      "Documentation": "https://cffi.readthedocs.io/",
+      "Download": "https://github.com/python-cffi/cffi/releases",
+      "Issue Tracker": "https://github.com/python-cffi/cffi/issues",
+      "Source Code": "https://github.com/python-cffi/cffi"
+    }
+  },
+  {
+    "name": "cryptography",
+    "version": "50.0.2",
+    "license_expression": "Apache-2.0 OR BSD-3-Clause",
+    "license": null,
+    "project_urls": {
+      "changelog": "https://cryptography.io/en/latest/changelog/",
+      "documentation": "https://cryptography.io/",
+      "homepage": "https://github.com/pyca/cryptography",
+      "issues": "https://github.com/pyca/cryptography/issues",
+      "source": "https://github.com/pyca/cryptography/"
+    }
+  },
+  {
+    "name": "django-otp",
+    "version": "1.7.5",
+    "license_expression": "Unlicense",
+    "license": null,
+    "project_urls": {
+      "Documentation": "https://django-otp-official.readthedocs.io/",
+      "Homepage": "https://github.com/django-otp/django-otp"
+    }
+  },
+  {
+    "name": "pycparser",
+    "version": "3.12",
+    "license_expression": "BSD-3-Clause",
+    "license": null,
+    "project_urls": {
+      "Homepage": "https://github.com/eliben/pycparser"
+    }
+  },
+  {
+    "name": "sqlparse",
+    "version": "0.6.1",
+    "license_expression": null,
+    "license": null,
+    "project_urls": {
+      "Documentation": "https://sqlparse.readthedocs.io/",
+      "Home": "https://github.com/andialbrecht/sqlparse",
+      "Release Notes": "https://sqlparse.readthedocs.io/en/latest/changes.html",
+      "Source": "https://github.com/andialbrecht/sqlparse",
+      "Tracker": "https://github.com/andialbrecht/sqlparse/issues"
+    }
+  },
+  {
+    "name": "tzdata",
+    "version": "2026.6",
+    "license_expression": null,
+    "license": "Apache-2.0",
+    "project_urls": {
+      "Bug Reports": "https://github.com/python/tzdata/issues",
+      "Documentation": "https://tzdata.python.org",
+      "Homepage": "https://github.com/python/tzdata",
+      "Source": "https://github.com/python/tzdata"
+    }
+  },
+  {
+    "name": "waitress",
+    "version": "3.0.2",
+    "license_expression": null,
+    "license": "ZPL 2.1",
+    "project_urls": {
+      "Changelog": "https://docs.pylonsproject.org/projects/waitress/en/latest/index.html#change-history",
+      "Documentation": "https://docs.pylonsproject.org/projects/waitress/en/latest/index.html",
+      "Homepage": "https://github.com/Pylons/waitress",
+      "Issue Tracker": "https://github.com/Pylons/waitress/issues"
+    }
+  },
+  {
+    "name": "psycopg",
+    "version": "3.3.8",
+    "license_expression": "LGPL-3.0-only",
+    "license": null,
+    "project_urls": {
+      "Changes": "https://psycopg.org/psycopg3/docs/news.html",
+      "Code": "https://github.com/psycopg/psycopg",
+      "Documentation": "https://psycopg.org/psycopg3/docs/",
+      "Funding": "https://github.com/sponsors/dvarrazzo",
+      "Homepage": "https://psycopg.org/",
+      "Issue Tracker": "https://github.com/psycopg/psycopg/issues"
+    }
+  },
+  {
+    "name": "psycopg-binary",
+    "version": "3.3.8",
+    "license_expression": "LGPL-3.0-only",
+    "license": null,
+    "project_urls": {
+      "Changes": "https://psycopg.org/psycopg3/docs/news.html",
+      "Code": "https://github.com/psycopg/psycopg",
+      "Documentation": "https://psycopg.org/psycopg3/docs/",
+      "Funding": "https://github.com/sponsors/dvarrazzo",
+      "Homepage": "https://psycopg.org/",
+      "Issue Tracker": "https://github.com/psycopg/psycopg/issues"
+    }
+  },
+  {
+    "name": "whitenoise",
+    "version": "6.12.0",
+    "license_expression": "MIT",
+    "license": null,
+    "project_urls": {
+      "Changelog": "https://whitenoise.readthedocs.io/en/stable/changelog.html",
+      "Documentation": "https://whitenoise.readthedocs.io/",
+      "Repository": "https://github.com/evansd/whitenoise"
+    }
+  },
+  {
+    "name": "typing_extensions",
+    "version": "4.15.0",
+    "license_expression": "PSF-2.0",
+    "license": null,
+    "project_urls": {
+      "Bug Tracker": "https://github.com/python/typing_extensions/issues",
+      "Changes": "https://github.com/python/typing_extensions/blob/main/CHANGELOG.md",
+      "Documentation": "https://typing-extensions.readthedocs.io/",
+      "Home": "https://github.com/python/typing_extensions",
+      "Q & A": "https://github.com/python/typing/discussions",
+      "Repository": "https://github.com/python/typing_extensions"
+    }
+  }
+]

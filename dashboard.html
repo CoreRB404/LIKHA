@@ -1,0 +1,4562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIKHA | Student Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="challenge.css">
+<link rel="stylesheet" href="dashboard.css">
+
+<style>
+:root {
+    --cream: #fffaf0;
+    --gold: #d8a52c;
+    --gold-light: #ffedb5;
+    --red: #c93250;
+    --blue: #3679c7;
+    --teal: #36aaa3;
+    --green: #4c9b72;
+    --orange: #ed873d;
+    --ink: #443629;
+    --muted: #827565;
+    --white: #ffffff;
+    --line: #f0e5d2;
+    --shadow: 0 7px 22px rgba(91,65,34,.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Nunito", sans-serif;
+    background-color: var(--cream);
+    background-image:
+        linear-gradient(rgba(255, 250, 240, 0.64), rgba(255, 250, 240, 0.64)),
+        url("assets/dashboard-design.webp");
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--ink);
+    min-height: 100vh;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button, a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+/* Layout */
+
+.app {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: #fffdf7;
+    border-right: 1px solid var(--line);
+    padding: 25px 17px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px;
+}
+
+.brand img {
+    width: 49px;
+    height: 49px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.brand-name {
+    color: var(--gold);
+    font-family: "Baloo 2", cursive;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.brand-caption {
+    font-size: .58rem;
+    font-weight: 900;
+    letter-spacing: .6px;
+    margin-top: 5px;
+}
+
+.nav-label {
+    padding: 0 12px;
+    margin-bottom: 9px;
+    color: #a89a84;
+    font-size: .7rem;
+    font-weight: 900;
+    letter-spacing: 1.3px;
+}
+
+.nav-list {
+    display: grid;
+    gap: 7px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #746654;
+    padding: 13px 12px;
+    border-radius: 14px;
+    font-weight: 800;
+    text-align: left;
+    transition: .2s;
+}
+
+.nav-item:hover {
+    background: #fff2d3;
+    color: var(--ink);
+}
+
+.nav-item.active {
+    color: white;
+    background: var(--red);
+    box-shadow: 0 4px 0 #a5233e;
+}
+
+.nav-icon {
+    width: 27px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    background: #fff1c9;
+    padding: 17px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.sidebar-bottom .mascot {
+    font-size: 2.4rem;
+    margin-bottom: 6px;
+}
+
+.sidebar-bottom strong {
+    display: block;
+    font-family: "Baloo 2", cursive;
+    font-size: 1.1rem;
+}
+
+.sidebar-bottom p {
+    font-size: .78rem;
+    color: var(--muted);
+    margin: 5px 0 12px;
+    line-height: 1.5;
+}
+
+.small-btn {
+    border: 0;
+    border-radius: 20px;
+    padding: 9px 14px;
+    background: var(--gold);
+    color: white;
+    font-weight: 900;
+    font-size: .8rem;
+}
+
+/* Main area */
+
+.main {
+    min-width: 0;
+    padding: 25px clamp(18px, 3vw, 42px) 45px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 27px;
+}
+
+.mobile-brand {
+    display: none;
+}
+
+.topbar-left h1 {
+    font-family: "Baloo 2", cursive;
+    font-size: clamp(1.65rem, 3vw, 2.3rem);
+    line-height: 1.15;
+}
+
+.topbar-left p {
+    color: var(--muted);
+    font-size: .92rem;
+    margin-top: 5px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.star-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 25px;
+    background: #fff0c7;
+    color: #896116;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.avatar-mini {
+    border: 2px solid white;
+    box-shadow: var(--shadow);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #dfeafb;
+    font-size: 1.6rem;
+}
+
+/* Welcome */
+
+.welcome-banner {
+    position: relative;
+    overflow: hidden;
+    background-color: #ffedbd;
+    border: 1px solid #f4d989;
+    border-radius: 24px;
+    padding: 27px clamp(20px, 3vw, 35px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.welcome-banner::after {
+    content: none;
+}
+
+.welcome-copy {
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-copy .tag {
+    font-size: .72rem;
+    color: #916817;
+    font-weight: 900;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.welcome-copy h2 {
+    font-family: "Baloo 2", cursive;
+    font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+    line-height: 1.1;
+    margin-bottom: 9px;
+}
+
+.welcome-copy h2 span {
+    color: var(--red);
+}
+
+.welcome-copy p {
+    max-width: 570px;
+    color: #766344;
+    line-height: 1.7;
+    font-size: .94rem;
+}
+
+.welcome-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.primary-btn, .secondary-btn {
+    border: 0;
+    border-radius: 25px;
+    padding: 12px 19px;
+    font-weight: 900;
+    transition: transform .2s;
+}
+
+.primary-btn {
+    color: white;
+    background: var(--red);
+    box-shadow: 0 4px 0 #a5233e;
+}
+
+.secondary-btn {
+    color: var(--ink);
+    background: white;
+    border: 1px solid #ead8af;
+}
+
+.primary-btn:hover, .secondary-btn:hover {
+    transform: translateY(-2px);
+}
+
+.welcome-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(32%, 300px);
+    height: 210px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Section headings */
+
+.section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 32px 0 17px;
+}
+
+.section-head h2 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.65rem;
+    line-height: 1.2;
+}
+
+.section-head p {
+    color: var(--muted);
+    font-size: .86rem;
+    margin-top: 4px;
+}
+
+.text-link {
+    color: var(--red);
+    font-size: .85rem;
+    font-weight: 900;
+    border: 0;
+    background: transparent;
+    white-space: nowrap;
+}
+
+/* Stats */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 19px;
+    padding: 19px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    font-size: 1.35rem;
+}
+
+.stat-card:nth-child(1) .stat-icon { background: #fff0c7; }
+.stat-card:nth-child(2) .stat-icon { background: #fce1e9; }
+.stat-card:nth-child(3) .stat-icon { background: #dfeafb; }
+.stat-card:nth-child(4) .stat-icon { background: #d9f3e8; }
+
+.stat-number {
+    font-family: "Baloo 2", cursive;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 13px;
+    line-height: 1;
+    overflow-wrap: anywhere;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 800;
+    margin-top: 7px;
+}
+
+/* Labs */
+
+.labs-grid,
+.lab-grid,
+.lab-container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.choose-lab-section {
+    padding-top: 4px;
+}
+
+.section-heading {
+    max-width: 720px;
+    margin: 0 auto 28px;
+    text-align: center;
+}
+
+.section-tag {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #8a6213;
+    font-size: .76rem;
+    font-weight: 900;
+    letter-spacing: .7px;
+}
+
+.section-heading h2 {
+    font-family: "Baloo 2", cursive;
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+.section-heading p {
+    margin-top: 6px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.lab-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform .2s;
+}
+
+.lab-card:hover {
+    transform: translateY(-5px);
+}
+
+.lab-icon {
+    height: 145px;
+    overflow: hidden;
+    background: #fffaf0;
+}
+
+.lab-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lab-cover {
+    min-height: 112px;
+    display: grid;
+    place-items: center;
+    font-size: 3.5rem;
+    position: relative;
+}
+
+.lab-cover.fashion { background: #fce1e9; }
+.lab-cover.festival { background: #fff0bd; }
+.lab-cover.craft { background: #dfeafb; }
+.lab-cover.art { background: #d9f3e8; }
+
+.lab-body {
+    padding: 16px;
+}
+
+.lab-body h3 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.22rem;
+}
+
+.lab-body p {
+    color: var(--muted);
+    font-size: .8rem;
+    line-height: 1.6;
+    margin: 5px 0 15px;
+    min-height: 50px;
+}
+
+.lab-open {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 10px;
+    color: white;
+    font-weight: 900;
+    background: var(--red);
+}
+
+.lab-card:nth-child(2) .lab-open { background: #c28e17; }
+.lab-card:nth-child(3) .lab-open { background: var(--blue); }
+.lab-card:nth-child(4) .lab-open { background: var(--green); }
+
+/* Lower panels */
+
+.lower-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.dashboard-card.pet-companion-card {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pet-companion-card .card-icon {
+    margin-bottom: 8px;
+    font-size: 2rem;
+}
+
+.pet-companion-card h3 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.35rem;
+}
+
+.pet-companion-card p {
+    margin: 6px 0 15px;
+    color: var(--muted);
+    font-size: .86rem;
+    line-height: 1.5;
+}
+
+.pet-companion-card .button {
+    border: 0;
+    border-radius: 12px;
+    padding: 11px 16px;
+    background: var(--green);
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 21px;
+    padding: 21px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.panel-heading h3 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.4rem;
+}
+
+.panel-heading span {
+    color: var(--muted);
+    font-size: .78rem;
+}
+
+.pet-panel {
+    background: #e8f5ed;
+    border-color: #cce7d5;
+}
+
+.pet-content {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.pet-emoji {
+    width: 115px;
+    height: 115px;
+    flex-shrink: 0;
+    border-radius: 23px;
+    background: white;
+    display: grid;
+    place-items: center;
+    font-size: 4.5rem;
+}
+
+.pet-growth-image {
+    width: 74%;
+    height: 74%;
+    object-fit: contain;
+    border-radius: 18px;
+    transition: width .35s ease, height .35s ease;
+}
+
+.pet-emoji.stage-growing .pet-growth-image {
+    width: 83%;
+    height: 83%;
+}
+
+.pet-emoji.stage-young .pet-growth-image {
+    width: 92%;
+    height: 92%;
+}
+
+.pet-emoji.stage-grown .pet-growth-image {
+    width: 100%;
+    height: 100%;
+}
+
+.pet-emoji.is-growing .pet-growth-image {
+    animation: pet-growth 850ms cubic-bezier(.2,.8,.3,1);
+}
+
+@keyframes pet-growth {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.24) rotate(-8deg); }
+    65% { transform: scale(.93) rotate(6deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pet-growth-image {
+        transition: none;
+    }
+
+    .pet-emoji.is-growing .pet-growth-image {
+        animation: none;
+    }
+}
+
+.pet-info {
+    min-width: 0;
+}
+
+.pet-info h4 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.4rem;
+}
+
+.pet-info p {
+    color: #5d7665;
+    font-size: .83rem;
+    margin: 3px 0 12px;
+    line-height: 1.6;
+}
+
+.progress-track {
+    width: 100%;
+    height: 9px;
+    background: rgba(76,155,114,.18);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    border-radius: inherit;
+    transition: width .4s;
+}
+
+.progress-caption {
+    font-size: .74rem;
+    font-weight: 900;
+    color: #4c8060;
+    margin-top: 6px;
+}
+
+.panel-action {
+    border: 0;
+    border-radius: 12px;
+    background: var(--green);
+    color: white;
+    font-weight: 900;
+    padding: 11px 14px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+/* Avatar panel */
+
+.avatar-panel {
+    background: #f0e9fb;
+    border-color: #e1d4f5;
+}
+
+.avatar-preview {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.avatar-art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 95px;
+    height: 110px;
+    border-radius: 22px;
+    background: white;
+    font-size: 4rem;
+}
+
+.avatar-art .dashboard-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dashboard-avatar-details {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    left: 3px;
+    padding: 2px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .9);
+    font-size: .9rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.avatar-mini {
+    overflow: hidden;
+}
+
+.avatar-mini .dashboard-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-description h4 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.3rem;
+}
+
+.avatar-description p {
+    font-size: .82rem;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 4px 0 8px;
+}
+
+/* Assessments */
+
+.assessment-list {
+    display: grid;
+    gap: 12px;
+}
+
+.assessment-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    border: 1px solid var(--line);
+    border-radius: 15px;
+    padding: 13px;
+}
+
+.assessment-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    background: #fff0c7;
+    border-radius: 13px;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+
+.assessment-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.assessment-details h4 {
+    font-size: .94rem;
+    font-weight: 900;
+}
+
+.assessment-details p {
+    color: var(--muted);
+    font-size: .76rem;
+    margin-top: 3px;
+}
+
+.assessment-button {
+    border: 0;
+    border-radius: 11px;
+    background: var(--blue);
+    color: white;
+    padding: 9px 12px;
+    font-size: .77rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.assessment-button.done {
+    background: var(--green);
+}
+
+/* Gallery */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.artwork-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+}
+
+.artwork-preview {
+    min-height: 110px;
+    display: grid;
+    place-items: center;
+    font-size: 2.9rem;
+    background: #fff1cf;
+}
+
+.artwork-card:nth-child(3n + 2) .artwork-preview {
+    background: #dff1ed;
+}
+
+.artwork-card:nth-child(3n) .artwork-preview {
+    background: #fce1e9;
+}
+
+.artwork-meta {
+    padding: 12px;
+}
+
+.artwork-meta h4 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.05rem;
+    overflow-wrap: anywhere;
+}
+
+.artwork-meta p {
+    font-size: .75rem;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.empty-state {
+    padding: 30px 15px;
+    text-align: center;
+    border: 2px dashed #e9dcc5;
+    border-radius: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.empty-state span {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+/* Prize collection */
+
+.prize-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.prize-mini {
+    background: #fff9e8;
+    border: 1px solid #f4e7c6;
+    border-radius: 14px;
+    padding: 15px 8px;
+    text-align: center;
+}
+
+.prize-mini .prize-emoji {
+    font-size: 2rem;
+}
+
+.prize-mini strong {
+    display: block;
+    margin-top: 6px;
+    font-size: .83rem;
+}
+
+.prize-mini p {
+    font-size: .72rem;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.notice {
+    background: #f4effb;
+    color: #665187;
+    border-radius: 13px;
+    padding: 13px;
+    margin-top: 15px;
+    font-size: .82rem;
+    line-height: 1.7;
+}
+
+/* Pages and forms */
+
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.form-field {
+    display: grid;
+    gap: 7px;
+}
+
+.form-field.full {
+    grid-column: 1 / -1;
+}
+
+.form-field label {
+    font-size: .85rem;
+    font-weight: 900;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    border: 1px solid #e4d7c2;
+    background: white;
+    padding: 12px 13px;
+    border-radius: 12px;
+    color: var(--ink);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.choice-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.choice-btn {
+    border: 2px solid var(--line);
+    background: white;
+    border-radius: 15px;
+    padding: 12px 15px;
+    font-weight: 900;
+}
+
+.choice-btn.selected {
+    border-color: var(--red);
+    background: #fff0f3;
+}
+
+.choice-btn .big-emoji {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+#petChoices .choice-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    width: 112px;
+}
+
+#petChoices img,
+.pet-stage-image {
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.pet-growth-journey {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.pet-stage-card {
+    min-width: 0;
+    padding: 14px;
+    border: 2px solid #f0dfc8;
+    border-radius: 18px;
+    background: #fff8ef;
+    text-align: center;
+    transition: border-color .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.pet-stage-card .pet-stage-image {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 8px;
+    background: white;
+}
+
+.pet-stage-card h4 {
+    margin: 0 0 5px;
+    font-weight: 900;
+}
+
+.pet-stage-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .78rem;
+    line-height: 1.5;
+}
+
+.pet-stage-status {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #eee8df;
+    color: #63584d;
+    font-size: .72rem;
+    font-weight: 900;
+}
+
+.pet-stage-card.is-current {
+    border-color: #e76f8a;
+    background: #fff0f3;
+    box-shadow: 0 4px 14px rgba(231, 111, 138, .14);
+}
+
+.pet-stage-card.is-current .pet-stage-status {
+    background: #e76f8a;
+    color: white;
+}
+
+.pet-stage-card.is-completed {
+    border-color: #83b99a;
+    background: #eff8f1;
+}
+
+.pet-stage-card.is-completed .pet-stage-status {
+    background: #d7eddd;
+    color: #286440;
+}
+
+.pet-stage-card.is-locked {
+    opacity: .78;
+}
+
+@media (max-width: 700px) {
+    .pet-growth-journey {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.avatar-custom-preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 170px;
+    border-radius: 20px;
+    background: #f0e9fb;
+    font-size: 5rem;
+    margin-bottom: 20px;
+}
+
+.avatar-custom-preview .dashboard-avatar-image {
+    width: auto;
+    height: 160px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.avatar-custom-preview .dashboard-avatar-details {
+    right: 12px;
+    bottom: 10px;
+    left: 12px;
+    font-size: 1.5rem;
+}
+
+.prize-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.prize-card {
+    border: 1px solid var(--line);
+    border-radius: 17px;
+    padding: 18px 12px;
+    text-align: center;
+    background: white;
+}
+
+.prize-card .prize-emoji {
+    font-size: 2.7rem;
+}
+
+.prize-card h4 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.05rem;
+    margin: 7px 0 4px;
+}
+
+.prize-card p {
+    color: var(--muted);
+    font-size: .77rem;
+    line-height: 1.5;
+}
+
+.prize-card .status {
+    display: inline-block;
+    border-radius: 15px;
+    background: #eee7d9;
+    padding: 5px 9px;
+    font-size: .7rem;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.prize-card .status.ready {
+    background: #fff0c7;
+    color: #866015;
+}
+
+.prize-card .status.collected {
+    background: #d9f3e8;
+    color: #317a53;
+}
+
+.prize-card button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.history-list {
+    display: grid;
+    gap: 10px;
+}
+
+.history-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 13px;
+    background: #fffaf0;
+}
+
+.history-row .history-icon {
+    font-size: 1.5rem;
+}
+
+.history-row .history-text {
+    flex: 1;
+}
+
+.history-row strong {
+    display: block;
+    font-size: .88rem;
+}
+
+.history-row p {
+    font-size: .76rem;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.history-row .history-value {
+    font-weight: 900;
+    color: var(--green);
+}
+
+/* Feedback toast */
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    max-width: min(390px, calc(100vw - 35px));
+    background: #3e694e;
+    color: white;
+    border-radius: 15px;
+    padding: 15px 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.18);
+    font-weight: 800;
+    font-size: .9rem;
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(15px);
+    pointer-events: none;
+    transition: .25s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(48,37,26,.55);
+    z-index: 1500;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 27px;
+    width: min(480px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+
+.modal-box h2 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.modal-box p {
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Responsive */
+
+@media (max-width: 1150px) {
+    .app {
+        grid-template-columns: 215px minmax(0, 1fr);
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .labs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 850px) {
+    .app {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .mobile-brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 15px;
+    }
+
+    .mobile-brand img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+    }
+
+    .mobile-brand strong {
+        font-family: "Baloo 2", cursive;
+        color: var(--gold);
+        font-size: 1.45rem;
+    }
+
+    .main {
+        padding: 18px;
+    }
+
+    .lower-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 540px) {
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .topbar-right {
+        gap: 7px;
+    }
+
+    .star-pill {
+        padding: 9px 11px;
+        font-size: .82rem;
+    }
+
+    .avatar-mini {
+        width: 41px;
+        height: 41px;
+    }
+
+    .welcome-banner {
+        align-items: flex-start;
+    }
+
+    .welcome-art {
+        display: none;
+    }
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-number {
+        font-size: 1.7rem;
+    }
+
+    .labs-grid {
+        gap: 11px;
+    }
+
+    .lab-cover {
+        min-height: 85px;
+        font-size: 2.8rem;
+    }
+
+    .lab-body {
+        padding: 12px;
+    }
+
+    .lab-body h3 {
+        font-size: 1.05rem;
+    }
+
+    .lab-body p {
+        min-height: 76px;
+        font-size: .76rem;
+    }
+
+    .pet-content {
+        align-items: flex-start;
+    }
+
+    .pet-emoji {
+        width: 80px;
+        height: 85px;
+        font-size: 3.3rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .prize-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-field.full {
+        grid-column: auto;
+    }
+
+    .assessment-item {
+        flex-wrap: wrap;
+    }
+
+    .assessment-button {
+        margin-left: auto;
+    }
+}
+
+.progress-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+    background: linear-gradient(120deg, #fff1ca, #fff9ed 62%, #e8f5e8);
+}
+
+.progress-hero h2 {
+    margin: 8px 0 2px;
+    font: 800 2rem "Baloo 2", cursive;
+}
+
+.progress-hero p,
+.progress-section-heading p,
+.progress-footnote {
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+.progress-overall,
+.progress-panel {
+    margin-bottom: 18px;
+}
+
+.progress-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.progress-section-heading h3 {
+    font: 800 1.35rem "Baloo 2", cursive;
+}
+
+.progress-section-heading p {
+    font-size: .88rem;
+    margin-top: 3px;
+}
+
+.progress-overall .progress-section-heading > strong {
+    color: var(--green);
+    font: 800 2rem "Baloo 2", cursive;
+    white-space: nowrap;
+}
+
+.progress-overall-track {
+    height: 18px;
+    margin-top: 14px;
+    background: #f0e9d8;
+}
+
+.progress-overall-track .progress-fill {
+    background: linear-gradient(90deg, #36aaa3, #73bd77);
+}
+
+.progress-footnote {
+    margin-top: 8px;
+    font-size: .76rem;
+}
+
+.progress-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 13px;
+    margin-bottom: 18px;
+}
+
+.progress-stat-card {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    min-height: 142px;
+    padding: 17px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    background: white;
+}
+
+.progress-stat-card strong {
+    font: 800 1.8rem "Baloo 2", cursive;
+    overflow-wrap: anywhere;
+}
+
+.progress-stat-card > span:last-child {
+    color: var(--muted);
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+.progress-stat-icon {
+    font-size: 1.65rem;
+}
+
+.stat-stars { background: #fff7db; border-color: #f4dfa0; }
+.stat-quizzes { background: #eaf3ff; border-color: #c8defa; }
+.stat-artworks { background: #eaf7ed; border-color: #cce8d1; }
+.stat-achievements { background: #fff0e8; border-color: #f5d2bd; }
+.stat-pet { background: #f2ecfb; border-color: #ded0f2; }
+
+.progress-skill-grid,
+.progress-identity-grid,
+.progress-badge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.progress-skill-card,
+.progress-identity-card {
+    padding: 15px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #fffdf8;
+}
+
+.progress-skill-card h4,
+.progress-identity-card h4 {
+    font: 800 1.05rem "Baloo 2", cursive;
+}
+
+.progress-skill-card p,
+.progress-identity-card p {
+    min-height: 36px;
+    margin: 3px 0 10px;
+    color: var(--muted);
+    font-size: .78rem;
+    line-height: 1.45;
+}
+
+.progress-mini-track {
+    height: 10px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #eee7dc;
+}
+
+.progress-mini-track span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ed873d, #d8a52c);
+    transition: width .6s ease;
+}
+
+.progress-measure {
+    display: block;
+    margin-top: 7px;
+    color: #766550;
+    font-size: .76rem;
+    font-weight: 900;
+}
+
+.progress-quiz-stats,
+.progress-creative-stats,
+.progress-pet-details {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.progress-quiz-stats > div,
+.progress-creative-stats > div,
+.progress-pet-details > div {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff8e8;
+}
+
+.progress-quiz-stats span,
+.progress-creative-stats span,
+.progress-pet-details span {
+    color: var(--muted);
+    font-size: .74rem;
+    font-weight: 800;
+}
+
+.progress-quiz-stats strong,
+.progress-creative-stats strong,
+.progress-pet-details strong {
+    font: 800 1.25rem "Baloo 2", cursive;
+    overflow-wrap: anywhere;
+}
+
+.progress-chart-wrap {
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 16px;
+    background: #fbfaf6;
+}
+
+#quizScoreChart {
+    display: block;
+    width: 100%;
+    min-height: 170px;
+    font-family: "Nunito", sans-serif;
+}
+
+.progress-chart-grid {
+    stroke: #e9e1d3;
+    stroke-width: 1;
+}
+
+.progress-chart-line {
+    fill: none;
+    stroke: #3679c7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4;
+}
+
+.progress-chart-point {
+    fill: #ed873d;
+    stroke: white;
+    stroke-width: 3;
+}
+
+.progress-chart-label {
+    fill: #746654;
+    font-size: 11px;
+}
+
+.progress-recent-artworks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 11px;
+    margin-top: 14px;
+}
+
+.progress-artwork-card {
+    min-width: 0;
+    padding: 12px;
+    border-radius: 15px;
+    background: #f0f7ed;
+}
+
+.progress-artwork-card strong,
+.progress-artwork-card span {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.progress-artwork-card span {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: .76rem;
+}
+
+.progress-badge-card {
+    padding: 15px;
+    border: 2px solid #e8dfd1;
+    border-radius: 17px;
+    background: #f4f1eb;
+    opacity: .68;
+}
+
+.progress-badge-card.is-unlocked {
+    border-color: #f0cf69;
+    background: linear-gradient(135deg, #fff5d5, #fffdf7);
+    opacity: 1;
+}
+
+.progress-badge-icon {
+    font-size: 1.8rem;
+}
+
+.progress-badge-card h4 {
+    margin: 4px 0;
+    font: 800 1rem "Baloo 2", cursive;
+}
+
+.progress-badge-card p {
+    color: var(--muted);
+    font-size: .76rem;
+    line-height: 1.45;
+}
+
+.progress-badge-state {
+    display: inline-block;
+    margin-top: 8px;
+    color: #796e5c;
+    font-size: .7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.progress-badge-card.is-unlocked .progress-badge-state {
+    color: #8a6413;
+}
+
+.progress-pet-details {
+    grid-template-columns: minmax(110px, .7fr) minmax(140px, .8fr) minmax(220px, 2fr);
+}
+
+.progress-pet-next .progress-track {
+    height: 12px;
+    margin: 3px 0 5px;
+    background: #e9e2f1;
+}
+
+.progress-pet-next .progress-fill {
+    background: #8d68bd;
+}
+
+.progress-pet-next span {
+    display: block;
+    line-height: 1.45;
+}
+
+.progress-next-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+    background: #fff4d7;
+}
+
+.progress-step-icon {
+    font-size: 2rem;
+}
+
+.progress-next-step h3 {
+    margin-bottom: 6px;
+    font: 800 1.3rem "Baloo 2", cursive;
+}
+
+.progress-next-step ul {
+    padding-left: 20px;
+    color: #6f604c;
+}
+
+.progress-next-step li {
+    margin: 4px 0;
+    line-height: 1.5;
+}
+
+@media (max-width: 1050px) {
+    .progress-stat-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .progress-quiz-stats,
+    .progress-creative-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .progress-hero {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .progress-stat-grid,
+    .progress-skill-grid,
+    .progress-identity-grid,
+    .progress-badge-grid,
+    .progress-recent-artworks {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .progress-quiz-stats,
+    .progress-creative-stats,
+    .progress-pet-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .progress-pet-next {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 420px) {
+    .progress-stat-grid,
+    .progress-skill-grid,
+    .progress-identity-grid,
+    .progress-badge-grid,
+    .progress-quiz-stats,
+    .progress-creative-stats,
+    .progress-recent-artworks,
+    .progress-pet-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress-mini-track span,
+    .progress-overall-track .progress-fill {
+        transition: none;
+    }
+}
+
+</style>
+    <script src="site.js" defer></script>
+    <script src="artwork-rewards.js"></script>
+    <script src="pet-progress.js"></script>
+    <script src="pet-art.js"></script>
+<link rel="stylesheet" href="pet-growth.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <a href="index.html" class="brand">
+            <img src="assets/likha-logo.webp" alt="LIKHA logo" decoding="async" loading="lazy">
+            <div>
+                <div class="brand-name">LIKHA</div>
+                <div class="brand-caption">FILIPINO CREATIVE STUDIO</div>
+            </div>
+        </a>
+
+        <div>
+            <div class="nav-label">MY CREATIVE SPACE</div>
+
+            <nav class="nav-list">
+                <button class="nav-item active" data-view="dashboard">
+                    <span class="nav-icon">🏠</span> Dashboard
+                </button>
+
+                <button class="nav-item" data-view="studio">
+                    <span class="nav-icon">🎨</span> Creative Labs
+                </button>
+
+                <button class="nav-item" data-view="gallery">
+                    <span class="nav-icon">🖼️</span> My Gallery
+                </button>
+
+                <button class="nav-item" data-view="avatar">
+                    <span class="nav-icon">🧑</span> My Avatar
+                </button>
+
+                <button class="nav-item" data-view="pet">
+                    <span class="nav-icon">🐶</span> Grow a Pet
+                </button>
+            </nav>
+        </div>
+
+        <div>
+            <div class="nav-label">MY LEARNING JOURNEY</div>
+
+            <nav class="nav-list">
+                <button class="nav-item" data-view="assessments">
+                    <span class="nav-icon">🧠</span> Weekly Quizzes
+                </button>
+
+                <button class="nav-item" data-view="progress">
+                    <span class="nav-icon">📈</span> My Progress
+                </button>
+
+            </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="mascot">🌺</div>
+            <strong>Keep Creating!</strong>
+            <p>Every artwork tells a story. Let yours shine!</p>
+            <button class="small-btn" id="sidebarCreate">Create Artwork</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <div class="mobile-brand">
+            <img src="assets/likha-logo.webp" alt="LIKHA logo" decoding="async" loading="lazy">
+            <strong>LIKHA</strong>
+        </div>
+
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 id="pageTitle">My Creative Dashboard</h1>
+                <p id="pageSubtitle">Your imagination starts here!</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="star-pill">⭐ <span id="starBalance">0</span></div>
+                <button class="avatar-mini" id="topAvatar" aria-label="Customize avatar">🧑</button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD VIEW -->
+        <section class="view active" id="view-dashboard">
+
+            <div class="welcome-banner">
+                <div class="welcome-copy">
+                    <div class="tag">✨ WELCOME TO YOUR CREATIVE WORLD</div>
+                    <h2>Hello, <span id="welcomeName">Young Artist</span>!</h2>
+                    <p>
+                        Ready to turn your imagination into art?
+                        Choose a creative lab, make something original,
+                        and collect rewards as you complete activities.
+                    </p>
+
+                    <div class="welcome-actions">
+                        <button class="primary-btn" id="welcomeCreate">🎨 Start Creating</button>
+                        <button
+                            type="button"
+                            class="secondary-btn view-progress-btn"
+                            onclick="document.getElementById('myAchievements').scrollIntoView({ behavior: 'smooth', block: 'start' })"
+                        >
+                            📈 View Progress
+                        </button>
+                    </div>
+                </div>
+
+                <div class="welcome-art">
+                    <img
+                        src="images/likha-banner.webp"
+                        alt="LIKHA Filipino Creative Studio"
+                        class="likha-banner-image"
+                     decoding="async" loading="lazy">
+                </div>
+            </div>
+
+            <!-- MY LIKHA ACHIEVEMENTS -->
+            <section class="achievements-section" id="myAchievements">
+                <div class="achievements-heading">
+                    <div>
+                        <span class="achievements-label">🏆 YOUR CREATIVE JOURNEY</span>
+                        <h2>My LIKHA Achievements</h2>
+                        <p>Keep creating, complete challenges, and collect badges!</p>
+                    </div>
+                </div>
+
+                <!-- Progress Overview -->
+                <div class="achievement-progress-card">
+                    <div class="progress-icon">🌟</div>
+
+                    <div class="progress-content">
+                        <h3>Your Creative Progress</h3>
+                        <p id="achievementProgressText">
+                            You've unlocked 0 out of 7 achievements!
+                        </p>
+
+                        <div class="achievement-progress-track">
+                            <div
+                                class="achievement-progress-fill"
+                                id="achievementProgressFill"
+                                style="width: 0%;"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievement Badges -->
+                <div class="achievement-grid" id="achievementGrid"></div>
+            </section>
+
+            <!-- DAILY CREATIVE CHALLENGE -->
+            <section class="daily-challenge" id="dailyChallenge">
+                <div class="challenge-decoration">✨🎨🌺</div>
+
+                <div class="challenge-content">
+                    <span class="challenge-label">🌟 YOUR DAILY ART ADVENTURE</span>
+
+                    <h2>Daily Creative Challenge</h2>
+
+                    <p class="challenge-intro">
+                        Ready for a creative adventure? Try a new challenge and bring
+                        your imagination to life!
+                    </p>
+
+                    <div class="challenge-card">
+                        <div class="challenge-icon" id="challengeIcon">🎨</div>
+
+                        <div class="challenge-info">
+                            <span class="challenge-lab" id="challengeLab">ART LAB</span>
+
+                            <h3 id="challengeTitle">Create Your First Masterpiece</h3>
+
+                            <p id="challengeDescription">
+                                Use colors, shapes, and your imagination to create an
+                                original artwork inspired by Filipino identity.
+                            </p>
+
+                            <p class="challenge-hint" id="challengeHint">
+                                💡 There are no wrong ideas. Be creative!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="challenge-actions">
+                        <button type="button" id="startChallengeBtn" class="challenge-start">
+                            🎨 Start Challenge
+                        </button>
+
+                        <button type="button" id="anotherChallengeBtn" class="challenge-another">
+                            🔄 Try Another Challenge
+                        </button>
+                    </div>
+
+                    <p class="challenge-note">
+                        Every challenge is optional. You can always create whatever you like!
+                    </p>
+                </div>
+            </section>
+
+            <div class="stats-grid">
+                <!-- ARTWORKS SAVED STATISTIC -->
+                <div class="stat-card">
+                    <div class="stat-icon">🖼️</div>
+                    <p class="stat-label">ARTWORKS SAVED</p>
+                    <h2 class="stat-number" id="artworksSavedCount">0</h2>
+                    <small class="stat-label">Your growing gallery</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">ACTIVITIES DONE</span>
+                        <div class="stat-icon">✅</div>
+                    </div>
+                    <h2 class="stat-number" id="activitiesDoneCount">0</h2>
+                    <div class="stat-label">Creative tasks completed</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">QUIZZES COMPLETED</span>
+                        <div class="stat-icon">🧠</div>
+                    </div>
+                    <div class="stat-number" id="quizzesCompletedCount">0</div>
+                    <div class="stat-label">Learning as you create</div>
+                </div>
+
+            </div>
+
+            <div class="section-head">
+                <div>
+                    <h2>🎨 Choose Your Creative Lab</h2>
+                    <p>Four fun ways to express your Filipino identity.</p>
+                </div>
+                <button class="text-link" data-go="studio">Explore all →</button>
+            </div>
+
+            <div class="labs-grid" id="dashboardLabs"></div>
+
+            <div class="dashboard-card pet-companion-card panel">
+                <div class="card-icon">🐣</div>
+                <h3>My LIKHA Pet</h3>
+                <p>Meet your creative companion and watch it grow as you create artwork!</p>
+                <button type="button" class="button" data-go="pet">Meet My Pet</button>
+            </div>
+
+            <div class="lower-grid">
+
+                <div class="panel pet-panel">
+                    <div class="panel-heading">
+                        <h3>🐾 My Growing Pet</h3>
+                        <button class="text-link" data-go="pet">Care & customize →</button>
+                    </div>
+
+                    <div class="pet-content">
+                        <div class="pet-emoji stage-baby" id="dashboardPetEmoji">
+                                <img class="pet-growth-image" src="images/pasted-image-2.webp" alt="Cat" decoding="async" loading="eager">
+                        </div>
+
+                        <div class="pet-info">
+                            <h4 id="dashboardPetName">Mimi</h4>
+                            <p id="dashboardPetStage">Baby Pet · Your creative companion</p>
+
+                            <div class="progress-track">
+                                <div class="progress-fill" id="dashboardPetProgress"></div>
+                            </div>
+
+                            <div class="progress-caption" id="dashboardPetProgressText">
+                                0% to next growth stage
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="panel-action" data-go="pet">Visit My Pet 🐾</button>
+                </div>
+
+                <div class="panel avatar-panel">
+                    <div class="panel-heading">
+                        <h3>🧑 My Avatar</h3>
+                    </div>
+
+                    <div class="avatar-preview">
+                        <div class="avatar-art" id="dashboardAvatar">🧑</div>
+                        <div class="avatar-description">
+                            <h4 id="dashboardAvatarName">Young Artist</h4>
+                            <p>Your character, your style! Choose your look.</p>
+                            <a href="avatar.html" class="small-btn" style="display:inline-block;text-decoration:none;">Customize Avatar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lower-grid">
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3>🧠 Weekly Learning Check</h3>
+                        <button class="text-link" data-go="assessments">All quizzes →</button>
+                    </div>
+
+                    <div class="assessment-list" id="dashboardAssessments"></div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3>📈 My Progress</h3>
+                    </div>
+                    <p>See your quiz scores, saved artworks, artistic skills, and pet growth in one place.</p>
+                    <button class="panel-action" type="button" data-go="progress">View My Progress →</button>
+                </div>
+
+            </div>
+
+            <div class="section-head">
+                <div>
+                    <h2>🖼️ Recent Artwork</h2>
+                    <p>Your latest saved creations appear here.</p>
+                </div>
+                <button class="text-link" data-go="gallery">My full gallery →</button>
+            </div>
+
+            <div id="dashboardGallery"></div>
+
+        </section>
+
+        <!-- CREATIVE LABS VIEW -->
+        <section class="view" id="view-studio">
+            <section class="choose-lab choose-lab-section" id="choose-lab">
+                <div class="section-heading">
+                    <span class="section-tag">🎨 LET'S GET CREATIVE!</span>
+                    <h2>Choose Your Creative Lab</h2>
+                    <p>Choose a space and bring your original ideas to life!</p>
+                </div>
+
+                <div class="lab-container lab-grid labs-grid" id="studioLabs"></div>
+            </section>
+        </section>
+
+        <!-- GALLERY VIEW -->
+        <section class="view" id="view-gallery">
+            <div class="section-head">
+                <div>
+                    <h2>🖼️ My LIKHA Gallery</h2>
+                    <p>Every saved artwork is part of your creative journey.</p>
+                </div>
+                <button class="primary-btn" data-go="studio">+ New Artwork</button>
+            </div>
+
+            <div id="fullGallery"></div>
+        </section>
+
+        <!-- AVATAR VIEW -->
+        <section class="view" id="view-avatar">
+            <div class="section-head">
+                <div>
+                    <h2>🧑 Avatar Designer</h2>
+                    <p>Make a character that represents your creative personality.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="avatar-custom-preview" id="avatarLargePreview">🧑</div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="avatarNameInput">Avatar Name</label>
+                        <input id="avatarNameInput" maxlength="24" placeholder="e.g. Art Star">
+                    </div>
+
+                    <div class="form-field">
+                        <label for="avatarFaceInput">Character</label>
+                        <select id="avatarFaceInput">
+                            <option value="avatar-filipino-artist-1">Creative Explorer</option>
+                            <option value="avatar-filipino-artist-2">Art Adventurer</option>
+                            <option value="avatar-filipino-artist-3">Culture Creator</option>
+                            <option value="avatar-filipino-artist-4">Pattern Maker</option>
+                            <option value="avatar-filipino-artist-5">Imagination Star</option>
+                            <option value="avatar-filipino-artist-6">Creative Trailblazer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="primary-btn" id="saveAvatar">Save My Avatar</button>
+                    <button class="secondary-btn" id="resetAvatar">Reset Choices</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PET VIEW -->
+        <section class="view" id="view-pet">
+            <div class="section-head">
+                <div>
+                    <h2>🐾 Grow-a-Pet</h2>
+                    <p>Choose a companion and help it grow by completing activities.</p>
+                </div>
+            </div>
+
+            <div class="panel pet-panel" style="margin-bottom:20px;">
+                <div class="pet-content">
+                    <div class="pet-emoji stage-baby" id="petLargeEmoji">
+                        <img class="pet-growth-image" src="images/pasted-image-2.webp" alt="Cat" decoding="async" loading="eager">
+                    </div>
+
+                    <div class="pet-info" style="flex:1;">
+                        <h4 id="petLargeName">Mimi</h4>
+                        <p id="petLargeStage">Baby Pet</p>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" id="petLargeProgress"></div>
+                        </div>
+
+                        <div class="progress-caption" id="petLargeProgressText"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" style="margin-bottom:20px;">
+                <div class="panel-heading">
+                    <h3>1. Choose Your Pet</h3>
+                </div>
+
+                <div class="choice-row" id="petChoices" role="group" aria-label="Choose a pet">
+                    <button type="button" class="choice-btn" data-pet="rabbit" aria-pressed="false">
+                        <img src="images/pasted-image-1.webp" alt="" decoding="async" loading="eager">
+                        <span>Rabbit</span>
+                    </button>
+
+                    <button type="button" class="choice-btn selected" data-pet="cat" aria-pressed="true">
+                        <img src="images/pasted-image-2.webp" alt="" decoding="async" loading="eager">
+                        <span>Cat</span>
+                    </button>
+
+                    <button type="button" class="choice-btn" data-pet="dog" aria-pressed="false">
+                        <img src="images/pasted-image-3.webp" alt="" decoding="async" loading="eager">
+                        <span>Dog</span>
+                    </button>
+
+                    <button type="button" class="choice-btn" data-pet="lion" aria-pressed="false">
+                        <img src="images/pasted-image-4.webp" alt="" decoding="async" loading="eager">
+                        <span>Lion</span>
+                    </button>
+
+                    <button type="button" class="choice-btn" data-pet="panda" aria-pressed="false">
+                        <img src="images/pasted-image-5.webp" alt="" decoding="async" loading="eager">
+                        <span>Panda</span>
+                    </button>
+
+                    <button type="button" class="choice-btn" data-pet="tiger" aria-pressed="false">
+                        <img src="images/pasted-image-6.webp" alt="" decoding="async" loading="eager">
+                        <span>Tiger</span>
+                    </button>
+                </div>
+
+                <div class="form-field" style="margin-top:18px;max-width:420px;">
+                    <label for="petNameInput">Give Your Pet a Name</label>
+                    <input id="petNameInput" maxlength="20" placeholder="e.g. Mimi">
+                </div>
+
+                <div class="form-actions">
+                    <button class="primary-btn" id="savePet">Save My Pet</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>2. Pet Growth Journey</h3>
+                </div>
+
+                <div class="pet-growth-journey" id="petGrowthJourney">
+                    <article class="pet-stage-card" data-stage="baby">
+                        <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, baby stage" decoding="async" loading="eager"></div>
+                        <h4>Baby Pet</h4>
+                        <p>0 activities · Your companion's adventure begins.</p>
+                        <span class="pet-stage-status">Current</span>
+                    </article>
+                    <article class="pet-stage-card" data-stage="growing">
+                        <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, growing stage" decoding="async" loading="eager"></div>
+                        <h4>Growing Pet</h4>
+                        <p>2 eligible activities</p>
+                        <span class="pet-stage-status">Locked</span>
+                    </article>
+                    <article class="pet-stage-card" data-stage="young">
+                        <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, young companion stage" decoding="async" loading="eager"></div>
+                        <h4>Young Companion</h4>
+                        <p>5 eligible activities</p>
+                        <span class="pet-stage-status">Locked</span>
+                    </article>
+                    <article class="pet-stage-card" data-stage="grown">
+                        <div class="pet-stage-preview"><img class="pet-stage-image" src="images/pasted-image-2.webp" alt="Cat, fully grown stage" decoding="async" loading="eager"></div>
+                        <h4>Fully Grown Companion</h4>
+                        <p>8 eligible activities</p>
+                        <span class="pet-stage-status">Locked</span>
+                    </article>
+                </div>
+
+                <div class="notice">
+                    Your pet keeps its growth progress if you miss an activity
+                    or answer a question incorrectly. Only completed eligible
+                    activities count toward the next stage.
+                </div>
+            </div>
+        </section>
+
+        <!-- ASSESSMENTS VIEW -->
+        <section class="view" id="view-assessments">
+            <div class="section-head">
+                <div>
+                    <h2>🧠 Weekly Formative Assessments</h2>
+                    <p>Practice what you learn about art and Filipino identity.</p>
+                </div>
+            </div>
+
+            <div class="notice" style="margin:0 0 18px;">
+                Each assessment opens a five-question scenario-based quiz.
+                Answers receive immediate feedback, and new questions are
+                prioritized on each practice attempt.
+            </div>
+
+            <div class="panel">
+                <div class="assessment-list" id="fullAssessments"></div>
+            </div>
+        </section>
+
+        <!-- PROGRESS VIEW -->
+        <section class="view" id="view-progress">
+            <section class="progress-hero panel">
+                <div>
+                    <span class="section-tag">🌱 YOUR LIKHA LEARNING JOURNEY</span>
+                    <h2>📈 My Progress</h2>
+                    <p>Every quiz, saved artwork, and creative step helps your skills grow.</p>
+                </div>
+                <button class="secondary-btn" type="button" data-go="dashboard">
+                    ← Back to Dashboard
+                </button>
+            </section>
+
+            <section class="panel progress-overall" aria-labelledby="overallProgressTitle">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3 id="overallProgressTitle">✨ Overall Learning Progress</h3>
+                        <p id="progressOverallDetail">Complete quizzes and save artwork to make progress.</p>
+                    </div>
+                    <strong id="progressOverallPercent">0%</strong>
+                </div>
+                <div
+                    class="progress-track progress-overall-track"
+                    role="progressbar"
+                    id="progressOverallBar"
+                    aria-label="Overall learning progress"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0">
+                    <div class="progress-fill"></div>
+                </div>
+                <p class="progress-footnote">
+                    Progress counts six weekly assessment topics and four labs with at least one saved artwork.
+                </p>
+            </section>
+
+            <div class="progress-stat-grid" aria-label="Learning statistics">
+                <article class="progress-stat-card stat-stars">
+                    <span class="progress-stat-icon" aria-hidden="true">⭐</span>
+                    <strong id="progressStars">0</strong>
+                    <span>Total Stars Earned</span>
+                </article>
+                <article class="progress-stat-card stat-quizzes">
+                    <span class="progress-stat-icon" aria-hidden="true">🧠</span>
+                    <strong id="progressQuizzes">0</strong>
+                    <span>Weekly Quizzes Completed</span>
+                </article>
+                <article class="progress-stat-card stat-artworks">
+                    <span class="progress-stat-icon" aria-hidden="true">🎨</span>
+                    <strong id="progressArtworks">0</strong>
+                    <span>Saved Creative Projects</span>
+                </article>
+                <article class="progress-stat-card stat-achievements">
+                    <span class="progress-stat-icon" aria-hidden="true">🏅</span>
+                    <strong id="progressAchievements">0</strong>
+                    <span>Achievements Unlocked</span>
+                </article>
+                <article class="progress-stat-card stat-pet">
+                    <span class="progress-stat-icon" aria-hidden="true">🐾</span>
+                    <strong id="progressPetStage">Baby Pet</strong>
+                    <span>Pet Growth Level</span>
+                </article>
+            </div>
+
+            <section class="panel progress-panel">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3>🖌️ My Artistic Skills</h3>
+                        <p>Skill scores use answers to questions tagged for each concept. Saved artworks show concepts you have explored.</p>
+                    </div>
+                </div>
+                <div class="progress-skill-grid" id="artisticSkills"></div>
+            </section>
+
+            <section class="panel progress-panel">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3>🇵🇭 My Filipino Identity Journey</h3>
+                        <p>Question counts show which topics you have explored, not a mastery score.</p>
+                    </div>
+                </div>
+                <div class="progress-identity-grid" id="identityJourney"></div>
+            </section>
+
+            <section class="panel progress-panel">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3>📊 Weekly Quiz Performance</h3>
+                        <p>Your saved attempts appear once each, including practice attempts.</p>
+                    </div>
+                </div>
+                <div class="progress-quiz-stats">
+                    <div><span>Latest score</span><strong id="progressLatestScore">—</strong></div>
+                    <div><span>Highest score</span><strong id="progressHighestScore">—</strong></div>
+                    <div><span>Average score</span><strong id="progressAverage">—</strong></div>
+                    <div><span>Correct answers</span><strong id="progressCorrectAnswers">0</strong></div>
+                    <div><span>Quiz points earned</span><strong id="progressQuizPoints">0</strong></div>
+                </div>
+                <div class="progress-chart-wrap">
+                    <svg id="quizScoreChart" viewBox="0 0 640 230" role="img" aria-labelledby="quizChartTitle quizChartDescription"></svg>
+                </div>
+            </section>
+
+            <section class="panel progress-panel">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3>🎨 Creative Labs & My Gallery</h3>
+                        <p>Only saved artworks count as completed projects; opening a lab does not count.</p>
+                    </div>
+                    <button class="text-link" type="button" data-go="gallery">Open My Gallery →</button>
+                </div>
+                <div class="progress-creative-stats">
+                    <div><strong id="progressCreatedArtworks">0</strong><span>Artworks created and saved</span></div>
+                    <div><strong id="progressChallenges">0</strong><span>Creative challenges completed</span></div>
+                    <div><strong id="progressFavoriteLab">Not yet explored</strong><span>Most-used lab (saved artworks)</span></div>
+                </div>
+                <div class="progress-recent-artworks" id="progressRecentArtworks"></div>
+                <div class="history-list" id="labProgressList"></div>
+            </section>
+
+            <section class="panel progress-panel pet-progress-panel">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3>🐾 My LIKHA Pet's Growth</h3>
+                        <p id="progressPetName">Your companion is ready to grow with you.</p>
+                    </div>
+                    <a class="primary-btn" href="pet.html">🐾 Visit My Pet</a>
+                </div>
+                <div class="progress-pet-details">
+                    <div><strong id="progressPetPoints">0</strong><span>Pet Growth Points</span></div>
+                    <div><strong id="progressQuizPetPoints">0</strong><span>Points earned from quizzes</span></div>
+                    <div class="progress-pet-next">
+                        <div class="progress-track" id="progressPetBar" role="progressbar" aria-label="Pet progress to next growth stage" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span id="progressPetNext">Complete activities or answer quiz questions correctly to help your pet grow.</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel progress-panel">
+                <div class="progress-section-heading">
+                    <div>
+                        <h3>🏆 My Achievements</h3>
+                        <p>Earn each badge by meeting its real LIKHA milestone.</p>
+                    </div>
+                </div>
+                <div class="progress-badge-grid" id="progressBadges"></div>
+            </section>
+
+            <section class="progress-next-step panel" aria-labelledby="nextStepTitle">
+                <div class="progress-step-icon" aria-hidden="true">💡</div>
+                <div>
+                    <h3 id="nextStepTitle">Your Next Creative Step!</h3>
+                    <div id="progressNextStep"></div>
+                </div>
+            </section>
+
+            <section class="panel progress-panel">
+                <div class="panel-heading">
+                    <h3>⭐ Recent Learning & Star History</h3>
+                </div>
+                <div class="history-list" id="activityHistory"></div>
+            </section>
+        </section>
+
+        <!-- CREATE ARTWORK VIEW -->
+        <section class="view" id="view-create">
+            <div class="section-head">
+                <div>
+                    <h2>🎨 Create Your Artwork</h2>
+                    <p>Start an artwork record and complete its six artistic concepts.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <form id="artworkForm">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="artworkTitle">Artwork Title *</label>
+                            <input id="artworkTitle" maxlength="80" required
+                                   placeholder="e.g. Colors of My Philippines">
+                        </div>
+
+                        <div class="form-field">
+                            <label for="artworkLab">Creative Lab *</label>
+                            <select id="artworkLab" required>
+                                <option value="Fashion Lab">Fashion Lab</option>
+                                <option value="Festival Lab">Festival Lab</option>
+                                <option value="Craft Lab">Craft Lab</option>
+                                <option value="Art Lab">Art Lab</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkSubject">1. Subject *</label>
+                            <input id="artworkSubject" required maxlength="200"
+                                   placeholder="What is shown in your artwork?">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkTheme">2. Theme *</label>
+                            <input id="artworkTheme" required maxlength="200"
+                                   placeholder="What is the main idea or message?">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkFormConcept">3. Form *</label>
+                            <input id="artworkFormConcept" required maxlength="200"
+                                   placeholder="How are the parts arranged or organized?">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkStyle">4. Style *</label>
+                            <input id="artworkStyle" required maxlength="200"
+                                   placeholder="What artistic approach did you use?">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkSymbolism">5. Symbolism *</label>
+                            <input id="artworkSymbolism" required maxlength="200"
+                                   placeholder="What do your symbols represent?">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkMedium">6. Medium *</label>
+                            <input id="artworkMedium" required maxlength="200"
+                                   placeholder="What tools or materials did you use?">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkPreview">Artwork Description *</label>
+                            <input id="artworkPreview" required maxlength="300"
+                                   placeholder="Describe what your artwork looks like.">
+                        </div>
+
+                        <div class="form-field full">
+                            <label for="artworkEmoji">Choose a Preview Icon</label>
+                            <select id="artworkEmoji">
+                                <option value="🎨">🎨 Palette</option>
+                                <option value="🌺">🌺 Flower</option>
+                                <option value="🏮">🏮 Parol</option>
+                                <option value="👗">👗 Fashion</option>
+                                <option value="🧵">🧵 Craft</option>
+                                <option value="🇵🇭">🇵🇭 Filipino identity</option>
+                                <option value="🖼️">🖼️ Artwork</option>
+                                <option value="⭐">⭐ Star</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit">Save Artwork & Unlock Prize 🎁</button>
+                        <button class="secondary-btn" type="button" data-go="studio">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ASSESSMENT MODAL -->
+<div class="modal" id="quizModal" role="dialog" aria-modal="true" aria-labelledby="quizModalTitle">
+    <div class="modal-box">
+        <h2 id="quizModalTitle">Weekly Practice</h2>
+        <p id="quizIntro">Answer the questions below.</p>
+
+        <div id="quizBody"></div>
+
+        <div class="modal-actions">
+            <button class="primary-btn" id="submitQuiz">Submit Answers</button>
+            <button class="secondary-btn" id="closeQuiz">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+/* =========================================================
+   LIKHA DASHBOARD PROTOTYPE
+   All prototype data is saved locally in this browser.
+========================================================= */
+
+const STORAGE_KEY = "likhaDashboardPrototype_v1";
+
+const LABS = [
+    {
+        id: "fashion",
+        name: "Fashion Lab",
+        icon: "👗",
+        image: "assets/labs/fashion.webp",
+        description: "Design clothing inspired by Filipino textiles and patterns.",
+        action: "Start Creating →",
+        className: "fashion"
+    },
+    {
+        id: "festival",
+        name: "Festival Lab",
+        icon: "🏮",
+        image: "assets/labs/festival.webp",
+        description: "Draw a parol or festival mask.",
+        action: "Start Creating →",
+        className: "festival"
+    },
+    {
+        id: "craft",
+        name: "Craft Lab",
+        icon: "🧵",
+        image: "assets/labs/craft.webp",
+        description: "Explore shapes, colors, and craft-inspired patterns.",
+        action: "Start Creating →",
+        className: "craft"
+    },
+    {
+        id: "art",
+        name: "Art Lab",
+        icon: "🎨",
+        image: "assets/labs/art.webp",
+        description: "Create original artwork expressing Filipino identity.",
+        action: "Start Creating →",
+        className: "art"
+    }
+];
+
+const ASSESSMENTS = [
+    {
+        id: "week1",
+        title: "Week 1: Filipino Identity",
+        topic: "Culture, history, and identity",
+        questions: [
+            {
+                q: "What can Filipino identity in art represent?",
+                options: ["Only colors", "Culture, history, values, and experiences", "Only foreign traditions", "Only the artist's tools"],
+                answer: 1,
+                explanation: "Art can express cultural experiences, history, values, and identity."
+            },
+            {
+                q: "Which is an example of a Filipino cultural element?",
+                options: ["A parol", "A random number", "A blank screen", "A calculator"],
+                answer: 0,
+                explanation: "A parol is a recognizable Filipino Christmas decoration."
+            },
+            {
+                q: "Why might an artist include a Filipino tradition in an artwork?",
+                options: ["To hide the meaning", "To express cultural identity", "To remove all symbols", "To avoid making choices"],
+                answer: 1,
+                explanation: "Cultural traditions can communicate identity and shared experiences."
+            },
+            {
+                q: "Which action shows respect when using cultural inspiration?",
+                options: ["Misrepresenting its meaning", "Learning about its context", "Claiming all traditions are identical", "Ignoring the source"],
+                answer: 1,
+                explanation: "Understanding context helps artists represent cultural elements thoughtfully."
+            },
+            {
+                q: "Can contemporary art express Filipino identity?",
+                options: ["No, never", "Only through old materials", "Yes, using contemporary ideas and tools", "Only through copying"],
+                answer: 2,
+                explanation: "Contemporary approaches and technologies can communicate Filipino identity."
+            }
+        ]
+    },
+    {
+        id: "week2",
+        title: "Week 2: Subject & Theme",
+        topic: "What an artwork shows and communicates",
+        questions: [
+            {
+                q: "What is the subject of an artwork?",
+                options: ["What the artwork shows", "The artist's age", "The price of paint", "The time of day it was saved"],
+                answer: 0,
+                explanation: "The subject is the person, object, place, event, or idea depicted."
+            },
+            {
+                q: "What does the theme communicate?",
+                options: ["The file name", "The artwork's main idea or message", "The screen size", "The number of brushes"],
+                answer: 1,
+                explanation: "The theme is the central idea or message of an artwork."
+            },
+            {
+                q: "An artwork shows a family preparing a fiesta. What is its subject?",
+                options: ["The family preparing a fiesta", "The message of unity", "The brush size", "The canvas dimensions"],
+                answer: 0,
+                explanation: "The people and event shown make up the subject."
+            },
+            {
+                q: "An artwork encourages people to help one another. What might its theme be?",
+                options: ["A list of colors", "Community cooperation", "The type of paper", "The artist's signature"],
+                answer: 1,
+                explanation: "Community cooperation is the message the artwork communicates."
+            },
+            {
+                q: "Can two artworks have the same subject but different themes?",
+                options: ["Yes", "No", "Only if they use pencil", "Only if they are digital"],
+                answer: 0,
+                explanation: "Artists can communicate different messages using the same subject."
+            }
+        ]
+    },
+    {
+        id: "week3",
+        title: "Week 3: Form & Style",
+        topic: "Organization and artistic approach",
+        questions: [
+            {
+                q: "In visual art, what does form help describe?",
+                options: ["The organization and structure of visual elements", "The artist's birthday", "The cost of the computer", "The gallery password"],
+                answer: 0,
+                explanation: "Form concerns the artwork's structure and organization."
+            },
+            {
+                q: "What does artistic style refer to?",
+                options: ["The artist's approach or recognizable way of creating", "The file's location", "The number of students", "The artwork's saving date"],
+                answer: 0,
+                explanation: "Style describes the artistic approach used to create the work."
+            },
+            {
+                q: "Which choice is most related to composition?",
+                options: ["Arranging shapes and objects", "Naming a pet", "Collecting a star", "Opening a menu"],
+                answer: 0,
+                explanation: "Composition concerns how elements are arranged in an artwork."
+            },
+            {
+                q: "Can an artist combine different visual styles?",
+                options: ["Yes, when it supports the intended artwork", "No, never", "Only in a quiz", "Only with one color"],
+                answer: 0,
+                explanation: "Artists can combine approaches to express their ideas."
+            },
+            {
+                q: "Which is an example of a style choice?",
+                options: ["Using a cartoon-inspired visual approach", "Typing a password", "Opening the gallery", "Counting stars"],
+                answer: 0,
+                explanation: "A cartoon-inspired approach is one possible artistic style."
+            }
+        ]
+    },
+    {
+        id: "week4",
+        title: "Week 4: Symbolism & Medium",
+        topic: "Meaning and materials",
+        questions: [
+            {
+                q: "What is symbolism in art?",
+                options: ["Using elements to represent ideas or meanings", "Saving a file", "Choosing a password", "Counting the pages"],
+                answer: 0,
+                explanation: "Symbols can represent ideas, feelings, values, or identities."
+            },
+            {
+                q: "What does medium mean in visual art?",
+                options: ["The materials or tools used to make the artwork", "The artist's favorite subject", "The main message only", "The gallery layout"],
+                answer: 0,
+                explanation: "Medium refers to the materials or methods used to create art."
+            },
+            {
+                q: "A sampaguita is included to represent Filipino values. What role does it play?",
+                options: ["Symbol", "Save button", "File type", "Question number"],
+                answer: 0,
+                explanation: "An object can serve as a symbol when it represents a deeper idea."
+            },
+            {
+                q: "Which is an example of a digital medium?",
+                options: ["Digital drawing software", "A story's theme", "A subject's title", "A quiz score"],
+                answer: 0,
+                explanation: "Digital drawing software can be part of the tools and medium used."
+            },
+            {
+                q: "Can one symbol have different meanings in different contexts?",
+                options: ["Yes", "No, all symbols always mean the same thing", "Only in digital art", "Only in paintings"],
+                answer: 0,
+                explanation: "Meaning can depend on culture, context, and the artist's intention."
+            }
+        ]
+    },
+    {
+        id: "week5",
+        title: "Week 5: The Six Artistic Concepts",
+        topic: "Applying all six concepts",
+        questions: [
+            {
+                q: "Which list contains all six concepts used in this app?",
+                options: [
+                    "Subject, theme, form, style, symbolism, medium",
+                    "Color, price, size, date, file, title",
+                    "Drawing, reading, running, singing, writing, counting",
+                    "Brush, chair, book, bag, clock, ruler"
+                ],
+                answer: 0,
+                explanation: "The six concepts are subject, theme, form, style, symbolism, and medium."
+            },
+            {
+                q: "Which concept describes the central message?",
+                options: ["Theme", "Medium", "Form", "File name"],
+                answer: 0,
+                explanation: "Theme describes the main idea or message."
+            },
+            {
+                q: "Which concept describes the tools used?",
+                options: ["Subject", "Medium", "Theme", "Symbolism"],
+                answer: 1,
+                explanation: "Medium describes the materials and tools used."
+            },
+            {
+                q: "Which concept explains what a symbol represents?",
+                options: ["Symbolism", "Form", "Medium", "Subject"],
+                answer: 0,
+                explanation: "Symbolism explains the meanings represented by symbols."
+            },
+            {
+                q: "Why should artists plan the concepts of their work?",
+                options: ["To connect their choices with their intended message", "To prevent all creativity", "To make every artwork identical", "To avoid choosing a subject"],
+                answer: 0,
+                explanation: "Planning can help visual choices support the artwork's intended meaning."
+            }
+        ]
+    },
+    {
+        id: "week6",
+        title: "Week 6: Contemporary Filipino Art",
+        topic: "Modern ideas, practices, and technologies",
+        questions: [
+            {
+                q: "What does contemporary art generally refer to?",
+                options: ["Art connected to the present time", "Only art made centuries ago", "Only one traditional medium", "Art without any ideas"],
+                answer: 0,
+                explanation: "Contemporary art is associated with the present period."
+            },
+            {
+                q: "Which tool can be used to make digital art?",
+                options: ["A drawing application", "Only a cooking pot", "A paper calendar only", "A measuring cup only"],
+                answer: 0,
+                explanation: "Digital drawing applications support digital art creation."
+            },
+            {
+                q: "Can traditional inspiration be combined with contemporary technology?",
+                options: ["Yes", "No", "Only in quizzes", "Only with black and white"],
+                answer: 0,
+                explanation: "Artists can reinterpret cultural inspiration using contemporary tools."
+            },
+            {
+                q: "What makes an artwork original?",
+                options: ["The artist's own creative choices and expression", "Copying without thinking", "Using the same title as everyone", "Avoiding every decision"],
+                answer: 0,
+                explanation: "Originality involves the creator's own ideas and decisions."
+            },
+            {
+                q: "What should an artist consider when representing a cultural tradition?",
+                options: ["Its context and meaning", "Only the number of colors", "Only the reward", "Only the screen size"],
+                answer: 0,
+                explanation: "Context and meaning help the artist represent cultural elements respectfully."
+            }
+        ]
+    }
+];
+
+const LEGACY_SHOP_SPENDING = {
+    "pet-bow": 20,
+    "artist-hat": 25,
+    "star-background": 30,
+    "pet-scarf": 35,
+    "rainbow-shoes": 40,
+    "festival-decor": 45
+};
+
+const DEFAULT_STATE = {
+    studentName: "Young Artist",
+    stars: 0,
+    totalStarsEarned: 0,
+    artworks: [],
+    completedActivities: [],
+    quizResults: {},
+    progressBadges: [],
+    claimedPrizes: [],
+    pendingPrizes: [],
+    rewardHistory: [],
+    quizRewardWeeks: [],
+    purchasedItems: [],
+    pet: {
+        type: "cat",
+        name: "Mimi",
+        growthPoints: 0
+    },
+    avatar: {
+        name: "Young Artist",
+        face: "🧑",
+        character: "avatar-filipino-artist-1",
+    }
+};
+
+const PET_CHOICES = [
+    { key: "rabbit", image: "images/pasted-image-1.webp", label: "Rabbit", defaultName: "Coco" },
+    { key: "cat", image: "images/pasted-image-2.webp", label: "Cat", defaultName: "Mimi" },
+    { key: "dog", image: "images/pasted-image-3.webp", label: "Dog", defaultName: "Buddy" },
+    { key: "lion", image: "images/pasted-image-4.webp", label: "Lion", defaultName: "Leo" },
+    { key: "panda", image: "images/pasted-image-5.webp", label: "Panda", defaultName: "Bao" },
+    { key: "tiger", image: "images/pasted-image-6.webp", label: "Tiger", defaultName: "Tigger" }
+];
+
+let state = loadState();
+let activeQuizId = null;
+let toastTimer = null;
+let lastPetActivityCount = state.completedActivities.length;
+let petGrowthPending = false;
+const petGrowthTimers = new WeakMap();
+
+function normalizePetType(type) {
+    if (PET_CHOICES.some(choice => choice.key === type)) return type;
+    const legacyChoice = /^pasted-image-([1-6])$/.exec(type || "");
+    if (legacyChoice) return PET_CHOICES[Number(legacyChoice[1]) - 1].key;
+    return "cat";
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (!saved) {
+            return LikhaPetProgress.reconcile(structuredClone(DEFAULT_STATE));
+        }
+
+        const parsed = JSON.parse(saved);
+
+        const loadedState = {
+            ...structuredClone(DEFAULT_STATE),
+            ...parsed,
+            totalStarsEarned: Number.isFinite(Number(parsed.totalStarsEarned))
+                ? Math.max(Number(parsed.totalStarsEarned), Number(parsed.stars) || 0)
+                : Math.max(0, Number(parsed.stars) || 0) +
+                    (Array.isArray(parsed.purchasedItems)
+                        ? parsed.purchasedItems.reduce((sum, itemId) => {
+                            return sum + (LEGACY_SHOP_SPENDING[itemId] || 0);
+                        }, 0)
+                        : 0),
+            progressBadges: Array.isArray(parsed.progressBadges)
+                ? [...new Set(parsed.progressBadges.filter(id => typeof id === "string"))]
+                : [],
+            purchasedItems: Array.isArray(parsed.purchasedItems)
+                ? parsed.purchasedItems
+                : [],
+            artworks: Array.isArray(parsed.artworks) ? parsed.artworks : [],
+            completedActivities: Array.isArray(parsed.completedActivities)
+                ? parsed.completedActivities
+                : [],
+            quizResults: parsed.quizResults &&
+                typeof parsed.quizResults === "object" &&
+                !Array.isArray(parsed.quizResults)
+                ? Object.fromEntries(
+                    Object.entries(parsed.quizResults)
+                        .filter(([, attempts]) => Array.isArray(attempts))
+                )
+                : {},
+            quizRewardWeeks: Array.isArray(parsed.quizRewardWeeks)
+                ? parsed.quizRewardWeeks
+                : [],
+            pendingPrizes: Array.isArray(parsed.pendingPrizes)
+                ? parsed.pendingPrizes
+                : [],
+            claimedPrizes: Array.isArray(parsed.claimedPrizes)
+                ? parsed.claimedPrizes
+                : [],
+            rewardHistory: Array.isArray(parsed.rewardHistory)
+                ? parsed.rewardHistory
+                : [],
+            pet: {
+                ...DEFAULT_STATE.pet,
+                ...(parsed.pet || {}),
+                growthPoints: Number.isFinite(Number(parsed.pet && parsed.pet.growthPoints))
+                    ? Number(parsed.pet.growthPoints)
+                    : 0
+            },
+            avatar: { ...DEFAULT_STATE.avatar, ...(parsed.avatar || {}) }
+        };
+
+        loadedState.pet.type = normalizePetType(loadedState.pet.type);
+        delete loadedState.avatar.outfit;
+        delete loadedState.avatar.accessory;
+        return LikhaPetProgress.reconcile(loadedState);
+    } catch (error) {
+        console.error("Could not load LIKHA data:", error);
+        return LikhaPetProgress.reconcile(structuredClone(DEFAULT_STATE));
+    }
+}
+
+function saveState() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        return true;
+    } catch (error) {
+        console.error("Could not save LIKHA data:", error);
+        showToast("Unable to save data. Check your browser storage.");
+        return false;
+    }
+}
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    })[char]);
+}
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3200);
+}
+
+function renderPetImage(container, stage) {
+    state.pet.type = normalizePetType(state.pet.type);
+
+    const choice = PET_CHOICES.find(item => item.key === state.pet.type);
+    const image = container.querySelector(".pet-growth-image");
+    LikhaPetArt.apply(image, choice.key, stage.level, choice.image);
+    image.alt = `${choice.label}, ${stage.name}`;
+    container.classList.remove("stage-baby", "stage-growing", "stage-young", "stage-grown");
+    container.classList.add(`stage-${stage.level}`);
+}
+
+function renderPetJourney(stage) {
+    const stageOrder = ["baby", "growing", "young", "grown"];
+    const currentIndex = stageOrder.indexOf(stage.level);
+    const choice = PET_CHOICES.find(item => item.key === normalizePetType(state.pet.type));
+
+    document.querySelectorAll("#petGrowthJourney [data-stage]").forEach(card => {
+        const index = stageOrder.indexOf(card.dataset.stage);
+        const status = index < currentIndex
+            ? "Completed"
+            : index === currentIndex
+                ? "Current"
+                : "Locked";
+        const image = card.querySelector(".pet-stage-image");
+
+        card.classList.toggle("is-completed", status === "Completed");
+        card.classList.toggle("is-current", status === "Current");
+        card.classList.toggle("is-locked", status === "Locked");
+        if (status === "Current") {
+            card.setAttribute("aria-current", "step");
+        } else {
+            card.removeAttribute("aria-current");
+        }
+        card.querySelector(".pet-stage-status").textContent = status;
+        LikhaPetArt.apply(image, choice.key, card.dataset.stage, choice.image);
+        image.alt = `${choice.label} at the ${card.querySelector("h4").textContent} stage`;
+    });
+}
+
+function animatePetGrowth() {
+    ["dashboardPetEmoji", "petLargeEmoji"].forEach(id => {
+        const petDisplay = document.getElementById(id);
+        const previousTimer = petGrowthTimers.get(petDisplay);
+
+        petDisplay.classList.remove("is-growing");
+        void petDisplay.offsetWidth;
+        petDisplay.classList.add("is-growing");
+        clearTimeout(previousTimer);
+        petGrowthTimers.set(petDisplay, setTimeout(() => {
+            petDisplay.classList.remove("is-growing");
+        }, 1000));
+    });
+}
+
+function petStage() {
+    return LikhaPetProgress.stage(state);
+}
+
+function allQuizAttempts() {
+    const seen = new Set();
+    const attempts = [];
+
+    Object.entries(state.quizResults).forEach(([assessmentId, records]) => {
+        if (!Array.isArray(records)) return;
+
+        records.forEach(record => {
+            if (!record || typeof record !== "object") return;
+            const attemptId = record.attemptId || record.id;
+            const fallbackKey = [
+                assessmentId,
+                record.date || "",
+                record.score ?? record.percentage ?? "",
+                record.correct ?? "",
+                record.total ?? ""
+            ].join("|");
+            const key = attemptId ? `attempt:${attemptId}` : `record:${fallbackKey}`;
+
+            if (seen.has(key)) return;
+            seen.add(key);
+            attempts.push({ ...record, assessmentId });
+        });
+    });
+
+    return attempts;
+}
+
+function averageQuizScore() {
+    const attempts = allQuizAttempts()
+        .map(attempt => Number(attempt.score ?? attempt.percentage))
+        .filter(Number.isFinite);
+
+    if (!attempts.length) return null;
+
+    return Math.round(
+        attempts.reduce((sum, score) => sum + score, 0) / attempts.length
+    );
+}
+
+function quizBestScore(id) {
+    const attempts = state.quizResults[id] || [];
+
+    if (!attempts.length) return null;
+
+    return Math.max(...attempts.map(attempt => attempt.score));
+}
+
+function isQuizCompleted(id) {
+    return (state.quizResults[id] || []).length > 0;
+}
+
+function starsBalanceUpdate() {
+    document.getElementById("starBalance").textContent = state.stars;
+}
+
+function getLabByName(name) {
+    return LABS.find(lab => lab.name === name) || LABS[3];
+}
+
+function renderLabCards(containerId) {
+    const container = document.getElementById(containerId);
+
+    container.innerHTML = LABS.map(lab => `
+        <article class="lab-card ${lab.className}-lab">
+            <div class="lab-icon">
+                <img src="${lab.image}" alt="${lab.name}" width="180" height="180" decoding="async" loading="eager">
+            </div>
+            <div class="lab-body">
+                <h3>${lab.name}</h3>
+                <p>${lab.description}</p>
+                <a class="lab-open" href="studio.html?lab=${lab.id}" data-open-lab="${lab.id}">
+                    ${lab.action}
+                </a>
+            </div>
+        </article>
+    `).join("");
+}
+
+function openView(viewName) {
+    const validViews = [
+        "dashboard", "studio", "gallery", "avatar", "pet",
+        "assessments", "progress", "create"
+    ];
+
+    if (!validViews.includes(viewName)) return;
+
+    document.querySelectorAll(".view").forEach(view => {
+        view.classList.remove("active");
+    });
+
+    const target = document.getElementById(`view-${viewName}`);
+
+    if (target) target.classList.add("active");
+
+    document.querySelectorAll(".nav-item").forEach(button => {
+        button.classList.toggle("active", button.dataset.view === viewName);
+    });
+
+    const pageNames = {
+        dashboard: ["My Creative Dashboard", "Your imagination starts here!"],
+        studio: ["Creative Labs", "Choose a lab and make something original."],
+        gallery: ["My LIKHA Gallery", "Your saved creations, all in one place."],
+        avatar: ["My Avatar", "Customize your creative character."],
+        pet: ["Grow-a-Pet", "Your companion grows as you complete activities."],
+        assessments: ["Weekly Assessments", "Practice, learn, and try again."],
+        progress: ["My Progress", "See your creative and learning milestones."],
+        create: ["Create Artwork", "Record your artwork and its six artistic concepts."]
+    };
+
+    document.getElementById("pageTitle").textContent = pageNames[viewName][0];
+    document.getElementById("pageSubtitle").textContent = pageNames[viewName][1];
+
+    if (viewName === "gallery") renderGallery();
+    if (viewName === "avatar") populateAvatarForm();
+    if (viewName === "pet") {
+        populatePetForm();
+
+        if (petGrowthPending) {
+            animatePetGrowth();
+            petGrowthPending = false;
+        }
+    }
+    if (viewName === "assessments") renderAssessments("fullAssessments");
+    if (viewName === "progress") {
+        state = loadState();
+        renderProgress();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function addRewardHistory(icon, title, description, value = "") {
+    state.rewardHistory.unshift({
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        icon,
+        title,
+        description,
+        value,
+        date: new Date().toLocaleDateString()
+    });
+
+    state.rewardHistory = state.rewardHistory.slice(0, 30);
+}
+
+function awardStars(amount, reason, uniqueId) {
+    const rewardId = `stars:${uniqueId}`;
+
+    if (state.rewardHistory.some(item => item.rewardId === rewardId)) {
+        return false;
+    }
+
+    state.stars += amount;
+    state.totalStarsEarned =
+        Math.max(Number(state.totalStarsEarned) || 0, Number(state.stars) - amount) + amount;
+
+    state.rewardHistory.unshift({
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        rewardId,
+        icon: "⭐",
+        title: `+${amount} LIKHA Stars`,
+        description: reason,
+        value: `+${amount}`,
+        date: new Date().toLocaleDateString()
+    });
+
+    state.rewardHistory = state.rewardHistory.slice(0, 30);
+
+    return true;
+}
+
+function completeArtwork(artwork) {
+    const taskId = `artwork:${artwork.id}`;
+
+    if (state.completedActivities.includes(taskId)) {
+        return;
+    }
+
+    state.completedActivities.push(taskId);
+
+    state = LikhaArtworkRewards.reconcile(state);
+
+    addRewardHistory("🎨", "Artwork completed", `${artwork.title} was saved successfully.`);
+}
+
+function completeAssessment(assessmentId, score) {
+    const taskId = `quiz:${assessmentId}`;
+
+    if (!state.completedActivities.includes(taskId)) {
+        state.completedActivities.push(taskId);
+        awardStars(10, `Completed ${assessmentId}`, taskId);
+    }
+
+    addRewardHistory("🧠", "Assessment completed", `${assessmentId}: scored ${score}%.`);
+}
+
+function renderAssessments(containerId) {
+    const container = document.getElementById(containerId);
+
+    container.innerHTML = ASSESSMENTS.map(assessment => {
+        const attempts = state.quizResults[assessment.id] || [];
+        const best = quizBestScore(assessment.id);
+        const done = attempts.length > 0;
+
+        return `
+            <div class="assessment-item">
+                <div class="assessment-icon">🧠</div>
+
+                <div class="assessment-details">
+                    <h4>${escapeHTML(assessment.title)}</h4>
+                    <p>${escapeHTML(assessment.topic)} · 5 questions</p>
+                    <p>${done ? `Best score: ${best}% · ${attempts.length} attempt(s)` : "Not attempted yet"}</p>
+                </div>
+
+                <button class="assessment-button ${done ? "done" : ""}" data-quiz="${escapeHTML(assessment.id)}">
+                    ${done ? "Practice Again" : "Start Quiz"}
+                </button>
+            </div>
+        `;
+    }).join("");
+}
+
+function openQuiz(assessmentId) {
+    const assessment = ASSESSMENTS.find(item => item.id === assessmentId);
+
+    if (!assessment) return;
+
+    window.location.href =
+        `quiz.html?assessment=${encodeURIComponent(assessmentId)}`;
+}
+
+function closeQuiz() {
+    document.getElementById("quizModal").classList.remove("active");
+    document.body.style.overflow = "";
+    activeQuizId = null;
+}
+
+function submitQuiz() {
+    if (!activeQuizId) return;
+
+    const assessment = ASSESSMENTS.find(item => item.id === activeQuizId);
+    if (!assessment) return;
+
+    const answers = [];
+    const missing = [];
+
+    assessment.questions.forEach((question, index) => {
+        const selected = document.querySelector(
+            `input[name="question-${index}"]:checked`
+        );
+
+        if (!selected) {
+            missing.push(index + 1);
+        } else {
+            answers.push(Number(selected.value));
+        }
+    });
+
+    if (missing.length) {
+        showToast(`Please answer all questions. Missing: ${missing.join(", ")}.`);
+        return;
+    }
+
+    let correct = 0;
+
+    assessment.questions.forEach((question, index) => {
+        if (answers[index] === question.answer) correct++;
+    });
+
+    const score = Math.round(correct / assessment.questions.length * 100);
+    const previousBest = quizBestScore(activeQuizId);
+
+    if (!state.quizResults[activeQuizId]) {
+        state.quizResults[activeQuizId] = [];
+    }
+
+    state.quizResults[activeQuizId].push({
+        score,
+        correct,
+        total: assessment.questions.length,
+        date: new Date().toISOString()
+    });
+
+    completeAssessment(activeQuizId, score);
+
+    if (previousBest !== null && score > previousBest) {
+        awardStars(5, `Improved your best score in ${assessment.title}`, `improvement:${activeQuizId}:${score}`);
+        showToast(`Great improvement! You scored ${score}% and earned a 5-star bonus.`);
+    }
+
+    saveState();
+    refreshDashboard();
+
+    const explanationHTML = assessment.questions.map((question, index) => {
+        const isCorrect = answers[index] === question.answer;
+
+        return `
+            <div style="padding:10px 0;border-bottom:1px solid #eadfcd;">
+                <strong style="color:${isCorrect ? "#38865c" : "#b93850"};">
+                    ${isCorrect ? "✓ Correct" : "↻ Review"} — Question ${index + 1}
+                </strong>
+                <p style="margin:5px 0 0;color:var(--muted);font-size:.84rem;">
+                    ${escapeHTML(question.explanation)}
+                </p>
+            </div>
+        `;
+    }).join("");
+
+    document.getElementById("quizIntro").innerHTML =
+        `<strong>Your score: ${correct}/${assessment.questions.length} (${score}%)</strong><br>
+        ${score >= 80 ? "Wonderful work! Keep learning and creating." : "Good effort! Review the explanations and try again."}`;
+
+    document.getElementById("quizBody").innerHTML = explanationHTML;
+    document.getElementById("submitQuiz").style.display = "none";
+
+    showToast("Assessment submitted. Your result has been saved.");
+}
+
+function getDashboardArtworks() {
+    let savedArtworks = [];
+
+    try {
+        const saved = JSON.parse(localStorage.getItem("likhaArtworks") || "[]");
+        savedArtworks = Array.isArray(saved) ? saved : [];
+    } catch (error) {
+        console.error("Could not load saved gallery artwork:", error);
+    }
+
+    const savedIds = new Set(
+        savedArtworks
+            .filter(artwork => artwork.id !== undefined && artwork.id !== null)
+            .map(artwork => String(artwork.id))
+    );
+
+    return [
+        ...state.artworks.filter(artwork =>
+            artwork.id === undefined ||
+            artwork.id === null ||
+            !savedIds.has(String(artwork.id))
+        ),
+        ...savedArtworks
+    ];
+}
+
+function artworkSavedDate(artwork) {
+    if (artwork.dateLabel) return artwork.dateLabel;
+
+    const savedDate = artwork.dateSaved || artwork.createdAt;
+
+    if (!savedDate) return "Date not recorded";
+
+    const date = new Date(savedDate);
+    return Number.isNaN(date.getTime())
+        ? "Date not recorded"
+        : date.toLocaleDateString();
+}
+
+function artworkLabName(artwork) {
+    const lab = String(artwork.lab || artwork.selectedLab || "Art")
+        .trim()
+        .replace(/\s*lab$/i, "")
+        .trim() || "Art";
+
+    return `${lab.charAt(0).toUpperCase()}${lab.slice(1)} Lab`;
+}
+
+function renderArtworkCard(artwork) {
+    const title = artwork.title || "Untitled Artwork";
+    const lab = artworkLabName(artwork);
+    const imageData = typeof artwork.imageData === "string" &&
+        artwork.imageData.startsWith("data:image/")
+        ? artwork.imageData
+        : "";
+    const previewContent = imageData
+        ? `<img src="${escapeHTML(imageData)}" alt="${escapeHTML(title)}" style="max-width:100%;max-height:110px;object-fit:contain;" decoding="async" loading="lazy">`
+        : escapeHTML(artwork.emoji || "🎨");
+
+    return `
+        <article class="artwork-card" data-artwork-id="${escapeHTML(artwork.id)}">
+            <div class="artwork-preview">${previewContent}</div>
+            <div class="artwork-meta">
+                <h4>${escapeHTML(title)}</h4>
+                <p>${escapeHTML(lab)}</p>
+                <p>${escapeHTML(artworkSavedDate(artwork))}</p>
+                <button class="text-link" style="margin-top:8px;" data-view-artwork="${escapeHTML(artwork.id)}">
+                    View details →
+                </button>
+            </div>
+        </article>
+    `;
+}
+
+function renderGallery() {
+    const empty = `
+        <div class="empty-state">
+            <span>🖼️</span>
+            <strong>Your gallery is waiting for its first masterpiece!</strong><br>
+            Create an artwork and save its details to see it here.
+            <br><br>
+            <button class="primary-btn" data-go="studio">Start Creating</button>
+        </div>
+    `;
+
+    const artworks = getDashboardArtworks();
+    const galleryHTML = artworks.length
+        ? `<div class="gallery-grid">${artworks.slice().reverse().map(renderArtworkCard).join("")}</div>`
+        : empty;
+
+    document.getElementById("fullGallery").innerHTML = galleryHTML;
+    document.getElementById("dashboardGallery").innerHTML = galleryHTML;
+}
+
+function showArtworkDetails(artworkId) {
+    const artwork = getDashboardArtworks().find(
+        item => String(item.id) === String(artworkId)
+    );
+    if (!artwork) return;
+
+    const savedConcepts = artwork.concepts || artwork;
+    const concepts = [
+        ["Subject", savedConcepts.subject],
+        ["Theme", savedConcepts.theme],
+        ["Form", savedConcepts.form],
+        ["Style", savedConcepts.style],
+        ["Symbolism", savedConcepts.symbolism],
+        ["Medium", savedConcepts.medium]
+    ];
+
+    document.getElementById("modalTitle");
+    const modal = document.getElementById("quizModal");
+    const box = modal.querySelector(".modal-box");
+
+    box.innerHTML = `
+        <h2>${escapeHTML(artwork.title)}</h2>
+        <p><strong>Lab:</strong> ${escapeHTML(artworkLabName(artwork))}<br>
+           <strong>Saved:</strong> ${escapeHTML(artworkSavedDate(artwork))}</p>
+
+        <div style="font-size:4rem;text-align:center;padding:15px;">
+            ${escapeHTML(artwork.emoji || "🎨")}</div>
+        <p>${escapeHTML(artwork.description || "")}</p>
+
+        ${concepts.map(([label, value]) => `
+            <div style="padding:9px 0;border-bottom:1px solid #eadfcd;">
+                <strong>${label}:</strong> ${escapeHTML(value)}
+            </div>
+        `).join("")}
+
+        <div class="modal-actions">
+            <button class="secondary-btn" id="closeArtworkDetails">Close</button>
+        </div>
+    `;
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    document.getElementById("closeArtworkDetails").addEventListener("click", () => {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+        box.innerHTML = `
+            <h2 id="quizModalTitle">Weekly Practice</h2>
+            <p id="quizIntro">Answer the questions below.</p>
+            <div id="quizBody"></div>
+            <div class="modal-actions">
+                <button class="primary-btn" id="submitQuiz">Submit Answers</button>
+                <button class="secondary-btn" id="closeQuiz">Close</button>
+            </div>
+        `;
+
+        bindQuizModalButtons();
+    });
+}
+
+function bindQuizModalButtons() {
+    const submit = document.getElementById("submitQuiz");
+    const close = document.getElementById("closeQuiz");
+
+    if (submit) submit.addEventListener("click", submitQuiz);
+    if (close) close.addEventListener("click", closeQuiz);
+}
+
+function populateAvatarForm() {
+    document.getElementById("avatarNameInput").value = state.avatar.name;
+    document.getElementById("avatarFaceInput").value =
+        state.avatar.character || "avatar-filipino-artist-1";
+
+    updateAvatarPreview();
+}
+
+function renderAvatarIllustration(container, avatar) {
+    const character = /^avatar-filipino-artist-[1-6]$/.test(avatar.character || "")
+        ? avatar.character
+        : "";
+
+    container.replaceChildren();
+
+    if (!character) {
+        container.textContent = avatar.face || "\u{1F9D1}";
+        return;
+    }
+
+    const image = document.createElement("img");
+    image.className = "dashboard-avatar-image";
+    image.src = `images/${character}.webp`;
+    image.alt = `${avatar.name || "Young Artist"} avatar`;
+    container.appendChild(image);
+
+
+}
+
+function updateAvatarPreview() {
+    const character = document.getElementById("avatarFaceInput").value;
+    renderAvatarIllustration(
+        document.getElementById("avatarLargePreview"),
+        {
+            character,
+            name: document.getElementById("avatarNameInput").value.trim() || "Young Artist",
+        }
+    );
+}
+
+function saveAvatar() {
+    const character = document.getElementById("avatarFaceInput").value;
+    state.avatar = {
+        name: document.getElementById("avatarNameInput").value.trim() || "Young Artist",
+        face: "🧑",
+        character,
+    };
+
+    if (!saveState()) return;
+
+    try {
+        const avatarData = {
+            avatar: character,
+            character,
+            name: state.avatar.name,
+        };
+        localStorage.setItem("likhaSavedAvatar", JSON.stringify(avatarData));
+        localStorage.setItem("likhaAvatar", character);
+        localStorage.setItem("likhaSelectedAvatar", JSON.stringify({
+            image: character,
+            name: state.avatar.name,
+        }));
+    } catch (error) {
+        console.error("Could not share the saved avatar:", error);
+        showToast("Avatar could not be shared. Check your browser storage.");
+        return;
+    }
+
+    refreshDashboard();
+    showToast("Your avatar has been saved!");
+}
+
+function populatePetForm() {
+    state.pet.type = normalizePetType(state.pet.type);
+    document.getElementById("petNameInput").value = state.pet.name;
+
+    document.querySelectorAll("[data-pet]").forEach(button => {
+        const isSelected = button.dataset.pet === state.pet.type;
+        button.classList.toggle("selected", isSelected);
+        button.setAttribute("aria-pressed", String(isSelected));
+    });
+
+    updatePetPreview();
+}
+
+function updatePetPreview() {
+    state.pet.type = normalizePetType(state.pet.type);
+    const choice = PET_CHOICES.find(item => item.key === state.pet.type);
+    const name = document.getElementById("petNameInput").value.trim() ||
+        choice.defaultName;
+
+    const stage = petStage();
+
+    renderPetImage(document.getElementById("petLargeEmoji"), stage);
+    renderPetJourney(stage);
+    document.getElementById("petLargeName").textContent = name;
+    document.getElementById("petLargeStage").textContent = stage.name;
+    document.getElementById("petLargeProgress").style.width =
+        `${Math.min(stage.progress, 100)}%`;
+    document.getElementById("petLargeProgressText").textContent = stage.next;
+}
+
+function savePet() {
+    const selectedType = normalizePetType(state.pet.type);
+    state = loadState();
+    state.pet.type = selectedType;
+    const choice = PET_CHOICES.find(item => item.key === state.pet.type);
+    state.pet.name =
+        document.getElementById("petNameInput").value.trim() ||
+        choice.defaultName;
+
+    if (!saveState()) return;
+    refreshDashboard();
+    showToast(`Your pet ${state.pet.name} is ready for more adventures!`);
+}
+
+const PROGRESS_BADGES = [
+    {
+        id: "first-creation",
+        legacyPrize: "first-artwork",
+        icon: "🎨",
+        title: "First Creation",
+        requirement: "Save your first original artwork."
+    },
+    {
+        id: "curious-thinker",
+        legacyPrize: "brainy-star",
+        icon: "🧠",
+        title: "Curious Thinker",
+        requirement: "Complete your first weekly quiz."
+    },
+    {
+        id: "art-explorer",
+        icon: "🌟",
+        title: "Art Explorer",
+        requirement: "Save artworks in at least two different Creative Labs."
+    },
+    {
+        id: "identity-champion",
+        icon: "🏆",
+        title: "Filipino Identity Champion",
+        requirement: "Score 80% or higher in a Filipino identity assessment."
+    },
+    {
+        id: "caring-creator",
+        icon: "🐾",
+        title: "Caring Creator",
+        requirement: "Help your pet reach the Growing Pet stage."
+    },
+    {
+        id: "creative-master",
+        legacyPrize: "creator-trophy",
+        icon: "🖌️",
+        title: "Creative Master",
+        requirement: "Save four original artworks."
+    }
+];
+
+const IDENTITY_TOPICS = [
+    {
+        category: "Historical Filipino Identity",
+        title: "Historical Identity",
+        description: "Filipino history, heroes, and significant events through visual arts."
+    },
+    {
+        category: "Cultural Filipino Identity",
+        title: "Cultural Identity",
+        description: "Traditions, weaving, local artworks, and Filipino cultural practices."
+    },
+    {
+        category: "National Filipino Identity",
+        title: "National Identity",
+        description: "National symbols, patriotism, and shared Filipino values."
+    }
+];
+
+const ARTISTIC_CONCEPTS = [
+    ["Subject", "The people, objects, places, or events shown in art."],
+    ["Theme", "The main idea or message an artwork communicates."],
+    ["Form", "How visual elements are organized into an artwork."],
+    ["Style", "The artist's recognizable way of making art."],
+    ["Symbolism", "Images or objects that stand for meaningful ideas."],
+    ["Medium", "The materials or tools used to create an artwork."]
+];
+
+function progressScore(attempt) {
+    const score = Number(attempt.score ?? attempt.percentage);
+    return Number.isFinite(score) ? Math.min(100, Math.max(0, score)) : null;
+}
+
+function hasLegacyBadge(prizeId) {
+    if (!prizeId) return false;
+    return [...state.claimedPrizes, ...state.pendingPrizes].some(
+        prize => prize && prize.prizeId === prizeId
+    );
+}
+
+function progressBadgeUnlocked(badge) {
+    return state.progressBadges.includes(badge.id) ||
+        hasLegacyBadge(badge.legacyPrize);
+}
+
+function syncProgressBadges(artworks, attempts, growthUnits) {
+    const unlockedLabs = new Set(
+        artworks.map(artwork => normalizeProgressLab(artwork.lab))
+            .filter(Boolean)
+    );
+    const identityChampion = attempts.some(attempt =>
+        ["week1", "weekly-identity"].includes(attempt.assessmentId) &&
+        progressScore(attempt) >= 80
+    );
+    const earnedConditions = {
+        "first-creation": artworks.length > 0,
+        "curious-thinker": attempts.length > 0,
+        "art-explorer": unlockedLabs.size >= 2,
+        "identity-champion": identityChampion,
+        "caring-creator": growthUnits >= 2,
+        "creative-master": artworks.length >= 4
+    };
+    const savedBadges = new Set(state.progressBadges);
+    let changed = false;
+
+    PROGRESS_BADGES.forEach(badge => {
+        if (hasLegacyBadge(badge.legacyPrize)) {
+            if (savedBadges.delete(badge.id)) changed = true;
+            return;
+        }
+        if (earnedConditions[badge.id] && !savedBadges.has(badge.id)) {
+            savedBadges.add(badge.id);
+            changed = true;
+        }
+    });
+
+    if (changed) {
+        state.progressBadges = [...savedBadges];
+        saveState();
+    }
+
+    return changed;
+}
+
+function normalizeProgressLab(value) {
+    const normalized = String(value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s*lab$/, "");
+    return LABS.some(lab => lab.id === normalized) ? normalized : "";
+}
+
+function artworkConceptValues(artwork) {
+    const source = artwork.concepts || {};
+    const conceptValues = Array.isArray(source)
+        ? source.reduce((result, concept) => {
+            const key = String(concept && (concept.label || concept.name) || "")
+                .toLowerCase();
+            if (key) result[key] = concept.value || concept.description || "";
+            return result;
+        }, {})
+        : source;
+
+    return ARTISTIC_CONCEPTS
+        .map(([name]) => ({
+            name,
+            value: conceptValues[name.toLowerCase()]
+        }))
+        .filter(item => typeof item.value === "string" && item.value.trim());
+}
+
+function quizResultQuestionRecords(attempts) {
+    return attempts.flatMap(attempt =>
+        Array.isArray(attempt.questionResults)
+            ? attempt.questionResults.filter(result => result && typeof result === "object")
+            : []
+    );
+}
+
+function renderQuizScoreChart(attempts) {
+    const chart = document.getElementById("quizScoreChart");
+    const scores = attempts
+        .map((attempt, index) => ({
+            attempt,
+            score: progressScore(attempt),
+            index
+        }))
+        .filter(item => item.score !== null)
+        .sort((left, right) => {
+            const leftDate = new Date(left.attempt.date || 0).getTime() || left.index;
+            const rightDate = new Date(right.attempt.date || 0).getTime() || right.index;
+            return leftDate - rightDate || left.index - right.index;
+        })
+        .slice(-10);
+
+    if (!scores.length) {
+        chart.innerHTML = `
+            <title id="quizChartTitle">Quiz scores over time</title>
+            <desc id="quizChartDescription">No completed quiz scores yet.</desc>
+            <text x="320" y="115" text-anchor="middle" class="progress-chart-label">
+                Complete a quiz to see your score journey here.
+            </text>`;
+        return;
+    }
+
+    const xStart = 44;
+    const xEnd = 620;
+    const yTop = 25;
+    const yBottom = 175;
+    const points = scores.map((item, index) => {
+        const x = scores.length === 1
+            ? (xStart + xEnd) / 2
+            : xStart + (xEnd - xStart) * index / (scores.length - 1);
+        const y = yBottom - (yBottom - yTop) * item.score / 100;
+        const date = item.attempt.date && !Number.isNaN(new Date(item.attempt.date).getTime())
+            ? new Date(item.attempt.date).toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric"
+            })
+            : `Quiz ${item.index + 1}`;
+        return { ...item, x, y, date };
+    });
+    const path = points.map((point, index) =>
+        `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
+    ).join(" ");
+    const gridLines = [0, 25, 50, 75, 100].map(value => {
+        const y = yBottom - (yBottom - yTop) * value / 100;
+        return `
+            <line x1="${xStart}" y1="${y}" x2="${xEnd}" y2="${y}" class="progress-chart-grid"></line>
+            <text x="34" y="${y + 4}" text-anchor="end" class="progress-chart-label">${value}%</text>`;
+    }).join("");
+    const pointMarkup = points.map((point, index) => `
+        <circle cx="${point.x}" cy="${point.y}" r="6" class="progress-chart-point">
+            <title>${escapeHTML(point.date)}: ${point.score}%</title>
+        </circle>
+        <text x="${point.x}" y="201" text-anchor="middle" class="progress-chart-label">
+            ${escapeHTML(points.length > 7 && index % 2 ? "" : point.date)}
+        </text>`).join("");
+
+    chart.innerHTML = `
+        <title id="quizChartTitle">Quiz scores over time</title>
+        <desc id="quizChartDescription">Line chart with ${points.length} quiz scores, from ${points[0].score}% to ${points[points.length - 1].score}%.</desc>
+        ${gridLines}
+        <path d="${path}" class="progress-chart-line"></path>
+        ${pointMarkup}`;
+}
+
+function renderProgress() {
+    const artworks = getDashboardArtworks();
+    const attempts = allQuizAttempts();
+    const scores = attempts.map(progressScore).filter(score => score !== null);
+    const questions = quizResultQuestionRecords(attempts);
+    const growthUnits = LikhaPetProgress.metrics(state).units;
+    const stage = petStage();
+    const savedLabCounts = Object.fromEntries(
+        LABS.map(lab => [
+            lab.id,
+            artworks.filter(artwork => normalizeProgressLab(artwork.lab) === lab.id).length
+        ])
+    );
+    const exploredLabs = LABS.filter(lab => savedLabCounts[lab.id] > 0).length;
+    const completedAssessmentTopics = ASSESSMENTS.filter(assessment =>
+        (state.quizResults[assessment.id] || []).length > 0
+    ).length;
+    const completedUnits = completedAssessmentTopics + exploredLabs;
+    const availableUnits = ASSESSMENTS.length + LABS.length;
+    const overallPercent = Math.round(completedUnits / availableUnits * 100);
+    const uniqueQuestionIdsByIdentity = Object.fromEntries(
+        IDENTITY_TOPICS.map(topic => [
+            topic.category,
+            new Set(questions
+                .filter(result => result.category === topic.category)
+                .map(result => result.questionId)
+                .filter(Boolean))
+        ])
+    );
+
+    syncProgressBadges(artworks, attempts, growthUnits);
+    const badgeCount = PROGRESS_BADGES.filter(progressBadgeUnlocked).length;
+    const totalStarsEarned = Math.max(
+        Number(state.totalStarsEarned) || 0,
+        Number(state.stars) || 0
+    );
+    const quizPoints = attempts.reduce(
+        (total, attempt) => total + Math.max(0, Number(attempt.points) || 0),
+        0
+    );
+    const quizPetPoints = attempts.reduce(
+        (total, attempt) => total + Math.max(0, Number(attempt.petPoints) || 0),
+        0
+    );
+    const correctAnswers = attempts.reduce(
+        (total, attempt) => total + Math.max(0, Number(attempt.correct) || 0),
+        0
+    );
+
+    document.getElementById("progressStars").textContent = totalStarsEarned;
+    document.getElementById("progressQuizzes").textContent = attempts.length;
+    document.getElementById("progressArtworks").textContent = artworks.length;
+    document.getElementById("progressAchievements").textContent = badgeCount;
+    document.getElementById("progressPetStage").textContent = stage.name;
+    document.getElementById("progressOverallPercent").textContent = `${overallPercent}%`;
+    document.getElementById("progressOverallBar").setAttribute("aria-valuenow", overallPercent);
+    document.getElementById("progressOverallBar").querySelector(".progress-fill").style.width =
+        `${overallPercent}%`;
+    document.getElementById("progressOverallDetail").textContent =
+        `${completedUnits} of ${availableUnits} learning activities completed (${completedAssessmentTopics} assessment topics and ${exploredLabs} labs with saved art).`;
+
+    document.getElementById("artisticSkills").innerHTML = ARTISTIC_CONCEPTS.map(
+        ([concept, description]) => {
+            const results = questions.filter(result =>
+                Array.isArray(result.concepts) && result.concepts.includes(concept)
+            );
+            const assessed = results.length > 0;
+            const accuracy = assessed
+                ? Math.round(results.filter(result => result.correct).length / results.length * 100)
+                : 0;
+            const artworkCount = artworks.filter(artwork =>
+                artworkConceptValues(artwork).some(item => item.name === concept)
+            ).length;
+
+            return `
+                <article class="progress-skill-card">
+                    <h4>${escapeHTML(concept)}</h4>
+                    <p>${escapeHTML(description)}</p>
+                    ${assessed ? `
+                        <div class="progress-mini-track" role="progressbar"
+                             aria-label="${escapeHTML(concept)} quiz accuracy"
+                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="${accuracy}">
+                            <span style="width:${accuracy}%"></span>
+                        </div>
+                        <span class="progress-measure">${accuracy}% quiz accuracy · ${results.length} question(s)</span>
+                    ` : `
+                        <span class="progress-measure">Not yet assessed</span>
+                    `}
+                    ${artworkCount ? `<span class="progress-measure">Explored in ${artworkCount} saved artwork(s)</span>` : ""}
+                </article>`;
+        }
+    ).join("");
+
+    document.getElementById("identityJourney").innerHTML = IDENTITY_TOPICS.map(topic => {
+        const answered = uniqueQuestionIdsByIdentity[topic.category];
+        const exploredCount = answered.size;
+        const questionLimit = 5;
+        const percentage = Math.min(100, Math.round(exploredCount / questionLimit * 100));
+
+        return `
+            <article class="progress-identity-card">
+                <h4>${escapeHTML(topic.title)}</h4>
+                <p>${escapeHTML(topic.description)}</p>
+                <div class="progress-mini-track" role="progressbar"
+                     aria-label="${escapeHTML(topic.title)} questions explored"
+                     aria-valuemin="0" aria-valuemax="5" aria-valuenow="${Math.min(exploredCount, questionLimit)}">
+                    <span style="width:${percentage}%"></span>
+                </div>
+                <span class="progress-measure">${exploredCount} of ${questionLimit} questions explored</span>
+            </article>`;
+    }).join("");
+
+    const datedAttempts = attempts.slice().sort((left, right) => {
+        const leftTime = new Date(left.date || 0).getTime() || 0;
+        const rightTime = new Date(right.date || 0).getTime() || 0;
+        return leftTime - rightTime;
+    });
+    const latestScore = datedAttempts.length
+        ? progressScore(datedAttempts[datedAttempts.length - 1])
+        : null;
+    document.getElementById("progressLatestScore").textContent =
+        latestScore === null ? "—" : `${latestScore}%`;
+    document.getElementById("progressHighestScore").textContent =
+        scores.length ? `${Math.max(...scores)}%` : "—";
+    document.getElementById("progressAverage").textContent =
+        scores.length ? `${Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)}%` : "—";
+    document.getElementById("progressCorrectAnswers").textContent = correctAnswers;
+    document.getElementById("progressQuizPoints").textContent = quizPoints;
+    renderQuizScoreChart(attempts);
+
+    const uniqueChallenges = new Set(
+        artworks.map(artwork => artwork.challengeId).filter(Boolean)
+    );
+    const favoriteLab = LABS
+        .map(lab => ({ lab, count: savedLabCounts[lab.id] }))
+        .sort((left, right) => right.count - left.count)[0];
+    document.getElementById("progressCreatedArtworks").textContent = artworks.length;
+    document.getElementById("progressChallenges").textContent = uniqueChallenges.size;
+    document.getElementById("progressFavoriteLab").textContent =
+        favoriteLab && favoriteLab.count ? favoriteLab.lab.name : "Not yet explored";
+
+    const recentArtworks = artworks.slice().sort((left, right) => {
+        const leftDate = new Date(left.dateSaved || left.createdAt || 0).getTime() || 0;
+        const rightDate = new Date(right.dateSaved || right.createdAt || 0).getTime() || 0;
+        return rightDate - leftDate;
+    }).slice(0, 3);
+    document.getElementById("progressRecentArtworks").innerHTML = recentArtworks.length
+        ? recentArtworks.map(artwork => {
+            const concepts = artworkConceptValues(artwork);
+            const date = artworkSavedDate(artwork);
+            const conceptDetails = concepts.length
+                ? `<span>Concepts: ${concepts.map(item =>
+                    `${escapeHTML(item.name)} — ${escapeHTML(item.value)}`
+                ).join("; ")}</span>`
+                : `<span>No concept notes saved</span>`;
+
+            return `
+                <article class="progress-artwork-card">
+                    <strong>${escapeHTML(artwork.title || "Untitled Artwork")}</strong>
+                    <span>${escapeHTML(artworkLabName(artwork))} · ${escapeHTML(date)}</span>
+                    ${conceptDetails}
+                </article>`;
+        }).join("")
+        : `<div class="empty-state" style="grid-column:1/-1;">
+            <span>🎨</span><strong>No saved artworks yet.</strong>
+            Save a project from a Creative Lab to add it to your progress.
+            <br><br><button class="primary-btn" data-go="studio">Explore Creative Labs</button>
+        </div>`;
+
+    document.getElementById("labProgressList").innerHTML = LABS.map(lab => {
+        const count = savedLabCounts[lab.id];
+        return `
+            <div class="history-row">
+                <span class="history-icon">${lab.icon}</span>
+                <div class="history-text">
+                    <strong>${escapeHTML(lab.name)}</strong>
+                    <p>${count} saved artwork(s)</p>
+                </div>
+                <div class="history-value">${count ? "Completed ✓" : "Not yet"}</div>
+            </div>`;
+    }).join("");
+
+    document.getElementById("progressPetName").textContent =
+        `${state.pet.name || "Your pet"} · ${stage.name}`;
+    document.getElementById("progressPetPoints").textContent =
+        Math.max(0, Number(state.pet.growthPoints) || 0);
+    document.getElementById("progressQuizPetPoints").textContent = quizPetPoints;
+    document.getElementById("progressPetBar").setAttribute(
+        "aria-valuenow",
+        Math.round(Math.min(100, stage.progress))
+    );
+    document.getElementById("progressPetBar").querySelector(".progress-fill").style.width =
+        `${Math.min(100, stage.progress)}%`;
+    document.getElementById("progressPetNext").textContent = stage.next;
+
+    document.getElementById("progressBadges").innerHTML = PROGRESS_BADGES.map(badge => {
+        const unlocked = progressBadgeUnlocked(badge);
+        return `
+            <article class="progress-badge-card ${unlocked ? "is-unlocked" : ""}">
+                <span class="progress-badge-icon" aria-hidden="true">${badge.icon}</span>
+                <h4>${escapeHTML(badge.title)}</h4>
+                <p>${escapeHTML(badge.requirement)}</p>
+                <span class="progress-badge-state">${unlocked ? "Unlocked ✓" : "Locked"}</span>
+            </article>`;
+    }).join("");
+
+    const recommendations = [];
+    if (!attempts.length) {
+        recommendations.push(
+            `<li>Take a Weekly Quiz to begin recording your learning journey. <button class="text-link" data-go="assessments">Choose a quiz →</button></li>`
+        );
+    }
+    if (!artworks.length) {
+        recommendations.push(
+            `<li>Create and save your first artwork in a Creative Lab. <button class="text-link" data-go="studio">Explore labs →</button></li>`
+        );
+    }
+    const lowestSkill = ARTISTIC_CONCEPTS
+        .map(([concept]) => {
+            const results = questions.filter(result =>
+                Array.isArray(result.concepts) && result.concepts.includes(concept)
+            );
+            return results.length
+                ? {
+                    concept,
+                    accuracy: results.filter(result => result.correct).length / results.length
+                }
+                : null;
+        })
+        .filter(Boolean)
+        .sort((left, right) => left.accuracy - right.accuracy)[0];
+    if (lowestSkill && lowestSkill.accuracy < 0.6) {
+        recommendations.push(
+            `<li>Review <strong>${escapeHTML(lowestSkill.concept)}</strong> in your quiz feedback, then try another assessment. <button class="text-link" data-go="assessments">Practice quizzes →</button></li>`
+        );
+    }
+    if (Number(state.pet.growthPoints) > 0) {
+        recommendations.push(
+            `<li>Your pet has ${Math.max(0, Number(state.pet.growthPoints) || 0)} Growth Points. Visit to see its current stage. <a class="text-link" href="pet.html">🐾 Visit My Pet →</a></li>`
+        );
+    }
+    if (!recommendations.length) {
+        recommendations.push(
+            `<li>Keep saving original artworks and exploring assessments to add new milestones to your journey.</li>`
+        );
+    }
+    document.getElementById("progressNextStep").innerHTML =
+        `<ul>${recommendations.join("")}</ul>`;
+
+    const history = Array.isArray(state.rewardHistory) ? state.rewardHistory.slice(0, 12) : [];
+    document.getElementById("activityHistory").innerHTML = history.length
+        ? history.map(item => `
+            <div class="history-row">
+                <span class="history-icon">${escapeHTML(item.icon || "⭐")}</span>
+                <div class="history-text">
+                    <strong>${escapeHTML(item.title || "LIKhA activity")}</strong>
+                    <p>${escapeHTML(item.description || "")}${item.date ? ` · ${escapeHTML(item.date)}` : ""}</p>
+                </div>
+                ${item.value ? `<div class="history-value">${escapeHTML(item.value)}</div>` : ""}
+            </div>
+        `).join("")
+        : `<div class="empty-state"><span>🌱</span>Your progress history will appear here after your first activity.</div>`;
+}
+
+function refreshDashboard() {
+    starsBalanceUpdate();
+
+    document.getElementById("welcomeName").textContent =
+        state.avatar.name || state.studentName;
+
+    document.getElementById("artworksSavedCount").textContent = getDashboardArtworks().length;
+    document.getElementById("activitiesDoneCount").textContent = state.completedActivities.length;
+    document.getElementById("quizzesCompletedCount").textContent = allQuizAttempts().length;
+
+    const stage = petStage();
+    renderPetImage(document.getElementById("dashboardPetEmoji"), stage);
+    renderPetJourney(stage);
+    document.getElementById("dashboardPetName").textContent = state.pet.name;
+
+    document.getElementById("dashboardPetStage").textContent =
+        `${stage.name} · Your creative companion`;
+    document.getElementById("dashboardPetProgress").style.width =
+        `${Math.min(stage.progress, 100)}%`;
+
+    document.getElementById("dashboardPetProgressText").textContent =
+        stage.next;
+
+    if (state.completedActivities.length > lastPetActivityCount) {
+        petGrowthPending = true;
+    }
+
+    if (petGrowthPending) {
+        const petViewIsVisible = document.getElementById("view-pet").classList.contains("active");
+        const dashboardIsVisible = document.getElementById("view-dashboard").classList.contains("active");
+
+        if (petViewIsVisible || dashboardIsVisible) {
+            animatePetGrowth();
+            petGrowthPending = !petViewIsVisible;
+        }
+    }
+    lastPetActivityCount = state.completedActivities.length;
+
+    renderAvatarIllustration(
+        document.getElementById("dashboardAvatar"),
+        state.avatar
+    );
+    renderAvatarIllustration(
+        document.getElementById("topAvatar"),
+        state.avatar
+    );
+    document.getElementById("dashboardAvatarName").textContent = state.avatar.name;
+
+    renderLabCards("dashboardLabs");
+    renderLabCards("studioLabs");
+    renderAssessments("dashboardAssessments");
+    renderGallery();
+    renderProgress();
+}
+
+function openCreateForm(labName) {
+    document.getElementById("artworkLab").value = labName;
+    document.getElementById("artworkForm").reset();
+    document.getElementById("artworkLab").value = labName;
+
+    openView("create");
+}
+
+/* EVENT DELEGATION */
+
+document.addEventListener("click", event => {
+    const navButton = event.target.closest("[data-view]");
+    if (navButton) {
+        openView(navButton.dataset.view);
+        return;
+    }
+
+    const goButton = event.target.closest("[data-go]");
+    if (goButton) {
+        openView(goButton.dataset.go);
+        return;
+    }
+
+    const labButton = event.target.closest("[data-open-lab]");
+    if (labButton) {
+        // A normal link works even when storage is full or JavaScript is interrupted.
+        try {
+            localStorage.setItem("selectedLab", labButton.dataset.openLab);
+        } catch (error) {
+            console.warn("Using the lab in the link:", error);
+        }
+        return;
+    }
+
+    const createButton = event.target.closest("[data-create-lab]");
+    if (createButton) {
+        const lab = LABS.find(item => item.id === createButton.dataset.createLab);
+        if (lab) openCreateForm(lab.name);
+        return;
+    }
+
+    const quizButton = event.target.closest("[data-quiz]");
+    if (quizButton) {
+        openQuiz(quizButton.dataset.quiz);
+        return;
+    }
+
+    const artworkButton = event.target.closest("[data-view-artwork]");
+    if (artworkButton) {
+        showArtworkDetails(artworkButton.dataset.viewArtwork);
+    }
+});
+
+document.getElementById("welcomeCreate").addEventListener("click", () => openView("studio"));
+document.getElementById("sidebarCreate").addEventListener("click", () => openView("studio"));
+document.getElementById("topAvatar").addEventListener("click", () => openView("avatar"));
+
+document.getElementById("saveAvatar").addEventListener("click", saveAvatar);
+document.getElementById("resetAvatar").addEventListener("click", () => {
+    state.avatar = structuredClone(DEFAULT_STATE.avatar);
+    if (!saveState()) return;
+
+    try {
+        const avatarData = {
+            avatar: state.avatar.character,
+            character: state.avatar.character,
+            name: state.avatar.name,
+        };
+        localStorage.setItem("likhaSavedAvatar", JSON.stringify(avatarData));
+        localStorage.setItem("likhaAvatar", state.avatar.character);
+        localStorage.setItem("likhaSelectedAvatar", JSON.stringify({
+            image: state.avatar.character,
+            name: state.avatar.name,
+        }));
+    } catch (error) {
+        console.error("Could not share the reset avatar:", error);
+        showToast("Avatar reset locally, but could not be shared.");
+        return;
+    }
+
+    populateAvatarForm();
+    refreshDashboard();
+    showToast("Avatar choices have been reset.");
+});
+
+["avatarFaceInput"].forEach(id => {
+    document.getElementById(id).addEventListener("change", updateAvatarPreview);
+});
+
+document.getElementById("avatarNameInput").addEventListener("input", () => {
+    const name = document.getElementById("avatarNameInput").value.trim() || "Young Artist";
+    document.getElementById("avatarLargePreview").setAttribute("aria-label", name);
+    updateAvatarPreview();
+});
+
+document.querySelectorAll("[data-pet]").forEach(button => {
+    button.addEventListener("click", () => {
+        state.pet.type = normalizePetType(button.dataset.pet);
+        const choice = PET_CHOICES.find(item => item.key === state.pet.type);
+        const nameInput = document.getElementById("petNameInput");
+        const defaultNames = PET_CHOICES.map(item => item.defaultName);
+
+        if (!nameInput.value.trim() || defaultNames.includes(nameInput.value.trim())) {
+            nameInput.value = choice.defaultName;
+        }
+
+        document.querySelectorAll("[data-pet]").forEach(choice => {
+            const isSelected = choice === button;
+            choice.classList.toggle("selected", isSelected);
+            choice.setAttribute("aria-pressed", String(isSelected));
+        });
+
+        updatePetPreview();
+    });
+});
+
+document.getElementById("petNameInput").addEventListener("input", updatePetPreview);
+document.getElementById("savePet").addEventListener("click", savePet);
+
+document.getElementById("submitQuiz").addEventListener("click", submitQuiz);
+document.getElementById("closeQuiz").addEventListener("click", closeQuiz);
+
+document.getElementById("quizModal").addEventListener("click", event => {
+    if (event.target.id === "quizModal") closeQuiz();
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeQuiz();
+});
+
+/* Artwork form: validates and saves an artwork record. */
+
+document.getElementById("artworkForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const fields = [
+        "artworkTitle",
+        "artworkSubject",
+        "artworkTheme",
+        "artworkFormConcept",
+        "artworkStyle",
+        "artworkSymbolism",
+        "artworkMedium",
+        "artworkPreview"
+    ];
+
+    for (const id of fields) {
+        if (!document.getElementById(id).value.trim()) {
+            document.getElementById(id).focus();
+            showToast("Please complete the artwork title, description, and all six concepts.");
+            return;
+        }
+    }
+
+    const artwork = {
+        id: `art-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+        title: document.getElementById("artworkTitle").value.trim(),
+        lab: document.getElementById("artworkLab").value,
+        subject: document.getElementById("artworkSubject").value.trim(),
+        theme: document.getElementById("artworkTheme").value.trim(),
+        form: document.getElementById("artworkFormConcept").value.trim(),
+        style: document.getElementById("artworkStyle").value.trim(),
+        symbolism: document.getElementById("artworkSymbolism").value.trim(),
+        medium: document.getElementById("artworkMedium").value.trim(),
+        description: document.getElementById("artworkPreview").value.trim(),
+        emoji: document.getElementById("artworkEmoji").value,
+        dateLabel: new Date().toLocaleDateString()
+    };
+
+    state.artworks.push(artwork);
+
+    completeArtwork(artwork);
+
+    if (!saveState()) {
+        state.artworks = state.artworks.filter(item => item.id !== artwork.id);
+        state.completedActivities = state.completedActivities.filter(
+            id => id !== `artwork:${artwork.id}`
+        );
+        showToast("The artwork could not be saved. No completion reward was issued.");
+        return;
+    }
+
+    refreshDashboard();
+    openView("gallery");
+    showToast("Artwork saved! Your prize is ready to collect.");
+});
+
+window.addEventListener("pageshow", () => {
+    state = loadState();
+    refreshDashboard();
+});
+
+window.addEventListener("storage", event => {
+    if (
+        event.key === STORAGE_KEY ||
+        event.key === "likhaArtworks" ||
+        event.key === "likhaPet"
+    ) {
+        state = loadState();
+        refreshDashboard();
+
+        if (document.getElementById("view-gallery").classList.contains("active")) {
+            renderGallery();
+        }
+    }
+});
+
+/* Initial render */
+
+refreshDashboard();
+populateAvatarForm();
+populatePetForm();
+
+function openViewFromHash() {
+    const fragment = window.location.hash.slice(1);
+    if (fragment === "choose-lab") {
+        openView("studio");
+    } else if (fragment === "dailyChallenge") {
+        openView("dashboard");
+        requestAnimationFrame(() => {
+            document.getElementById("dailyChallenge").scrollIntoView({ behavior: "smooth" });
+        });
+    } else if (["dashboard", "studio", "gallery", "avatar", "pet", "assessments", "progress"].includes(fragment)) {
+        openView(fragment);
+    }
+}
+
+window.addEventListener("hashchange", openViewFromHash);
+openViewFromHash();
+</script>
+
+<script src="challenge.js"></script>
+</body>
+</html>
