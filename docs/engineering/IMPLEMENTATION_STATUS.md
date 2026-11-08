@@ -1,5 +1,7 @@
 # Implementation and readiness register
 
+Render build correction: the first real cloud build exposed a mismatch between Render's generated 256-bit Base64 secret (44 characters) and the application's 50-character minimum. Canonical Render-generated values now derive a stable, domain-separated Django signing key; arbitrary short values remain rejected. Exact provider-format production checks and isolated key/host configuration tests pass. The first cloud build failed before storage/database startup, so Supabase connectivity and live deployment are still unverified.
+
 Render setup update: derive exact allowed hosts and HTTPS/CSRF origin from the provider's RENDER_EXTERNAL_HOSTNAME. Blueprint creation no longer requires manually entering an address before Render assigns it. Explicit custom-domain overrides remain available; wildcard/provider-host validation stays strict.
 
 Account UI update: removed operator-reset/email setup notes from user screens, renamed Password labels/errors, and changed signup/password-change minimum to 8 characters (maximum 128). Existing password hashes are unchanged. Boundary regression verifies 7 characters rejected, 8 accepted for signup/change, and login with both resulting passwords.

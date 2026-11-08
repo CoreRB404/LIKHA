@@ -15,6 +15,8 @@ DEBUG = not PRODUCTION
 DATA_DIR = Path(os.environ.get("LIKHA_DATA_DIR", ROOT / "var")).resolve()
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+from .secret_key import normalize_secret
+SECRET_KEY = normalize_secret(SECRET_KEY, on_render=os.environ.get("RENDER") == "true")
 if not SECRET_KEY:
     if PRODUCTION:
         raise ImproperlyConfigured("DJANGO_SECRET_KEY is required in production.")
@@ -157,8 +159,10 @@ LOGGING = {"version": 1, "disable_existing_loggers": False, "handlers": {"consol
 
 if PRODUCTION:
     parsed = urlsplit(CANONICAL_ORIGIN)
-    if len(SECRET_KEY) < 50 or not ALLOWED_HOSTS or any("*" in h for h in ALLOWED_HOSTS):
-        raise ImproperlyConfigured("Production requires a long secret and explicit allowed hosts.")
+    if len(SECRET_KEY) < 50:
+        raise ImproperlyConfigured("DJANGO_SECRET_KEY must be at least 50 characters, or a Render-generated 256-bit secret.")
+    if not ALLOWED_HOSTS or any("*" in h for h in ALLOWED_HOSTS):
+        raise ImproperlyConfigured("Production requires explicit allowed hosts or a Render-provided hostname.")
     if parsed.scheme != "https" or not parsed.hostname or parsed.path or parsed.username or parsed.query or parsed.fragment:
         raise ImproperlyConfigured("LIKHA_ORIGIN must be a canonical HTTPS origin.")
     if not PRIVACY_APPROVED or PRIVACY_CONTACT == "the site administrator" or not HEALTH_TOKEN:

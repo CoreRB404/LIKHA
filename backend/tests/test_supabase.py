@@ -20,6 +20,18 @@ from tests.test_backend import MediaMixin, PASSWORD, upload
 
 
 class DatabaseConfigurationTests(SimpleTestCase):
+    def test_render_generated_secret_is_stable_and_short_keys_are_not_padded(self):
+        import base64
+        from config.secret_key import normalize_secret
+        raw = base64.b64encode(bytes(range(32))).decode('ascii')
+        key = normalize_secret(raw, on_render=True)
+        self.assertEqual(len(key), 128)
+        self.assertEqual(normalize_secret(raw, on_render=True), key)
+        self.assertEqual(normalize_secret(raw), raw)
+        self.assertNotEqual(normalize_secret(base64.b64encode(bytes(range(1,33))).decode('ascii'), on_render=True), key)
+        for short in ('short-key', 'x' * 44, '?' * 44):
+            self.assertEqual(normalize_secret(short, on_render=True), short)
+
     def test_private_local_postgres_config_is_loopback_only(self):
         from config.local_database import local_database
         with tempfile.TemporaryDirectory(prefix='likha-config-test-') as folder:

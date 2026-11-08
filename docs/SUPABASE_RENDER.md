@@ -28,7 +28,7 @@ Enter these environment settings in Render:
 | `LIKHA_PRIVACY_CONTACT` | Real operator/institutional help contact; need not be an email |
 | `LIKHA_PRIVACY_APPROVED` | `1` after the operator approves enrollment/consent and documented retention |
 
-Render automatically supplies its assigned hostname; the app derives explicit allowed hosts and its HTTPS/CSRF origin from it. The Blueprint does not ask for these two optional overrides. Render generates stable `DJANGO_SECRET_KEY` and `LIKHA_HEALTH_TOKEN`. The blueprint sets production mode, cloud media, static output, proxy handling and a temporary working directory. `.env` files are not automatically loaded.
+Render automatically supplies its assigned hostname; the app derives explicit allowed hosts and its HTTPS/CSRF origin from it. The Blueprint does not ask for these two optional overrides. Render generates stable `DJANGO_SECRET_KEY` and `LIKHA_HEALTH_TOKEN`. Its 256-bit Base64 signing secret is deterministically converted to a Django-compatible signing key; keep the original Render value stable across deploys. The blueprint sets production mode, cloud media, static output, proxy handling and a temporary working directory. `.env` files are not automatically loaded.
 
 Build:
 

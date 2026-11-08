@@ -1,5 +1,6 @@
 """Exercise the Render build and production static middleware without cloud secrets."""
 import os
+import base64
 import secrets
 import subprocess
 import sys
@@ -11,8 +12,9 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 with tempfile.TemporaryDirectory(prefix='likha-render-check-') as temporary:
     os.environ.update({
-        'LIKHA_ENV': 'production', 'DJANGO_SECRET_KEY': secrets.token_urlsafe(64),
-        'DJANGO_ALLOWED_HOSTS': 'likha.example.test', 'LIKHA_ORIGIN': 'https://likha.example.test',
+        'LIKHA_ENV': 'production', 'DJANGO_SECRET_KEY': base64.b64encode(secrets.token_bytes(32)).decode('ascii'),
+        'RENDER': 'true', 'RENDER_EXTERNAL_HOSTNAME': 'likha-check.onrender.com',
+        'DJANGO_ALLOWED_HOSTS': '', 'LIKHA_ORIGIN': '',
         'LIKHA_DATA_DIR': temporary, 'LIKHA_STATIC_ROOT': str(Path(temporary) / 'staticfiles'),
         'LIKHA_HEALTH_TOKEN': secrets.token_urlsafe(32), 'LIKHA_PRIVACY_CONTACT': 'Test administrator',
         'LIKHA_PRIVACY_APPROVED': '1', 'DATABASE_URL': 'postgresql://synthetic:synthetic@127.0.0.1:1/postgres',
@@ -25,7 +27,7 @@ with tempfile.TemporaryDirectory(prefix='likha-render-check-') as temporary:
     import django
     django.setup()
     from django.test import Client
-    client = Client(HTTP_HOST='likha.example.test')
+    client = Client(HTTP_HOST='likha-check.onrender.com')
     for path in ['/static/api.js', '/static/hosted.js', '/static/admin/css/base.css', '/static/assets/labs/fashion.webp']:
         response = client.get(path, secure=True)
         assert response.status_code == 200, (path, response.status_code)
@@ -47,7 +49,7 @@ with tempfile.TemporaryDirectory(prefix='likha-render-check-') as temporary:
     thread.start()
     try:
         conn = HTTPConnection('127.0.0.1', int(server.effective_port), timeout=5)
-        conn.request('GET', '/accounts/login/', headers={'Host':'likha.example.test', 'X-Forwarded-Proto':'https'})
+        conn.request('GET', '/accounts/login/', headers={'Host':'likha-check.onrender.com', 'X-Forwarded-Proto':'https'})
         response = conn.getresponse()
         assert response.status == 200, response.status
         response.read()
