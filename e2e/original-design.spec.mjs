@@ -38,26 +38,26 @@ test('original landing, sidebar views and saved profile retain their design', as
   }
   const accessibility=[];
   for(const view of ['studio','gallery','avatar','pet','assessments','progress']) {
-    await page.goto('/dashboard.html#'+view);
+    await page.goto('/dashboard/#'+view);
     await expect(page.locator('#view-'+view)).toBeVisible();
     const findings=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa']).analyze();
     accessibility.push(...findings.violations.map(v=>({view,id:v.id,nodes:v.nodes.map(n=>n.target)})));
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),view+' overflow').toBe(true);
   }
   expect(accessibility).toEqual([]);
-  await page.goto('/dashboard.html#avatar');
+  await page.goto('/dashboard/#avatar');
   await page.locator('#avatarFaceInput').selectOption('avatar-filipino-artist-6');
   await page.locator('#avatarNameInput').fill('Original Artist Saved');
   await page.locator('#saveAvatar').click();
   await expect(page.locator('#welcomeName')).toHaveText('Original Artist Saved');
-  await page.goto('/dashboard.html#pet');
+  await page.goto('/dashboard/#pet');
   await page.locator('[data-pet=panda]').click();
   await page.locator('#petNameInput').fill('Kidlat');
   await page.locator('#savePet').click();
   await expect(page.locator('#petLargeName')).toHaveText('Kidlat');
   await page.reload();
   await expect(page.locator('#petLargeName')).toHaveText('Kidlat');
-  await page.goto('/quiz.html?assessment=week1');
+  await page.goto('/quiz/?assessment=week1');
   await page.locator('#startQuizBtn').click();
   for(let index=0;index<5;index++) {
     await expect(page.locator('#questionCounter')).toContainText('Question '+(index+1));
@@ -66,7 +66,7 @@ test('original landing, sidebar views and saved profile retain their design', as
   }
   await expect(page.locator('#quizResultsSection')).toBeVisible();
   await expect(page.locator('#resultHeading')).toContainText('You scored');
-  await page.goto('/dashboard.html#progress');
+  await page.goto('/dashboard/#progress');
   await expect(page.locator('#progressQuizzes')).toHaveText('1');
   await expect(page.locator('#quizScoreChart circle')).toHaveCount(1);
   expect(errors).toEqual([]);

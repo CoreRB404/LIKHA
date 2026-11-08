@@ -51,7 +51,7 @@ export async function init(context) {
       image.width = image.height = 180;
       const body = node("div", undefined, "lab-body"),
         link = node("a", "Start Creating →", "lab-open");
-      link.href = "/studio.html?lab=" + key;
+      link.href = "/studio/?lab=" + key;
       body.append(node("h3", lab.title), node("p", descriptions[key]), link);
       card.append(icon, body);
       $(id).append(card);
@@ -213,7 +213,7 @@ export async function init(context) {
         "assessment-button" + (assessment.attempts ? " done" : ""),
       );
       button.addEventListener("click", () =>
-        location.assign("/quiz.html?assessment=" + assessment.slug),
+        location.assign("/quiz/?assessment=" + assessment.slug),
       );
       item.append(node("div", "🧠", "assessment-icon"), details, button);
       $(id).append(item);
@@ -236,7 +236,7 @@ export async function init(context) {
   });
   $("startChallengeBtn").addEventListener("click", () => {
     const [id, challenge] = challenges[challengeIndex];
-    location.assign(`/studio.html?lab=${challenge.lab}&challenge=${id}`);
+    location.assign(`/studio/?lab=${challenge.lab}&challenge=${id}`);
   });
   renderChallenge();
   const modal = $("quizModal");

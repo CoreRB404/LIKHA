@@ -68,7 +68,7 @@ export async function init(context) {
   );
   $("createArtworkBtn").addEventListener(
     "click",
-    () => (location.href = "/dashboard.html#choose-lab"),
+    () => (location.href = "/dashboard/#choose-lab"),
   );
   render();
 }

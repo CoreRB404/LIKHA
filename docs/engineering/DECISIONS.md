@@ -78,3 +78,7 @@ At the user's request, account forms and validation messages use Password and re
 ## ADR-016 - original design is the Django visual source of truth
 
 The user explicitly rejected the replacement landing/dashboard design. Generate Django-safe templates from original root HTML/CSS for index, dashboard, studio, gallery, avatar, pet and quiz. Remove inline browser-account/reward scripts and wire original components to authenticated APIs. Self-host original fonts; scope account CSS to avoid overriding page palettes/layout. Restore sidebar views, original gallery cards, sequential quiz/results and owned-artwork reopening. Keep account actions and narrowly scoped contrast/mobile-access corrections as integration details. No database migration or account data reset. Future backend work must preserve these visual sources instead of designing replacement pages.
+
+## ADR-017 - clean canonical Django page URLs
+
+At the user's request, use named trailing-slash page routes and absolute internal links. Preserve original source/template .html files and offline behavior. Old public .html/.vscode links permanently redirect only for GET/HEAD to configured local targets and retain query parameters; other methods are rejected. Keep Django login, CSRF and object ownership checks. Restrict post-login return paths to known same-origin pages and explicitly POST password forms so credentials do not become URL query parameters if scripts fail. No schema migration or data conversion is involved.

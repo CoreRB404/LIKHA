@@ -12,6 +12,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_safe
 
 from core.transactions import account_transaction
 from core.http import APIError, api, data, fields_only, text
@@ -146,6 +147,7 @@ def me(request):
 
 
 @ensure_csrf_cookie
+@require_safe
 def account_page(request, page="login"):
     if page not in {"login", "signup"}:
         from django.http import Http404

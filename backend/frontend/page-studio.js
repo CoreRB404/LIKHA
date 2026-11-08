@@ -60,7 +60,7 @@ export async function init(context) {
       body.set("image", image, "drawing.png");
       await api("/api/v1/artworks", { method: "POST", body });
       pending = null;
-      location.href = "/gallery.html";
+      location.href = "/gallery/";
     });
   });
   const savedId = new URLSearchParams(location.search).get("artwork");
@@ -74,9 +74,7 @@ export async function init(context) {
       );
       const query = new URLSearchParams(location.search);
       if (artwork.lab !== query.get("lab")) {
-        location.replace(
-          `/studio.html?lab=${artwork.lab}&artwork=${artwork.id}`,
-        );
+        location.replace(`/studio/?lab=${artwork.lab}&artwork=${artwork.id}`);
         return;
       }
       const response = await fetch(artwork.image_url, {

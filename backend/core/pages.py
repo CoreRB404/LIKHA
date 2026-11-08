@@ -1,22 +1,28 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_safe
 
 from accounts.views import profile_data
 from learning.catalog import CHALLENGES, LABS
 
+PAGE_NAMES = ("dashboard", "studio", "gallery", "avatar", "pet", "quiz", "settings")
+LEGACY_TARGETS = {**{name: "/" + name + "/" for name in PAGE_NAMES}, "index": "/", "challenges": "/dashboard/#dailyChallenge", "grow-a-pet": "/pet/", "weekly-quiz": "/quiz/"}
+
 
 @ensure_csrf_cookie
+@require_safe
 def home(request):
     if request.user.is_authenticated:
-        return redirect("/dashboard.html")
+        return redirect("dashboard")
     return render(request, "legacy/index.html")
 
 
 @ensure_csrf_cookie
 @login_required
+@require_safe
 def page(request, name):
     if name not in {"dashboard", "studio", "gallery", "avatar", "pet", "quiz", "settings"}:
         raise Http404
@@ -50,14 +56,24 @@ def error_page(request, exception=None, status=404):
     return render(request, "error.html", {"status": status}, status=status)
 
 
+@require_safe
 def legacy_redirect(request, target):
-    return redirect(target)
-
-
-def vscode_redirect(request, name):
-    allowed = {"index", "dashboard", "studio", "gallery", "avatar", "pet", "quiz", "challenges", "grow-a-pet", "weekly-quiz"}
-    if name not in allowed:
-        raise Http404
-    target = "/" if name == "index" else f"/{name}.html"
+    # Targets are fixed by URL configuration, never supplied by a query value.
+    base, separator, fragment = target.partition("#")
     query = request.GET.urlencode()
-    return redirect(target + ("?" + query if query else ""))
+    destination = base + ("?" + query if query else "") + ("#" + fragment if separator else "")
+    return HttpResponsePermanentRedirect(destination)
+
+
+@require_safe
+def legacy_page(request, name):
+    if name not in PAGE_NAMES:
+        raise Http404
+    return legacy_redirect(request, LEGACY_TARGETS[name])
+
+
+@require_safe
+def vscode_redirect(request, name):
+    if name not in LEGACY_TARGETS:
+        raise Http404
+    return legacy_redirect(request, LEGACY_TARGETS[name])

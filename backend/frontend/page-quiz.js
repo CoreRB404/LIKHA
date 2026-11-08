@@ -1,4 +1,4 @@
-﻿import { $, api, node, announce, busy } from "./ui.js";
+import { $, api, node, announce, busy } from "./ui.js";
 
 // Keep the original one-question-at-a-time game and original results card.
 // The server supplies opaque choices and grades the finished attempt.
@@ -38,7 +38,7 @@ export async function init(context) {
   }
   document.querySelectorAll('a[href*="assessment="]').forEach((link) => {
     const value = new URL(link.href).searchParams.get("assessment");
-    if (value) link.href = "/quiz.html?assessment=" + encodeURIComponent(value);
+    if (value) link.href = "/quiz/?assessment=" + encodeURIComponent(value);
   });
   const section = $("quizGameSection"),
     results = $("quizResultsSection");

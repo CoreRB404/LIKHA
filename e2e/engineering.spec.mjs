@@ -36,12 +36,12 @@ test('accessible screens, keyboard dialog, private save and failure recovery', a
   await accessible(page, 'Signup');
   await signIn(page, `${info.project.name}-${Date.now()}`);
   await accessible(page, 'Dashboard');
-  for (const path of ['/avatar.html', '/pet.html', '/quiz.html', '/settings.html']) {
+  for (const path of ['/avatar/', '/pet/', '/quiz/', '/settings/']) {
     await page.goto(path);
     await page.waitForLoadState('networkidle');
     await accessible(page, path);
   }
-  await page.goto('/studio.html?lab=fashion');
+  await page.goto('/studio/?lab=fashion');
   await page.locator('#canvasToolStatus').waitFor();
   await accessible(page, 'Fashion drawing');
   const canvas = page.locator('#artCanvas');
@@ -87,7 +87,7 @@ test('accessible screens, keyboard dialog, private save and failure recovery', a
   await expect(page.locator('#hostStatus')).toContainText('Storage is temporarily unavailable');
   expect(await canvas.evaluate(c => c.toDataURL())).toBe(drawing);
   await page.locator('#confirmSaveBtn').click();
-  await expect(page).toHaveURL(/gallery.html/);
+  await expect(page).toHaveURL(url => url.pathname === '/gallery/');
   expect(ids[0]).toBeTruthy();
   expect(ids[1]).toBe(ids[0]);
   await expect(page.locator('[data-artwork-id]')).toHaveCount(1);
@@ -110,7 +110,7 @@ test('lab-specific choices and touch-safe layouts', async ({ page }, info) => {
   await signIn(page, `labs-${info.project.name}-${Date.now()}`);
   const expected = { fashion:['shirt','dress','barong','malong'], festival:['parol','mask'], craft:['basket','banig','fan','pot'], art:['blank','flower','house','mountain'] };
   for (const [lab, choices] of Object.entries(expected)) {
-    await page.goto('/studio.html?lab='+lab);
+    await page.goto('/studio/?lab='+lab);
     await expect(page.locator('#templateGallery button')).toHaveCount(choices.length);
     expect(await page.locator('#templateSelect option').evaluateAll(options => options.map(o => o.value))).toEqual(choices);
     await accessible(page, lab);

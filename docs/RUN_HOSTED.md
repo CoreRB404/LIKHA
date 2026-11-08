@@ -85,3 +85,7 @@ node tools/hosted_browser_check.mjs
 ```
 
 Override `LIKHA_HOSTED_URL` and `CHROME_PATH` if needed. Browser tests create only synthetic username accounts and remove the successful test account at the end. Failed test runs may leave synthetic records for investigation. Browser tests use immediate username login and are not intended to register accounts against a public live site.
+
+## Clean website URLs
+
+Hosted pages now use `/dashboard/`, `/studio/?lab=fashion`, `/gallery/`, `/avatar/`, `/pet/`, `/quiz/` and `/settings/`. Existing .html bookmarks redirect to canonical paths and preserve lab/challenge selections. Original source files and Django templates still use .html as their normal file extension. The portable file-based demo keeps its original links.

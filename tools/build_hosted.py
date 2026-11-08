@@ -2,6 +2,7 @@
 from pathlib import Path
 import re
 import shutil
+from urllib.parse import urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "backend"
@@ -31,6 +32,24 @@ def asset_paths(source):
     for prefix in ("images/", "assets/", "craftlab/", "festival_lab/"):
         source = source.replace(prefix, "/static/" + prefix)
     return source
+
+
+PAGE_URLS = {name: "/" + name + "/" for name in ("dashboard", "studio", "gallery", "avatar", "pet", "quiz", "settings")}
+PAGE_URLS.update({"index":"/", "challenges":"/dashboard/#dailyChallenge", "grow-a-pet":"/pet/", "weekly-quiz":"/quiz/"})
+
+
+def clean_page_links(html):
+    def replace(match):
+        original = urlsplit(match[2])
+        if original.scheme or original.netloc:
+            return match[0]
+        name = original.path.removeprefix("./").removeprefix("/")
+        if not name.endswith(".html") or name[:-5] not in PAGE_URLS:
+            return match[0]
+        target = urlsplit(PAGE_URLS[name[:-5]])
+        destination = urlunsplit(("", "", target.path, original.query, target.fragment or original.fragment))
+        return "href=" + match[1] + destination + match[1]
+    return re.sub(r"href=([\"'])([^\"']+)\1", replace, html)
 
 
 for name in ("mask-reference.js", "pet-art.js", "site.js"):
@@ -79,6 +98,8 @@ for page, extra in scripts.items():
             html = html.replace(main[0], f'<main id="main" tabindex="-1"{main[1]}>', 1)
         html = re.sub(r'(<body\b[^>]*>)', lambda match: match[0] + f'<a class="skip-link" href="#{target}">Skip to content</a>', html, count=1)
     html = html.replace("</body>", ''.join(f'<script src="/static/{script}" {"type=module" if script == "hosted.js" else "defer"}></script>' for script in ["site.js", *extra, "hosted.js"]) + "</body>")
+    html = clean_page_links(html)
+    html = re.sub(r'<form\b(?![^>]*\bmethod=)', '<form method="post"', html)
     (TEMPLATES / f"{page}.html").write_text(html, encoding="utf-8")
 
 for source in (BACKEND / "frontend").glob("*"):

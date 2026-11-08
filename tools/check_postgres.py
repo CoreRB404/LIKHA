@@ -66,7 +66,7 @@ def main():
             from django.test.runner import DiscoverRunner
             failures = DiscoverRunner(verbosity=1, interactive=False, keepdb=True).run_tests([
                 'tests.test_backend.BackendTests', 'tests.test_backend.SQLiteConcurrencyTests',
-                'tests.test_hardening', 'tests.test_supabase',
+                'tests.test_hardening', 'tests.test_supabase', 'tests.test_clean_urls',
                 'tests.test_learning_migration', 'tests.test_username_migration',
                 'tests.test_operations.ProductionBoundaryTests'])
             if failures:

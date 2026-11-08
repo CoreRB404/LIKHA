@@ -89,7 +89,7 @@ export async function init(context) {
       for (const action of [view, download, remove])
         action.className = "button button-secondary";
       const open = node("a", "Open in Studio", "button button-primary");
-      open.href = `/studio.html?lab=${art.lab}&artwork=${art.id}`;
+      open.href = `/studio/?lab=${art.lab}&artwork=${art.id}`;
       actions.append(view, open, download, remove);
       const details = node("details"),
         summary = node("summary", "Edit artwork details"),

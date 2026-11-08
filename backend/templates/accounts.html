@@ -2,7 +2,7 @@
 {% block title %}Your account | LIKHA{% endblock %}
 {% block content %}<section class="host-card account-card"><p class="eyebrow">WELCOME TO LIKHA</p>
 <h1>{% if page == 'signup' %}Create your account{% else %}Welcome back, artist{% endif %}</h1>
-<form id="accountForm" data-action="{{ page }}">{% csrf_token %}
+<form method="post" action="/api/v1/auth/{{ page }}" id="accountForm" data-action="{{ page }}">{% csrf_token %}
 {% if page == 'signup' %}<label>Display name<input name="display_name" aria-label="Display name" aria-describedby="displayNameHelp" maxlength="60" required autocomplete="nickname"><small id="displayNameHelp">Use a nickname. You do not need to share your full name.</small></label>{% endif %}
 <label>Username<input name="username" aria-label="Username" aria-describedby="usernameHelp" type="text" minlength="3" maxlength="254" required autocomplete="username" autocapitalize="none" spellcheck="false"><small id="usernameHelp">Letters, numbers and @ . + - _ are allowed.</small></label>
 <label>Password<input name="password" type="password" {% if page == 'signup' %}minlength="8"{% endif %} maxlength="128" required autocomplete="{% if page == 'login' %}current-password{% else %}new-password{% endif %}"></label>

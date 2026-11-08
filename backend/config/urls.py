@@ -8,9 +8,11 @@ from core import pages
 from learning import views as learning
 
 urlpatterns = [
-    path("", pages.home), path("index.html", pages.home),
+    path("", pages.home, name="home"),
+    path("index.html", pages.legacy_redirect, {"target": "/"}),
     path("favicon.ico", pages.legacy_redirect, {"target": "/static/favicon.ico"}),
     re_path(r"^\.vscode/(?P<name>[a-z-]+)\.html$", pages.vscode_redirect),
+    path(".vscode/weekly-quiz.html/index.html", pages.legacy_redirect, {"target": "/quiz/"}),
     path("accounts/<str:page>/", auth.account_page),
     path("health/live", pages.health),
     path("health/ready", pages.health, {"ready": True}),
@@ -31,10 +33,11 @@ urlpatterns = [
     path("api/v1/quiz-attempts/<uuid:attempt_id>", learning.attempt),
     path("api/v1/quiz-attempts/<uuid:attempt_id>/submit", learning.attempt),
     path("api/v1/challenges/<slug:challenge_id>/complete", learning.complete_challenge),
-    re_path(r"^(?P<name>dashboard|studio|gallery|avatar|pet|quiz|settings)\.html$", pages.page),
-    path("challenges.html", pages.legacy_redirect, {"target": "/dashboard.html#dailyChallenge"}),
-    path("grow-a-pet.html", pages.legacy_redirect, {"target": "/pet.html"}),
-    path("weekly-quiz.html", pages.legacy_redirect, {"target": "/quiz.html"}),
+    *[path(name + "/", pages.page, {"name": name}, name=name) for name in pages.PAGE_NAMES],
+    re_path(r"^(?P<name>dashboard|studio|gallery|avatar|pet|quiz|settings)\.html$", pages.legacy_page),
+    path("challenges.html", pages.legacy_redirect, {"target": "/dashboard/#dailyChallenge"}),
+    path("grow-a-pet.html", pages.legacy_redirect, {"target": "/pet/"}),
+    path("weekly-quiz.html", pages.legacy_redirect, {"target": "/quiz/"}),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.PUBLIC_ROOT)

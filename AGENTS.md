@@ -17,6 +17,8 @@ Local engineering verification: read `docs/LOCAL_ENGINEERING.md` for page-module
 
 The user explicitly requires the original project design in Django. Root index.html, dashboard.html, studio.html, gallery.html, avatar.html, pet.html and quiz.html plus their existing CSS/assets are the visual source of truth. tools/build_hosted.py generates safe Django shells from those pages. Do not substitute a new landing page/dashboard, generic cards or a new navigation layout. Keep frontend account data authoritative through the API; security adapters must not redesign the original interface. Self-host the original Baloo 2/Nunito fonts. Keep integration CSS limited to account controls, accessibility and safe embedding.
 
+Hosted page URLs use canonical named Django routes (`/dashboard/`, `/studio/`, `/gallery/`, `/avatar/`, `/pet/`, `/quiz/`, `/settings/`). Keep physical original/template .html files intact. Old .html bookmarks redirect only to fixed internal routes, preserving query selections; do not reintroduce .html navigation in hosted links.
+
 ## Working rules
 
 - Inspect the current code and applicable instructions before editing. Keep the existing design, Filipino cultural content, and learning flows unless a change is requested.

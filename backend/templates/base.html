@@ -6,7 +6,7 @@
 <body class="host-page" data-page="{% block page %}home{% endblock %}">
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="host-header"><a class="host-logo" href="/">🎨 LIKHA <small>Creative Studio</small></a>
-<nav aria-label="Main navigation">{% if request.user.is_authenticated %}<a href="/dashboard.html">Dashboard</a><a href="/dashboard.html#choose-lab">Creative Labs</a><a href="/gallery.html">My Gallery</a><a href="/avatar.html">My Avatar</a><a href="/pet.html">My Pet</a><a href="/quiz.html">Quizzes</a><a href="/settings.html">Account</a><button type="button" data-logout>Sign out</button>{% else %}<a href="/accounts/login/">Sign in</a><a href="/accounts/signup/">Create account</a>{% endif %}</nav></header>
+<nav aria-label="Main navigation">{% if request.user.is_authenticated %}<a href="{% url 'dashboard' %}">Dashboard</a><a href="{% url 'dashboard' %}#choose-lab">Creative Labs</a><a href="{% url 'gallery' %}">My Gallery</a><a href="{% url 'avatar' %}">My Avatar</a><a href="{% url 'pet' %}">My Pet</a><a href="{% url 'quiz' %}">Quizzes</a><a href="{% url 'settings' %}">Account</a><button type="button" data-logout>Sign out</button>{% else %}<a href="/accounts/login/">Sign in</a><a href="/accounts/signup/">Create account</a>{% endif %}</nav></header>
 <main id="main" class="host-main">{% block content %}{% endblock %}</main>
 <footer class="host-footer">Your creativity, your culture, your art.</footer>
 <p id="hostStatus" class="host-status" role="status" hidden></p>

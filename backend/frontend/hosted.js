@@ -22,12 +22,27 @@ import { $, api, node, announce, busy } from "./ui.js";
       next.startsWith("//") ||
       next.includes("\\")
     )
-      return "/dashboard.html";
+      return "/dashboard/";
     const url = new URL(next, location.origin);
-    return url.origin === location.origin
-      ? url.pathname + url.search + url.hash
-      : "/dashboard.html";
+    const allowed = new Set([
+      "/",
+      "/dashboard/",
+      "/studio/",
+      "/gallery/",
+      "/avatar/",
+      "/pet/",
+      "/quiz/",
+      "/settings/",
+    ]);
+    const path = url.pathname.replace(
+      /^\/(dashboard|studio|gallery|avatar|pet|quiz|settings)\.html$/,
+      "/$1/",
+    );
+    return url.origin === location.origin && allowed.has(path)
+      ? path + url.search + url.hash
+      : "/dashboard/";
   }
+
   function accountForm() {
     const form = $("accountForm");
     if (!form) return;

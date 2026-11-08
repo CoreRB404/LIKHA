@@ -114,7 +114,7 @@ class BackendTests(MediaMixin, TestCase):
         self.assertEqual(self.client.get("/api/v1/auth/logout").status_code, 405)
         self.assertEqual(self.send("/api/v1/auth/logout").status_code, 200)
         self.assertEqual(self.client.get("/api/v1/progress").status_code, 401)
-        self.assertEqual(self.client.get("/dashboard.html").status_code, 302)
+        self.assertEqual(self.client.get("/dashboard/").status_code, 302)
 
     def test_idle_absolute_and_auth_version_expiry(self):
         for field, value in [("last_seen", int(time.time()) - 1900), ("auth_started", int(time.time()) - 44000), ("auth_version", 999)]:
@@ -154,7 +154,7 @@ class BackendTests(MediaMixin, TestCase):
         self.assertTrue(value['quiz']['identity_champion'])
         self.assertNotIn('questions', value['quiz'])
         self.assertNotIn('answers', value['quiz'])
-        response = self.client.get('/dashboard.html')
+        response = self.client.get('/dashboard/')
         self.assertContains(response, 'class="sidebar"')
         self.assertContains(response, 'welcome-banner')
         self.assertContains(response, '/static/dashboard.css')
